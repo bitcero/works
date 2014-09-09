@@ -1,0 +1,1394 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Professional Works\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-02 01:29-0600\n"
+"PO-Revision-Date: 2013-01-02 01:29-0600\n"
+"Last-Translator: Eduardo Cortés <i.bitcero@gmail.com>\n"
+"Language-Team: Xoops Mexico <xoopsmexico@gmail.com>\n"
+"Language: Englich\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: C:\\wamp\\www\\xm\\modules\\works\n"
+
+#: C:\wamp\www\xm\modules\works/catego.php:27
+#: C:\wamp\www\xm\modules\works/admin/categos.php:133
+msgid "Specified category does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/catego.php:92
+#: C:\wamp\www\xm\modules\works/catego.php:93
+#, php-format
+msgid "Works in \"%s\""
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/catego.php:94
+#: C:\wamp\www\xm\modules\works/featured.php:65
+#: C:\wamp\www\xm\modules\works/recent.php:66
+msgid "Category:"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/catego.php:95
+#: C:\wamp\www\xm\modules\works/featured.php:64
+#: C:\wamp\www\xm\modules\works/home.php:81
+#: C:\wamp\www\xm\modules\works/recent.php:65
+msgid "Date:"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/catego.php:96
+#: C:\wamp\www\xm\modules\works/featured.php:66
+#: C:\wamp\www\xm\modules\works/home.php:82
+#: C:\wamp\www\xm\modules\works/recent.php:67
+msgid "Customer:"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/catego.php:97
+#: C:\wamp\www\xm\modules\works/featured.php:67
+msgid "Our rate:"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/catego.php:100
+#: C:\wamp\www\xm\modules\works/home.php:88
+#: C:\wamp\www\xm\modules\works/recent.php:71
+#: C:\wamp\www\xm\modules\works/work.php:146
+#: C:\wamp\www\xm\modules\works/admin/works.php:172
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:62
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:72
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:9
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:28
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:40
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:82
+msgid "Featured"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/catego.php:102
+#: C:\wamp\www\xm\modules\works/events/designia.php:8
+#: C:\wamp\www\xm\modules\works/events/designia.php:9
+msgid "Portfolio"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/featured.php:63
+#: C:\wamp\www\xm\modules\works/featured.php:70
+msgid "Featured Works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/home.php:79
+msgid "Our Work"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/home.php:80
+msgid "Cetegory:"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/home.php:83
+msgid "View all recent works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/recent.php:63
+#: C:\wamp\www\xm\modules\works/recent.php:64
+msgid "Recent Works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/recent.php:68
+msgid "Our Rate:"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:21
+msgid "Work id not provided!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:28
+msgid "Specified id does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:33
+msgid "The requested content is not available!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:38
+msgid "You are in preview mode! This work is hidden for all other users."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:135
+#: C:\wamp\www\xm\modules\works/admin/categos.php:91
+#: C:\wamp\www\xm\modules\works/admin/clients.php:115
+#: C:\wamp\www\xm\modules\works/admin/images.php:143
+#: C:\wamp\www\xm\modules\works/admin/works.php:137
+#: C:\wamp\www\xm\modules\works/include/widgets.php:22
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:22
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:35
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:21
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:30
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:24
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:36
+msgid "Description"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:136
+#: C:\wamp\www\xm\modules\works/admin/works.php:139
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:95
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:73
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:25
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:37
+msgid "Category"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:137
+#: C:\wamp\www\xm\modules\works/admin/works.php:152
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:108
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:26
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:38
+msgid "Customer"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:138
+msgid "Begins"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:139
+msgid "Time length"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:140
+msgid "Comment"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:141
+msgid "Price"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:142
+msgid "Related Works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:143
+msgid "Date"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:144
+#: C:\wamp\www\xm\modules\works/admin/images.php:73
+#: C:\wamp\www\xm\modules\works/admin/images.php:130
+#: C:\wamp\www\xm\modules\works/admin/images.php:131
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:2
+msgid "Work Images"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:145
+#: C:\wamp\www\xm\modules\works/admin/works.php:165
+msgid "Web site"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:147
+msgid "Our Rate"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/work.php:149
+msgid "Views"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/xoops_version.php:37
+msgid "Twitter"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/xoops_version.php:38
+msgid "Facebook"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/xoops_version.php:39
+msgid "LinkedIn"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:42
+#: C:\wamp\www\xm\modules\works/admin/categos.php:43
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:1
+msgid "Works Categories"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:47
+msgid "Do you really want to delete selected categories?"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:48
+msgid "You must select some category before to execute this action!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:62
+#: C:\wamp\www\xm\modules\works/admin/categos.php:64
+#: C:\wamp\www\xm\modules\works/admin/categos.php:86
+msgid "Edit Category"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:62
+#: C:\wamp\www\xm\modules\works/admin/categos.php:64
+#: C:\wamp\www\xm\modules\works/admin/categos.php:86
+#: C:\wamp\www\xm\modules\works/admin/menu.php:26
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:169
+msgid "Add Category"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:64
+#: C:\wamp\www\xm\modules\works/admin/menu.php:20
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:166
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:82
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:18
+msgid "Categories"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:73
+msgid "Provide a category ID!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:80
+msgid "Specified category was not found!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:88
+#: C:\wamp\www\xm\modules\works/admin/clients.php:112
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:20
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:33
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:20
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:22
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:29
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:18
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:25
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:23
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:35
+msgid "Name"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:90
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:21
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:34
+msgid "Short name"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:92
+msgid "Enable category"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:93
+msgid "Display order"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:99
+msgid "Save Changes!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:99
+msgid "Add Now!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:119
+#: C:\wamp\www\xm\modules\works/admin/categos.php:221
+#: C:\wamp\www\xm\modules\works/admin/categos.php:270
+#: C:\wamp\www\xm\modules\works/admin/categos.php:321
+#: C:\wamp\www\xm\modules\works/admin/clients.php:160
+#: C:\wamp\www\xm\modules\works/admin/clients.php:222
+#: C:\wamp\www\xm\modules\works/admin/images.php:187
+#: C:\wamp\www\xm\modules\works/admin/images.php:312
+#: C:\wamp\www\xm\modules\works/admin/types.php:127
+#: C:\wamp\www\xm\modules\works/admin/types.php:190
+#: C:\wamp\www\xm\modules\works/admin/works.php:222
+#: C:\wamp\www\xm\modules\works/admin/works.php:374
+#: C:\wamp\www\xm\modules\works/admin/works.php:427
+#: C:\wamp\www\xm\modules\works/admin/works.php:482
+#: C:\wamp\www\xm\modules\works/admin/works.php:580
+#: C:\wamp\www\xm\modules\works/admin/works.php:631
+msgid "Session token expired!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:126
+msgid "Wrong category ID!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:141
+msgid "A category with same name already exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:150
+msgid "There are already a category with same name id!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:189
+#: C:\wamp\www\xm\modules\works/admin/works.php:345
+msgid "Errors ocurred while trying to update database!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:192
+#: C:\wamp\www\xm\modules\works/admin/categos.php:255
+#: C:\wamp\www\xm\modules\works/admin/categos.php:305
+#: C:\wamp\www\xm\modules\works/admin/categos.php:362
+#: C:\wamp\www\xm\modules\works/admin/clients.php:196
+#: C:\wamp\www\xm\modules\works/admin/clients.php:253
+#: C:\wamp\www\xm\modules\works/admin/images.php:287
+#: C:\wamp\www\xm\modules\works/admin/works.php:348
+msgid "Database updated successfully!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:210
+msgid "No categories selected!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:229
+#: C:\wamp\www\xm\modules\works/admin/categos.php:279
+#: C:\wamp\www\xm\modules\works/admin/categos.php:337
+#, php-format
+msgid "Category id \"%s\" is not valid!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:236
+#, php-format
+msgid "Category \"%s\" does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:243
+#, php-format
+msgid "Category \"%s\" could not be deleted!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:252
+msgid "Errors ocurred while trying to delete categories"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:286
+#: C:\wamp\www\xm\modules\works/admin/categos.php:344
+#, php-format
+msgid "Specified category \"%s\" does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:297
+#: C:\wamp\www\xm\modules\works/admin/categos.php:354
+#, php-format
+msgid "Category \"%s\" could not be saved!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:302
+#: C:\wamp\www\xm\modules\works/admin/categos.php:359
+msgid "Errors ocurred while trying to save category"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/categos.php:328
+msgid "You must select a category to enable/disable"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:63
+#: C:\wamp\www\xm\modules\works/admin/clients.php:64
+#: C:\wamp\www\xm\modules\works/admin/clients.php:105
+#: C:\wamp\www\xm\modules\works/admin/clients.php:106
+#: C:\wamp\www\xm\modules\works/admin/menu.php:40
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:175
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:1
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:19
+msgid "Customers"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:66
+msgid "Do you really want to delete selected customers?"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:67
+msgid "You must select some customer before to execute this action!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:93
+msgid "You must provide a customer ID"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:100
+#: C:\wamp\www\xm\modules\works/admin/clients.php:174
+msgid "Specified customer does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:105
+#: C:\wamp\www\xm\modules\works/admin/clients.php:110
+msgid "Edit Customer"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:105
+#: C:\wamp\www\xm\modules\works/admin/clients.php:110
+msgid "New Customer"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:113
+msgid "Company"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:114
+msgid "Email address"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:118
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:23
+msgid "Type"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:134
+#: C:\wamp\www\xm\modules\works/admin/types.php:102
+#: C:\wamp\www\xm\modules\works/admin/works.php:192
+msgid "Save Changes"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:134
+msgid "Create Customer"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:135
+#: C:\wamp\www\xm\modules\works/admin/types.php:103
+#: C:\wamp\www\xm\modules\works/admin/works.php:193
+msgid "Cancel"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:167
+msgid "Customer ID not provided!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:193
+msgid "Errores ocurred while trying to update database"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:217
+msgid "You must specify a customer to delete!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:230
+#, php-format
+msgid "Customer ID \"%u\" is not valid!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:237
+#, php-format
+msgid "Customer with ID \"%u\" does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:245
+#, php-format
+msgid "Customer with ID \"%u\" could not be deleted!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/clients.php:250
+msgid "Errors ocurred while trying to delete customers:"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:23
+msgid "Provided work ID is not valid!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:30
+#: C:\wamp\www\xm\modules\works/admin/images.php:108
+#: C:\wamp\www\xm\modules\works/admin/images.php:182
+#: C:\wamp\www\xm\modules\works/admin/works.php:125
+#: C:\wamp\www\xm\modules\works/admin/works.php:236
+#: C:\wamp\www\xm\modules\works/admin/works.php:534
+#: C:\wamp\www\xm\modules\works/admin/works.php:575
+#: C:\wamp\www\xm\modules\works/admin/works.php:626
+msgid "Specified work does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:77
+msgid "Do you really want to delete selected images?"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:78
+msgid "You must select an image before to execute this action!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:101
+#: C:\wamp\www\xm\modules\works/admin/images.php:175
+msgid "You must specify a work ID!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:116
+#: C:\wamp\www\xm\modules\works/admin/images.php:194
+msgid "You must specify an image ID!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:123
+#: C:\wamp\www\xm\modules\works/admin/images.php:201
+msgid "Specified image does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:131
+#: C:\wamp\www\xm\modules\works/admin/images.php:134
+msgid "Edit Image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:131
+#: C:\wamp\www\xm\modules\works/admin/images.php:134
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:83
+msgid "Add Image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:137
+#: C:\wamp\www\xm\modules\works/admin/works.php:135
+#: C:\wamp\www\xm\modules\works/include/widgets.php:20
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:20
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:29
+msgid "Title"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:138
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:75
+msgid "Image file"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:140
+msgid "Current image file"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:284
+msgid "Errors ocurred while trying to save the image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:307
+msgid "You must select an image to delete!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:320
+#, php-format
+msgid "Image ID \"%s\" is not valid!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:327
+#, php-format
+msgid "Image with ID \"%s\" does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:332
+#, php-format
+msgid "Image \"%s\" could not be deleted!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:337
+msgid "Errors ocurred while trying to delete images"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/images.php:340
+msgid "Images deleted successfully!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/menu.php:14
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:165
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:1
+msgid "Dashboard"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/menu.php:25
+msgid "List all"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/menu.php:30
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:171
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:1
+msgid "Customer Types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/menu.php:35
+#: C:\wamp\www\xm\modules\works/admin/menu.php:45
+#: C:\wamp\www\xm\modules\works/admin/menu.php:55
+msgid "List"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/menu.php:36
+msgid "Add multiple types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/menu.php:46
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:177
+msgid "Add Customer"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/menu.php:50
+#: C:\wamp\www\xm\modules\works/admin/works.php:85
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:179
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:66
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:23
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:36
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:23
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:1
+msgid "Works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/menu.php:56
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:181
+msgid "Add Work"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:33
+#: C:\wamp\www\xm\modules\works/admin/types.php:34
+#: C:\wamp\www\xm\modules\works/admin/types.php:71
+msgid "Customer types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:38
+msgid "Do you really want to delete selected types?"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:39
+msgid "You must select some type before to execute this action!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:60
+msgid "You must provide a type ID at least"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:71
+msgid "Edit type"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:71
+msgid "New type"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:72
+msgid "Add Customers types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:75
+msgid "Edit Type"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:75
+msgid "New Type"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:87
+#: C:\wamp\www\xm\modules\works/admin/types.php:95
+#: C:\wamp\www\xm\modules\works/include/widgets.php:42
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:58
+msgid "Type name"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:102
+msgid "Save Customer Types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:143
+#: C:\wamp\www\xm\modules\works/admin/types.php:151
+msgid "Another type with same name already exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:160
+#, php-format
+msgid "Type \"%s\" could not be saved!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:165
+msgid "Errors ocurred while saving types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:168
+msgid "Types added successfully!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:185
+msgid "You have not selected any customer type to delete!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:198
+#, php-format
+msgid "Customer type id \"%u\" is not valid!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:205
+#, php-format
+msgid "Customer type with id \"%u\" does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:210
+#, php-format
+msgid "Type %s could not be deleted!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:215
+msgid "Errors ocurred while trying to delete selected types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/types.php:218
+msgid "Customer types deleted successfully!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:83
+#: C:\wamp\www\xm\modules\works/admin/works.php:542
+msgid "Do you really want to delete selected works?"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:84
+#: C:\wamp\www\xm\modules\works/admin/works.php:543
+msgid "You must select some work before to execute this action!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:109
+msgid "Works Management"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:109
+msgid "Editing work"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:109
+msgid "New work"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:118
+msgid "Provided Work ID is not valid!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:132
+msgid "Edit Work"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:132
+#: C:\wamp\www\xm\modules\works/admin/works.php:192
+msgid "Create Work"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:136
+msgid "Short description"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:140
+#: C:\wamp\www\xm\modules\works/admin/works.php:153
+msgid "Select..."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:161
+msgid "Customer comment"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:166
+msgid "Site URL"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:169
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:27
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:39
+msgid "Start date"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:170
+msgid "Long time"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:171
+msgid "Monetary cost"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:173
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:7
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:80
+msgid "Visible"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:175
+msgid "Work image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:177
+msgid "Current image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:180
+msgid "Rating"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:229
+msgid "Work ID not valid!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:253
+msgid "A work with same name already exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:369
+msgid "You must select a work at least!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:382
+#: C:\wamp\www\xm\modules\works/admin/works.php:434
+#: C:\wamp\www\xm\modules\works/admin/works.php:489
+#, php-format
+msgid "Work ID \"%s\" is not valid!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:389
+#: C:\wamp\www\xm\modules\works/admin/works.php:441
+#: C:\wamp\www\xm\modules\works/admin/works.php:496
+#, php-format
+msgid "Work with ID \"%s\" does not exists!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:394
+#, php-format
+msgid "Work \"%s\" could not be deleted!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:399
+msgid "Errors ocurred while trying to delete works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:402
+msgid "Works deleted successfully!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:422
+#: C:\wamp\www\xm\modules\works/admin/works.php:477
+msgid "You must specify a work ID"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:448
+#: C:\wamp\www\xm\modules\works/admin/works.php:503
+#, php-format
+msgid "Work \"%s\" could not be saved!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:453
+#: C:\wamp\www\xm\modules\works/admin/works.php:508
+msgid "Errors ocurred while trying to update works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:456
+#: C:\wamp\www\xm\modules\works/admin/works.php:511
+msgid "Works updated successfully!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:528
+#: C:\wamp\www\xm\modules\works/admin/works.php:569
+#: C:\wamp\www\xm\modules\works/admin/works.php:620
+msgid "You must provide a work ID!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:544
+msgid "Work Custom Fields"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:588
+msgid "Please, fill all data!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:607
+msgid "Custom field added successfully!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:609
+msgid "Custom field could not be added. Please try again!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:637
+msgid "Select some fields to delete!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:645
+msgid "Custom fields deleted successfully!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/admin/works.php:647
+msgid "Custom fields could not be deleted!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_comments.php:55
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:86
+msgid "Block Options"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_comments.php:56
+msgid "Comments number"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_comments.php:57
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:87
+msgid "Works type"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_comments.php:58
+msgid "Random"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_comments.php:59
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:90
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:21
+msgid "Recent works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:67
+#, php-format
+msgid "Category: %s"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:68
+#, php-format
+msgid "Customer: %s"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:88
+msgid "Reandom works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:89
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:22
+msgid "Featured works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:96
+msgid "All categories"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:109
+msgid "All customers"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:120
+msgid "Works number"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:121
+msgid "Columns"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:122
+msgid "Show work image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/blocks/pw_works.php:123
+msgid "Show description"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/class/pwfunctions.class.php:173
+msgid "Add Types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/class/workscontroller.php:44
+msgid "Not found"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/class/workscontroller.php:54
+msgid "Unknow"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/include/widgets.php:15
+msgid "Quick Categories"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/include/widgets.php:27
+msgid "Create Category"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/include/widgets.php:37
+msgid "Quick Customers Types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/include/widgets.php:47
+msgid "Create Type"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/include/widgets.php:56
+msgid "About Professional Works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/include/widgets.php:65
+#, php-format
+msgid "You can contact me at %s."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:11
+msgid "Module to manage professional portfolios"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:14
+msgid "Use friendly URLs"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:15
+msgid ""
+"By enabling this option the module will manage the URLs trough mod_rewrite "
+"(Apache Only)."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:18
+msgid "Header Title"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:19
+msgid "This title will be show as header of module"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:22
+msgid "Size in pixels of the main image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:23
+msgid ""
+"This values must be specified in the format \"width|height\". Note the \"|\"."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:24
+msgid "Size in pixels of the normal image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:26
+msgid "Size in pixels of the thumbnail"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:28
+msgid "Size in pixels fo the thumbnail for main image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:29
+msgid ""
+"This value will be used to resize main images to show in the works list."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:32
+msgid "Resizing Method"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:33
+msgid "Crop Thumbnail"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:34
+msgid "Crop big image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:35
+msgid "Crop both images"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:36
+msgid "Resize"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:39
+msgid "Image file size"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:40
+msgid "This value must be specified in KB"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:43
+msgid "Show work cost"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:46
+msgid "Currency Format"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:49
+msgid "Number of Recent Works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:50
+msgid "The number of recent works that will be shown in the home page"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:52
+msgid "Number of Featured Works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:53
+msgid "The number of featured works that will be shown in the home page"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:55
+msgid "Base dir to friendly url management"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:58
+msgid "Other Works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:59
+msgid "The type of works that will be shown in the details page"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:60
+msgid "Disabled"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:61
+msgid "Same Category"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:63
+msgid "Number of \"Other Works\""
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:64
+msgid "The number of \"Other Works\" to show in the section"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:67
+msgid "Comments"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:70
+msgid "Home Page"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:71
+msgid "Recent"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:74
+msgid "Work Details"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:76
+msgid "Show customer information"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:77
+msgid ""
+"When this option is enabled you will see the option to provide customer name "
+"and customer comment in works form."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:78
+msgid "Show web site information"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/language/english/modinfo.php:79
+msgid ""
+"When this option is enabled you will see the option to provide web site name "
+"and url in works form."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:6
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:64
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:7
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:50
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:9
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:59
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:13
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:50
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:7
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:45
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:6
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:79
+msgid "Bulk actions..."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:7
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:65
+msgid "Save changes"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:8
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:50
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:66
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:8
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:38
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:51
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:10
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:48
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:60
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:14
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:51
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:9
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:36
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:47
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:11
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:62
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:84
+msgid "Delete"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:9
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:67
+msgid "Enable categories"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:10
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:68
+msgid "Disable categories"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:12
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:70
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:10
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:53
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:12
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:62
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:16
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:53
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:11
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:49
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:13
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:86
+msgid "Apply"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:19
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:32
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:19
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:18
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:27
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:17
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:24
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:22
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:34
+msgid "ID"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:24
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:37
+msgid "Active"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:25
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:38
+msgid "Order"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_categories.php:49
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:37
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:47
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:8
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:35
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:46
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:61
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_work_options.php:2
+msgid "Edit"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:21
+msgid "Information"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:22
+msgid "Business"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_clients.php:27
+msgid "There are not customers registered in Professional Works yet!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:19
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:28
+msgid "Image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:36
+msgid "There are not images for this work yet!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:71
+msgid "Add image"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:73
+msgid "Image title"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_images.php:77
+msgid "Image description"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:14
+msgid "Quick Overview"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:22
+msgid "Customers types"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:26
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:63
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_work_options.php:3
+msgid "Images"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:27
+msgid "Current version:"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:34
+msgid "Works not published"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:44
+msgid "View all works"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_index.php:50
+msgid "Recent News"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:2
+#, php-format
+msgid "%s Custom Fields"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:5
+msgid ""
+"Custom fields allows you to store additional data with your work. This data "
+"can be used later in your themes, plugins or another xoops component."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:23
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:30
+msgid "Value"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:36
+msgid "There are not metas for this work"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:63
+msgid "Field name"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:65
+msgid "Field value"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:67
+msgid "Add Custom Field"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_metas.php:73
+msgid ""
+"To edit some custom field, please input an existing name and the new value. "
+"Custom field will be updated automatically."
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:57
+msgid "Add new type"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_types.php:60
+msgid "Add type"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:8
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:16
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:81
+msgid "Hidden"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:10
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:83
+msgid "Normal"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:14
+msgid "Show all"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:15
+msgid "Published"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:46
+msgid "There are not works registered yet!"
+msgstr ""
+
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_works.php:64
+#: C:\wamp\www\xm\modules\works/templates/admin/pw_work_options.php:4
+msgid "Custom Fields"
+msgstr ""

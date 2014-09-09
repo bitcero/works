@@ -1,0 +1,61 @@
+#works-right-table{
+	float: right;
+	width: 65%;
+}
+#works-left-form{
+	float: left;
+	width: 32%;
+}
+#works-left-form h3{
+	font-size: 1.4em;
+	font-weight: bold;
+	margin: 0 0 10px 0;
+}
+#works-left-form label{
+	display: block;
+	padding: 0 0 3px 0;
+    cursor: pointer;
+}
+#works-left-form input[type='text']{
+	width: 90%;
+	display: block;
+	margin: 0 0 5px 0;
+}
+#works-left-form input[type='file']{
+	width: 90%;
+	display: block;
+	margin: 0 0 5px 0;
+}
+#works-left-form textarea{
+	width: 90%;
+	margin: 0 0 5px 0;
+}
+div.rmc_pages_navigation_container{
+    float: right;
+}
+.work_options{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+.work_options li{
+    float: left;
+    padding: 4px 10px 4px 25px;
+    margin: 2px;
+    border-right: 1px solid #CCC;
+    background-repeat: no-repeat;
+    background-position: 7px;
+}
+.work_options .item_edit{
+    background-image: url(../images/item.png);
+}
+.work_options .item_images{
+    background-image: url(../images/images.png);
+}
+.work_options .item_fields{
+    background-image: url(../images/fields.png);
+}
+.work_options li:last-child{
+    border: 0;
+}
