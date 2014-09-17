@@ -1,35 +1,45 @@
-h2.pw_title{
-	margin: 0 0 10px 0;
+.work-title{
+	margin: 0 0 20px 0;
 }
-.pw_featured{
-	font-size: 0.7em;
-	font-weight: normal;
-	text-transform: uppercase;
-	color: #FF4400;
+.work-title sup{
+    font-size: 16px;
+}
+.work-title sup .label{
+    font-weight: normal;
 }
 #pw-image{
 	padding: 1px;
 	border: 1px solid #CCC;
 	text-align: center;
 }
-#pw-details{
-	overflow: hidden;
-	margin: 10px 0;
-	padding: 0 0 10px 0;
+#work-details{
 	border-bottom: 2px solid #CCC;
+    padding: 15px 0;
+}
+#work-details .work-data{
+    border: 1px solid rgba(0,0,0,0.1);
+}
+#work-details .work-data > li{
+    padding: 5px 10px;
+}
+#work-details .work-data .title{
+    border-top: 1px solid rgba(0,0,0,0.1);
+    font-weight: bold;
+    padding-bottom: 0;
+}
+#work-details .work-data .title:first-child{
+    margin-top: 0;
+    border: 0;
+}
+#work-details .item-categories{
+    padding-left: 20px;
 }
 #pw-details .pw_description{
 	line-height: 130%;
 	float: right;
 	width: 63%;
 }
-#pw-details .pw_description h3{
-	margin: 0 0 10px 0;
-}
-#pw-details .pw_data{
-	float: left;
-	width: 35%;
-}
+
 #pw-details .pw_data table{
 	border: 1px solid #CCC;
 }
@@ -77,26 +87,38 @@ h2.pw_title{
 	text-align: right;
 }
 
-.pw_works_grid{
+.works-grid{
 	overflow: hidden;
 	margin-bottom: 20px;
 }
-.pw_works_grid a img{
+.works-grid a img{
 	float: left;
 	padding: 1px;
 	border: 1px solid #CCC;
-	margin: 0 5px 10px 0;
+	margin: 0 10px 10px 0;
 }
-.pw_works_grid h3{
+.works-grid h3{
 	margin: 0 0 5px 0;
+    font-weight: normal;
+    font-size: 18px;
 }
-.pw_works_grid .desc{
+.works-grid .description{
 	line-height: 150%;
 	display: block;
-	margin-bottom: 4px;
+	margin-bottom: 8px;
+    font-size: 0.9em;
 }
-.pw_works_grid .info{
+.works-grid .info{
 	font-size: 0.85em;
+}
+.works-featured-label{
+    font-size: 9px;
+    font-weight: normal;
+    text-transform: uppercase;
+    background-color: #FF4400;
+    padding: 2px 3px;
+    color: #FFF;
+    border-radius: 3px;
 }
 .pw-preview{
     padding: 5px;

@@ -21,8 +21,8 @@ class Works_Functions
 		$xoopsTpl->assign('lang_recentsall', __('Recent works','works'));
 		$xoopsTpl->assign('lang_featuredall', __('Featured works','works'));
 		
-		$recent = $xoopsModuleConfig['urlmode'] ? XOOPS_URL.'/'.trim($xoopsModuleConfig['htbase'], '/').'/recent/' : XOOPS_URL.'/modules/works/index.php?page=recent';
-		$featured = $xoopsModuleConfig['urlmode'] ? XOOPS_URL.'/'.trim($xoopsModuleConfig['htbase'], '/').'/featured/' : XOOPS_URL.'/modules/works/index.php?page=featured';
+		$recent = $xoopsModuleConfig['permalinks'] ? XOOPS_URL.'/'.trim($xoopsModuleConfig['htbase'], '/').'/recent/' : XOOPS_URL.'/modules/works/index.php?page=recent';
+		$featured = $xoopsModuleConfig['permalinks'] ? XOOPS_URL.'/'.trim($xoopsModuleConfig['htbase'], '/').'/featured/' : XOOPS_URL.'/modules/works/index.php?page=featured';
 		
 		$xoopsTpl->assign('url_recent', $recent);
 		$xoopsTpl->assign('url_featured', $featured);
@@ -203,6 +203,62 @@ class Works_Functions
         }
 
         return $images;
+
+    }
+
+    /**
+     * SENDs an HTTP status code to browser
+     * @return bool
+     */
+    static function send_404_status(){
+
+        header("HTTP/1.0 404 Not Found");
+        http_response_code(404);
+
+        $controller = RMUris::current_url();
+        $controller = str_replace( PW_URL, '', $controller );
+
+        include $GLOBALS['rmTpl']->get_template("rm-error-404.php", 'module', 'rmcommon');
+
+        return true;
+
+    }
+
+    /**
+     * Checks if a specific user have access rights for a project
+     * @param Works_Work $work
+     * @param null $user <p>Can be a XoopsUser object or null</p>
+     * @return bool
+     */
+    static public function is_allowed( Works_Work $work, $user = null ){
+
+        global $xoopsUser;
+
+        if ( !$user )
+            $user = $xoopsUser;
+
+        if ( $work->status == 'public' )
+            return true;
+
+        if ( $user->isAdmin() )
+            return true;
+
+        /**
+         * @TODO: provide the module ID
+         */
+        if ( $work->status == 'draft' && (!$user || !$user->isAdmin() ) )
+            return false;
+
+        $groups = $user->getGroups();
+        $intersect = array_intersect( $groups, $work->groups );
+
+        if ( $work->status == 'private' && empty( $intersect ) )
+            return false;
+
+        if ( $work->status == 'scheduled' && strtotime( $work->schedule ) > time() )
+            return false;
+
+        return true;
 
     }
 

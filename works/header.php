@@ -13,10 +13,10 @@ include '../../header.php';
 $mc =& $xoopsModuleConfig;
 $xmh = '';
 
-define('PW_URL',XOOPS_URL.($xoopsModuleConfig['urlmode'] ? rtrim($xoopsModuleConfig['htbase'], '/') : '/modules/works'));
+define('PW_URL',XOOPS_URL.($xoopsModuleConfig['permalinks'] ? rtrim($xoopsModuleConfig['htbase'], '/') : '/modules/works'));
 define('PW_ROOT',XOOPS_ROOT_PATH.'/modules/works');
 
 $tpl = $xoopsTpl;
 $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-RMTemplate::get()->add_xoops_style('main.css','works');
+RMTemplate::get()->add_style('main.css','works');

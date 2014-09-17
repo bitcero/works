@@ -11,7 +11,8 @@
 require '../../../include/cp_header.php';
 
 define('PW_PATH',XOOPS_ROOT_PATH.'/modules/'.$xoopsModule->dirname());
-define('PW_URL', XOOPS_URL.'/modules/works');
+define('PW_URL', XOOPS_URL . '/modules/works' );
+define('PW_PUBLIC_URL', $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . trim( $xoopsModuleConfig['htbase'], '/') :  XOOPS_URL.'/modules/works');
 
 # Definimos el motor de plantillas si no existe
 $mc =& $xoopsModuleConfig;

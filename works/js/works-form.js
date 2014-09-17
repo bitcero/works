@@ -156,6 +156,21 @@ $(document).ready(function(){
 
     } );
 
+    $("#add-meta-button").click(function(){
+
+        if ($(this).html()==workLang.addnew){
+            $("#dmeta-sel").hide();
+            $("#dmeta").show();
+            $(this).html(workLang.cancel);
+        } else {
+            $("#dmeta-sel").show();
+            $("#dmeta").hide();
+            $(this).html(workLang.addnew);
+        }
+
+        return false;
+    });
+
 });
 
 function works_verify_fields(){
@@ -208,8 +223,6 @@ function works_verify_fields(){
         params += params=='' ? $(this).serialize() : '&' + $(this).serialize();
     });
 
-    alert( params );
-
     $("#work-blocker-info span").html(workLang.saving).removeClass('work-error');
 
     $.post("works.php", params, function(response){
@@ -238,6 +251,13 @@ function works_verify_fields(){
 
         if(response.data.redirect!=undefined)
             window.location.href = response.data.redirect;
+
+        alert( response.work.id );
+
+        if ( $("#works-action").val() == 'save' )
+            window.location.href = 'works.php?action=edit&amp;id=' + response.work.id;
+
+        $("#work-title-id").val( response.work.title_id );
 
     }, 'json');
 

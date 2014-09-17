@@ -1,89 +1,183 @@
-<h1 class="rmc_titles"><span style="background-position: -32px -32px;">&nbsp;</span><?php _e('Works','works'); ?></h1>
+<h1 class="cu-section-title"><?php _e('Works','works'); ?></h1>
+
 <form name="frmWorks" id="frm-works" method="POST" action="works.php">
-<div class="pw_options">
-    <?php $nav->display(false); ?>
-    <select name="op" id="bulk-top">
-        <option value=""><?php _e('Bulk actions...','works'); ?></option>
-        <option value="public"><?php _e('Visible','works'); ?></option>
-        <option value="nopublic"><?php _e('Hidden','works'); ?></option>
-        <option value="mark"><?php _e('Featured','works'); ?></option>
-        <option value="nomark"><?php _e('Normal','works'); ?></option>
-        <option value="delete"><?php _e('Delete','works'); ?></option>
-    </select>
-    <input type="button" id="the-op-top" value="<?php _e('Apply','works'); ?>" onclick="before_submit('frm-works');" /> &nbsp;
-    <a href="works.php?page=<?php echo $page; ?>"<?php if(!isset($show) || $show==''): ?> style="font-weight: bold;"<?php endif; ?>><?php _e('Show all','works'); ?></a> |
-    <a href="works.php?page=<?php echo $page; ?>&amp;show=public"<?php if(isset($show) && $show=='public'): ?> style="font-weight: bold;"<?php endif; ?>><?php _e('Published', 'works'); ?></a> |
-    <a href="works.php?page=<?php echo $page; ?>&amp;show=hidden"<?php if(isset($show) && $show=='hidden'): ?> style="font-weight: bold;"<?php endif; ?>><?php _e('Hidden','works'); ?></a>
+<div class="cu-bulk-actions">
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <select name="op" id="bulk-top" class="form-control">
+                    <option value=""><?php _e('Bulk actions...','works'); ?></option>
+                    <option value="public"><?php _e('Visible','works'); ?></option>
+                    <option value="nopublic"><?php _e('Hidden','works'); ?></option>
+                    <option value="mark"><?php _e('Featured','works'); ?></option>
+                    <option value="nomark"><?php _e('Normal','works'); ?></option>
+                    <option value="delete"><?php _e('Delete','works'); ?></option>
+                </select>
+                <span class="input-group-btn">
+                    <button type="button" id="the-op-top" onclick="before_submit('frm-works');" class="btn btn-default"><?php _e('Apply','works'); ?></button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="dropdown">
+                <button class="btn btn-info dropdown-toggle" type="button" id="works-select-status" data-toggle="dropdown">
+                    <?php
+                    switch( $show ){
+                        case 'public':
+                            $status_label = __('Public', 'works');
+                            break;
+                        case 'draft':
+                            $status_label = __('Drafts', 'works');
+                            break;
+                        case 'private':
+                            $status_label = __('Privates', 'works');
+                            break;
+                        case 'scheduled':
+                            $status_label = __('Scheduled', 'works');
+                            break;
+                        default:
+                            $status_label = __('All', 'works');
+                            break;
+                    }
+                    ?>
+                    <?php echo sprintf( __('Filter projects: %s', 'works'), '<strong>' . $status_label . '</strong>'); ?>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="worksMenu">
+                    <li<?php if(!isset($show) || $show==''): ?> class="active"<?php endif; ?>>
+                        <a href="works.php?page=<?php echo $page; ?>"><span class="fa fa-list"></span> <?php _e('Show all','works'); ?></a>
+                    </li>
+                    <li<?php if(isset($show) && $show=='public'): ?> class="active"<?php endif; ?>>
+                        <a href="works.php?page=<?php echo $page; ?>&amp;show=public"><span class="fa fa-globe"></span> <?php _e('Public', 'works'); ?></a>
+                    </li>
+                    <li<?php if(isset($show) && $show=='draft'): ?> class="active"<?php endif; ?>>
+                        <a href="works.php?page=<?php echo $page; ?>&amp;show=draft"><span class="fa fa-edit"></span> <?php _e('Drafts','works'); ?></a>
+                    </li>
+                    <li<?php if(isset($show) && $show=='private'): ?> class="active"<?php endif; ?>>
+                        <a href="works.php?page=<?php echo $page; ?>&amp;show=private"><span class="fa fa-eye-slash"></span> <?php _e('Privates','works'); ?></a>
+                    </li>
+                    <li<?php if(isset($show) && $show=='scheduled'): ?> class="active"<?php endif; ?>>
+                        <a href="works.php?page=<?php echo $page; ?>&amp;show=scheduled"><span class="fa fa-calendar"></span> <?php _e('Scheduled','works'); ?></a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="col-md-6">
+                <?php $nav->display(false); ?>
+            </div>
+
+        </div>
+    </div>
+
 </div>
-<table class="outer" cellspacing="0" widht="100%">
+<table class="table table-striped table-bordered" cellspacing="0" widht="100%">
     <thead>
-	<tr class="head" align="center">
-		<th width="20"><input type="checkbox" id="checkall" onclick='$("#frm-works").toggleCheckboxes(":not(#checkall)");' /></th>
-		<th width="30"><?php _e('ID','works'); ?></th>
-        <th align="left"><?php _e('Name','works'); ?></th>
-        <th align="left"><?php _e('Description','works'); ?></th>
-        <th><?php _e('Category','works'); ?></th>
-        <th><?php _e('Customer','works'); ?></th>
-        <th><?php _e('Start date','works'); ?></th>
-        <th><?php _e('Featured','works'); ?></th>
+	<tr>
+		<th width="20" class="text-center"><input type="checkbox" id="checkall" onclick='$("#frm-works").toggleCheckboxes(":not(#checkall)");' /></th>
+		<th width="30" class="text-center"><?php _e('ID','works'); ?></th>
+        <th><?php _e('Name','works'); ?></th>
+        <th class="text-center"><?php _e('Customer','works'); ?></th>
+        <th class="text-center"><?php _e('Categories','works'); ?></th>
+        <th class="text-center"><?php _e('Created','works'); ?></th>
+        <th class="text-center"><?php _e('Modified','works'); ?></th>
+        <th class="text-center"><?php _e('Featured','works'); ?></th>
 	</tr>
     </thead>
     <tfoot>
-    <tr class="head" align="center">
-        <th width="20"><input type="checkbox" id="checkall" onclick='$("#frm-works").toggleCheckboxes(":not(#checkall)");' /></th>
-        <th width="30"><?php _e('ID','works'); ?></th>
-        <th align="left"><?php _e('Name','works'); ?></th>
-        <th align="left"><?php _e('Description','works'); ?></th>
-        <th><?php _e('Category','works'); ?></th>
-        <th><?php _e('Customer','works'); ?></th>
-        <th><?php _e('Start date','works'); ?></th>
-        <th><?php _e('Featured','works'); ?></th>
+    <tr>
+        <th width="20" class="text-center"><input type="checkbox" id="checkall" onclick='$("#frm-works").toggleCheckboxes(":not(#checkall)");' /></th>
+        <th width="30" class="text-center"><?php _e('ID','works'); ?></th>
+        <th><?php _e('Name','works'); ?></th>
+        <th class="text-center"><?php _e('Customer','works'); ?></th>
+        <th class="text-center"><?php _e('Categories','works'); ?></th>
+        <th class="text-center"><?php _e('Created','works'); ?></th>
+        <th class="text-center"><?php _e('Modified','works'); ?></th>
+        <th class="text-center"><?php _e('Featured','works'); ?></th>
     </tr>
     </tfoot>
     <tbody>
     <?php if(empty($works)): ?>
-    <tr class="even">
-        <td colspan="8" align="center"><?php _e('There are not works registered yet!','works'); ?></td>
+    <tr class="text-center">
+        <td colspan="8"><span class="text-info"><?php _e('There are not works registered yet!','works'); ?></span></td>
     </tr>
     <?php endif; ?>
 	<?php foreach($works as $work): ?>
-	<tr class="<?php echo tpl_cycle("even,odd"); ?>" align="center" valign="top">
-		<td><input type="checkbox" name="ids[]" value="<?php echo $work['id']; ?>" id="item-<?php echo $work['id']; ?>" /></td>
-		<td><strong><?php echo $work['id']; ?></strong></td>
-		<td align="left">
-            <?php if(!$work['public']): ?>
-                <?php echo $work['title']; ?>
-                <em>[Hidden]</em>
+	<tr>
+		<td class="text-center"><input type="checkbox" name="ids[]" value="<?php echo $work['id']; ?>" id="item-<?php echo $work['id']; ?>" /></td>
+		<td class="text-center"><strong><?php echo $work['id']; ?></strong></td>
+		<td>
+            <?php switch( $work['status'] ){
+                case 'public':
+                    echo '<span class="fa fa-globe"></span>';
+                    break;
+                case 'draft':
+                    echo '<span class="fa fa-edit"></span>';
+                    break;
+                case 'private':
+                    echo '<span class="fa fa-eye-slash"></span>';
+                    break;
+                case 'scheduled':
+                    echo '<span class="fa fa-calendar"></span>';
+                    break;
+
+            } ?>
+            <?php echo $work['title']; ?>
+
+            <span class="cu-item-options">
+            <a href="works.php?action=edit&amp;id=<?php echo $work['id']; ?>&amp;page=<?php echo $page; ?>"><?php _e('Edit','admin_mywords'); ?></a> |
+            <a href="#" onclick="select_option(<?php echo $work['id']; ?>,'delete','frm-works'); return false;"><?php echo _e('Delete','works'); ?></a> |
+            <?php if( $work['status'] == 'scheduled' || $work['status'] == 'draft'): ?>
+                <a href="<?php echo $work['url']; ?>" target="_blank"><?php _e('Preview', 'works'); ?></a>
             <?php else: ?>
-                <strong><?php echo $work['title']; ?></strong>
+                <a href="<?php echo $work['url']; ?>" target="_blank"><?php _e('View', 'works'); ?></a>
             <?php endif; ?>
-            <span class="rmc_options">
-            <a href="./works.php?op=edit&amp;id=<?php echo $work['id']; ?>&amp;page=<?php echo $page; ?>"><?php _e('Edit','admin_mywords'); ?></a> |
-            <a href="javascript:;" onclick="select_option(<?php echo $work['id']; ?>,'delete','frm-works');"><?php echo _e('Delete','works'); ?></a> |
-            <a href="./images.php?work=<?php echo $work['id']; ?>"><?php _e('Images','works'); ?></a> |
-            <a href="./works.php?page=<?php echo $page; ?>&amp;id=<?php echo $work['id']; ?>&op=meta"><?php _e('Custom Fields','works'); ?></a>
             </span>
         </td>
-        <td align="left"><?php echo $work['description']; ?></td>
-		<td><?php echo $work['catego']; ?></td>
-		<td><?php echo $work['client']; ?></td>
-		<td><?php echo $work['start']; ?></td>
-		<td><?php if($work['mark']): ?><img src="<?php echo XOOPS_URL; ?>/modules/works/images/ok.png" /><?php else: ?><img src="<?php echo XOOPS_URL; ?>/modules/works/images/no.png" /><?php endif; ?></td>
+        <td align="left"><small><?php echo $work['customer']; ?></small></td>
+		<td class="text-center">
+            <small><?php foreach( $work['categories'] as $id => $cat ): ?>
+            <?php echo $cat; ?>,
+            <?php endforeach; ?></small>
+		</td>
+		<td class="text-center">
+            <small><?php echo $work['created']; ?></small>
+		</td>
+		<td class="text-center"><small><?php echo $work['modified']; ?></small></td>
+		<td class="text-center">
+            <?php if($work['featured']): ?><img src="<?php echo XOOPS_URL; ?>/modules/works/images/ok.png" /><?php else: ?><img src="<?php echo XOOPS_URL; ?>/modules/works/images/no.png" /><?php endif; ?>
+        </td>
 	</tr>
 	<?php endforeach; ?>
     </tbody>
 </table>
-<div class="pw_options">
-    <?php $nav->display(false); ?>
-    <select name="opb" id="bulk-bottom">
-        <option value=""><?php _e('Bulk actions...','works'); ?></option>
-        <option value="public"><?php _e('Visible','works'); ?></option>
-        <option value="nopublic"><?php _e('Hidden','works'); ?></option>
-        <option value="mark"><?php _e('Featured','works'); ?></option>
-        <option value="nomark"><?php _e('Normal','works'); ?></option>
-        <option value="delete"><?php _e('Delete','works'); ?></option>
-    </select>
-    <input type="button" id="the-op-bottom" value="<?php _e('Apply','works'); ?>" onclick="before_submit('frm-works');" />
+<div class="cu-bulk-actions">
+    <div class="row">
+
+        <div class="col-md-5">
+            <div class="input-group">
+                <select name="opb" id="bulk-bottom" class="form-control">
+                    <option value=""><?php _e('Bulk actions...','works'); ?></option>
+                    <option value="public"><?php _e('Visible','works'); ?></option>
+                    <option value="nopublic"><?php _e('Hidden','works'); ?></option>
+                    <option value="mark"><?php _e('Featured','works'); ?></option>
+                    <option value="nomark"><?php _e('Normal','works'); ?></option>
+                    <option value="delete"><?php _e('Delete','works'); ?></option>
+                </select>
+                <span class="input-group-btn">
+                    <button type="button" id="the-op-bottom" onclick="before_submit('frm-works');" class="btn btn-default"><?php _e('Apply','works'); ?></button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <?php $nav->display(false); ?>
+        </div>
+
+    </div>
+
+
 </div>
 <input type="hidden" name="pag" value="<?php echo $page ?>" />
 <input type="hidden" name="show" value="<?php echo $show ?>" />

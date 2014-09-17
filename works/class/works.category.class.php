@@ -40,20 +40,15 @@ class Works_Category extends RMObject
 	/**
 	* Get the category link formated
 	*/
-	public function link(){
-		global $xoopsModule, $xoopsModuleConfig;
-		
-		if (isset($xoopsModule) && $xoopsModule->dirname()=='works'){
-			$mc =& $xoopsModuleConfig;
-		} else {
-			$mc = RMSettings::module_settings( 'works' );
-		}
-		
+	public function permalink(){
+
+        $mc = RMSettings::module_settings( 'works' );
+
 		$link = XOOPS_URL.'/';
-		if ($mc['permalinks']){
-			$link .= trim($mc['htbase'], '/').'/category/'.$this->nameId().'/';
+		if ( $mc->permalinks ){
+			$link .= trim($mc->htbase, '/').'/category/'.$this->nameid.'/';
 		} else {
-			$link .= 'modules/works/index.php?p=category&amp;id='.$this->nameId();
+			$link .= 'modules/works/index.php?p=category&amp;id='.$this->nameid;
 		}
 		
 		return $link;

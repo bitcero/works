@@ -1,18 +1,67 @@
-<{include file="db:pw_header.html"}>
+<{include file="db:works-header.tpl"}>
 <!-- Detalles del Trabajo -->
-<h2 class="pw_title"><{$work.title}><{if $work.mark}> <span class="pw_featured">[<{$lang_mark}>]<{/if}></h2>
+<h2 class="work-title"><{$work.title}><{if $work.featured}> <sup><small class="label label-danger"><{$lang_featured}></small></sup><{/if}></h2>
 <div id="pw-image">
-	<img src="<{$work.image}>" alt="<{$work.title}>" />
+	<img src="<{$work.image}>" alt="<{$work.title}>" class="img-responsive">
+</div>
+
+<div class="row" id="work-details">
+
+    <div class="col-md-7 col-lg-8">
+        <{$work.description}>
+    </div>
+
+    <div class="col-md-5 col-lg-4">
+
+        <ul class="list-unstyled work-data">
+            <li class="title">
+                <small><span class="fa fa-folder"></span> <{$lang_categories}></small>
+            </li>
+            <li>
+                <ul class=" item-categories">
+                    <{foreach item=category from=$work.categories}>
+                        <li>
+                            <a href="<{$category->permalink()}>">
+                                <{$category->name}>
+                            </a>
+                        </li>
+                    <{/foreach}>
+                </ul>
+            </li>
+            <li class="title">
+                <small><span class="fa fa-user"></span> <{$lang_customer}></small>
+            </li>
+            <li>
+                <{$work.customer}>
+            </li>
+            <{if $work.web!=''}>
+                <li class="title">
+                    <small><span class="fa fa-link"></span> <{$lang_site}></small>
+                </li>
+                <li>
+                    <a href="<{$work.url}>"><{$work.web}></a>
+                </li>
+            <{/if}>
+            <li class="title">
+                <small><span class="fa fa-eye"></span> <{$lang_views}></small>
+            </li>
+            <li>
+                <{$work.views}>
+            </li>
+        </ul>
+
+    </div>
+
 </div>
 <div id="pw-details">
 	<div class="pw_description">
-		<h3><{$lang_desc}></h3>
-		<{$work.desc}>
+		<h4><{$lang_desc}></h4>
+
 	</div>
 	<div class="pw_data">
 		<table cellspacing="0" border="0">
 			<tr class="<{cycle values="even,odd"}>">
-				<td><strong><{$lang_catego}></strong></td>
+				<td></td>
 				<td><a href="<{$work.category.link}>"><{$work.category.name}></a></td>
 			</tr>
 			<{if $work.client}>
@@ -94,6 +143,6 @@
 
 <!-- Start Comments -->
 <a name="comments"></a>
-<{include file="db:rmc_comments_display.html"}>
-<{include file="db:rmc_comments_form.html"}>
+<{include file="db:rmc-comments-display.html"}>
+<{include file="db:rmc-comments-form.html"}>
 <!-- /End comments -->

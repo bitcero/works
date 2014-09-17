@@ -11,7 +11,7 @@
 include '../../mainfile.php';
 load_mod_locale('works');
 
-if($xoopsModuleConfig['urlmode']<=0){
+if($xoopsModuleConfig['permalinks']<=0){
     // PHP Default URLs mode
     $p = rmc_server_var($_REQUEST, 'p', 'home');
     $id = rmc_server_var($_REQUEST, 'id', '');
@@ -32,10 +32,10 @@ if($xoopsModuleConfig['urlmode']<=0){
     
 }
 
-$request = str_replace(XOOPS_URL, '', RMFunctions::current_url());
+$request = str_replace(XOOPS_URL, '', RMUris::current_url());
 $request = str_replace("/modules/works/", '', $request);
 
-if ($xoopsModuleConfig['urlmode']>0 && $xoopsModuleConfig['htbase']!='/' && $request!=''){
+if ($xoopsModuleConfig['permalinks']>0 && $xoopsModuleConfig['htbase']!='/' && $request!=''){
     $request = str_replace(rtrim($xoopsModuleConfig['htbase'],'/').'/', '', rtrim($request,'/').'/');
 }
 

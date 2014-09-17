@@ -11,86 +11,65 @@
 if (!defined('XOOPS_ROOT_PATH'))
     require '../../mainfile.php';
 
-$xoopsOption['template_main'] = 'pw_work.html';
+$xoopsOption['template_main'] = 'works-item.tpl';
 $xoopsOption['module_subpage'] = 'work';
 include 'header.php';
 
 $mc =& $xoopsModuleConfig;
 
-if ($id==''){
-	redirect_header(PW_URL.'/', 2, __('Work id not provided!','works'));
-	die();
-}
+if ($id=='')
+    RMUris::redirect_with_message(
+        __('No project has been specified', 'works'), PW_URL, RMMSG_WARN
+    );
 
 //Verificamos si el trabajo existe
 $work = new Works_Work($id);
 if($work->isNew()){
-	redirect_header(PW_URL.'/', 2, __('Specified id does not exists!','works'));
-	die();
+    Works_Functions::send_404_status();
+    die();
 }
 
-if(!$work->isPublic() && !($xoopsUser && $xoopsUser->isAdmin())){
+/**
+ * Check access to project
+ */
+if(!Works_Functions::is_allowed( $work )){
     redirect_header(PW_URL, 1, __('The requested content is not available!','works'));
     die();
 }
 
-if(!$work->isPublic()){
+if( $work->status == 'draft' ){
     $xoopsTpl->assign('lang_preview', __('You are in preview mode! This work is hidden for all other users.','works'));
 }
 
-$cat = new Works_Category($work->category());
-$client = new PWClient($work->client());
+$image = new RMImage();
 
 $work_data = array(
-	'id'=>$work->id(),
-	'title'=>$work->title(),
-	'desc'=>$work->desc(),
-    'intro'=>$work->descShort(),
-	'category'=>array(
-        'name'=>$cat->name(),
-        'description'=>$cat->desc(),
-        'id'=>$cat->id(),
-        'nameid'=>$cat->nameId(),
-        'link' => $cat->link()
-    ),
-	'client'=>$client->businessName(),
-	'site'=>$work->nameSite(),
-	'url'=>formatURL($work->url()),
-	'created'=>formatTimeStamp($work->created(),'s'),
-	'start'=>formatTimeStamp($work->start(),'s'),
-	'period'=>$work->period(),
-	'cost'=>$mc['cost'] ? sprintf($mc['format_currency'],number_format($work->cost(),2)) : '',
-	'mark'=>$work->mark(),
-	'image'=>XOOPS_UPLOAD_URL.'/works/'.$work->image(),
-    'thumb'=>XOOPS_UPLOAD_URL.'/works/ths/'.$work->image(),
-	'comment'=>$work->comment(),
-	'rating'=>Works_Functions::rating($work->rating()),
-	'views'=>$work->views(),
-    'metas'=>$work->get_metas(),
-    'public'=>$work->isPublic(),
-    'link' => $work->link()
+	'id'            => $work->id(),
+	'title'         => $work->title,
+	'description'   => $work->description,
+	'customer'      => $work->customer,
+	'web'           => $work->web,
+	'url'           => $work->url,
+	'created'       => formatTimeStamp($work->created,'s'),
+	'featured'      => $work->featured,
+	'image'         => $image->load_from_params( $work->image ),
+    'thumb'         => $image->get_by_size( 300 ),
+	'comment'       => $work->comment,
+	'rating'        => $work->rating,
+	'views'         => $work->views,
+    'metas'         => $work->get_meta(),
+    'link'          => $work->permalink(),
+    'images'        => $work->images(),
+    'categories'    => $work->categories( 'objects' )
 );
 
-$work_data = RMEvents::get()->run_event('works.work.data<{$work.l}',$work_data, $work);
+$work_data = RMEvents::get()->run_event('works.work.data',$work_data, $work);
 
 $xoopsTpl->assign('work', $work_data);
 
 $work->addView();
 
-//Obtenemos todas las imágenes del trabajo
-$sql = "SELECT * FROM ".$db->prefix('pw_images')." WHERE work=".$work->id();
-$result = $db->query($sql);
-while($row = $db->fetchArray($result)){
-	$img = new PWImage();
-	$img->assignVars($row);
-
-	$tpl->append('images',array('id'=>$img->id(),'image'=>XOOPS_UPLOAD_URL.'/works/ths/'.$img->image(),
-	'title'=>$img->title(),'desc'=>$img->desc(),'link_image'=>XOOPS_UPLOAD_URL.'/works/'.$img->image()));
-}
-
-RMEvents::get()->run_event('works.load.work.images', $work);
-
-$tpl->assign('xoops_pagetitle', $work->title().' &raquo; '.$mc['title']);
+$tpl->assign('xoops_pagetitle', $work->title . ' &raquo; ' . $mc ['title']);
 
 /**
 * Otros trabajos
@@ -132,26 +111,19 @@ if ($mc['other_works']>0){
 }
 
 
-$tpl->assign('lang_desc',__('Description','works'));
-$tpl->assign('lang_catego',__('Category', 'works'));
-$tpl->assign('lang_client',__('Customer','admin_works'));
-$tpl->assign('lang_start',__('Begins','works'));
-$tpl->assign('lang_period',__('Time length','works'));
+$tpl->assign('lang_categories',__('Categories:', 'works'));
+$tpl->assign('lang_customer',__('Customer:','admin_works'));
+$tpl->assign('lang_site',__('Web site:','works'));
+$tpl->assign('lang_featured',__('Featured','works'));
+$tpl->assign('lang_views', __('Views:','works'));
 $tpl->assign('lang_comment',__('Comment','works'));
 $tpl->assign('lang_cost',__('Price','works'));
 $tpl->assign('lang_others',__('Related Works','works'));
 $tpl->assign('lang_date',__('Date','works'));
 $tpl->assign('lang_images',__('Work Images','works'));
-$tpl->assign('lang_site',__('Web site','works')); 
-$tpl->assign('lang_mark',__('Featured','works'));
 $tpl->assign('lang_rating',__('Our Rate','works'));
 $tpl->assign('works_type', $mc['other_works']);
-$tpl->assign('lang_views', __('Views','works'));
 
-$imgSize = $mc['image_main'];
-$thsSize = $mc['image_ths'];
-$tpl->assign('widthimg',$thsSize[0]+10);
-$tpl->assign('widthOther',$thsSize[0]+20);
 
 Works_Functions::makeHeader();
 

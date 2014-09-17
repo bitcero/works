@@ -36,16 +36,14 @@ function showWorks(){
     $db = XoopsDatabaseFactory::getDatabaseConnection();
     
     $page = RMHttpRequest::request( 'page', 'integer', 1 );
-    $limit = RMHttpRequest::request( 'limit', 'integer', 15 );
-    $show = RMHttpRequest::request( 'show', 'integer', 0 );
+    $page = $page <= 0 ? 1 : $page;
+    $limit = 15;
+    $show = RMHttpRequest::request( 'show', 'string', '' );
     
 	//Barra de Navegación
 	$sql = "SELECT COUNT(*) FROM ".$db->prefix('mod_works_works');
-	if ($show=='public'){
-        $sql .= " WHERE status='public'";
-    } elseif($show=='hidden'){
-        $sql .= " WHERE status='draft'";
-    }
+	if ($show != '')
+        $sql .= " WHERE status='$show'";
     
 	list($num)=$db->fetchRow($db->query($sql));
 
@@ -57,36 +55,37 @@ function showWorks(){
     $nav = new RMPageNav($num, $limit, $page, 5);
     $nav->target_url('works.php?page={PAGE_NUM}');
 
-	$sql = "SELECT * FROM ".$db->prefix('mod_works_works');
-    if ($show=='public'){
-        $sql .= " WHERE status='public'";
-    } elseif($show=='hidden'){
-        $sql .= " WHERE status='draft'";
-    }
+	$sql = str_replace( "COUNT(*)", '*', $sql);
 	$sql.= " ORDER BY id_work DESC LIMIT $start, $limit"; 
 	$result = $db->query($sql);
     $works = array(); //Container
+    $tf = new RMTimeFormatter(0, '%T% %d%, %Y% at %h%:%i%');
     
 	while ($row = $db->fetchArray($result)){
 		$work = new Works_Work();
 		$work->assignVars($row);
 
 		$works[] = array(
-            'id'=>$work->id(),
-            'title'=>$work->title,
-            'featured'=>$work->featured,
-            'status'=>$work->status,
-            'description'=>$work->description
+            'id'            => $work->id(),
+            'title'         => $work->title,
+            'featured'      => $work->featured,
+            'status'        => $work->status,
+            'url'           => $work->permalink(),
+            'categories'    => $work->categories( 'name' ),
+            'created'       => $tf->format( $work->created ),
+            'modified'      => $tf->format( $work->modified ),
+            'customer'      => $work->customer
         );
 
 	}
 
     RMTemplate::get()->add_style('admin.css', 'works');
-    RMTemplate::get()->add_script(RMCURL.'/include/js/jquery.checkboxes.js');
-    RMTemplate::get()->add_script('../include/js/admin_works.js');
-    RMTemplate::get()->add_head("<script type='text/javascript'>\nvar pw_message='".__('Do you really want to delete selected works?','works')."';\n
-        var pw_select_message = '".__('You must select some work before to execute this action!','works')."';</script>");
-	xoops_cp_location('<a href="./">'.$xoopsModule->name()."</a> &raquo; ".__('Works','works'));
+    RMTemplate::get()->add_script('jquery.checkboxes.js', 'rmcommon', array( 'directory' => 'include' ) );
+    RMTemplate::get()->add_script( 'admin_works.js', 'works' );
+
+    $bc = RMBreadCrumb::get();
+    $bc->add_crumb( __('Existing works', 'works' ) );
+
 	xoops_cp_header();
     
     include RMTemplate::get()->get_template("admin/works-works.php", 'module', 'works');
@@ -153,7 +152,7 @@ function formWorks($edit = 0){
     RMTemplate::get()->header();
 
     $form = new RMForm('','','');
-    $editor = new RMFormEditor(__('Description','works'),'description','100%','300px',$edit ? $work->desc('e') : '');
+    $editor = new RMFormEditor(__('Description','works'),'description','100%','300px',$edit ? $work->getVar('description', 'e') : '');
 
     include RMTemplate::get()->get_template( "admin/works-add-form.php", 'module', 'works' );
 
@@ -229,13 +228,13 @@ function saveWorks($edit = 0){
 	$db = XoopsDatabaseFactory::getDatabaseConnection();
 
     // Create the title ID
-    $title_id = $title_id == '' ? TextCleaner::getInstance()->sweetstring( $title ) : $title_id;
+    $title_id = $title_id == '' ? TextCleaner::getInstance()->sweetstring( $title ) : TextCleaner::getInstance()->sweetstring( $title_id );
 
 	// Check if work exists already
 	if ($edit)
-		$sql = "SELECT COUNT(*) FROM ".$db->prefix("mod_works_works")." WHERE title='$title' and id_work != $id";
+		$sql = "SELECT COUNT(*) FROM ".$db->prefix("mod_works_works")." WHERE (title='$title' || titleid='$title_id') and id_work != $id";
 	else
-		$sql = "SELECT COUNT(*) FROM ".$db->prefix("mod_works_works")." WHERE title='$title'";
+		$sql = "SELECT COUNT(*) FROM ".$db->prefix("mod_works_works")." WHERE title='$title' || titleid='$title_id'";
 
 	list( $num ) = $db->fetchRow( $db->query( $sql ) );
 	if ($num>0)
@@ -642,7 +641,7 @@ switch($action){
 	case 'save':
 		saveWorks();
 		break;
-	case 'saveedit':
+	case 'saveedited':
 		saveWorks(1);
 		break;
 	case 'delete':

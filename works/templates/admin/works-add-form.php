@@ -8,6 +8,17 @@
         <input type="text" name="title" class="form-control input-lg" id="work-title" value="<?php echo $edit ? $work->title : ''; ?>" placeholder="<?php _e('Work title...', 'works'); ?>" required>
     </div>
 
+    <div class="form-group" id="permalink-container">
+        <label for="work-title-id"><?php _e('Permalink', 'works'); ?></label>
+        <div class="input-group">
+            <span class="input-group-addon">
+                <?php echo PW_PUBLIC_URL; ?>/
+            </span>
+            <input type="text" class="form-control" name="titleid" id="work-title-id" value="<?php echo $work->titleid; ?>">
+        </div>
+
+    </div>
+
     <div class="form-group">
         <?php echo $editor->render(); ?>
     </div>
@@ -21,7 +32,14 @@
         <div class="box-content">
 
             <div class="work-images" id="work-images-container">
-
+                <?php
+                $images = $work->images();
+                foreach( $images as $idi => $image ): ?>
+                <span data-id="existing-<?php echo $idi; ?>" style="background-image: url('<?php echo RMCURL; ?>/include/resizer.php?src=<?php echo $image['url']; ?>&w=110&h=110');">
+                    <a href="#"><span class="fa fa-times"></span></a>
+                </span>
+                <input type="hidden" name="images[]" id="image-existing-<?php echo $idi; ?>" value="<?php echo $image['url']; ?>|<?php echo $image['title']; ?>">
+                <?php endforeach; ?>
             </div>
             <div class="form-group">
                 <button
@@ -77,7 +95,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="work-customer-comment"><?php _e('Customer comment', 'works'); ?></label>
-                        <textarea name="customer_comment" class="form-control" rows="5"><?php echo $edit ? $work->comment : ''; ?></textarea>
+                        <textarea name="customer_comment" class="form-control" rows="5"><?php echo $edit ? $work->getVar('comment','e') : ''; ?></textarea>
                     </div>
                 </div>
 
@@ -123,19 +141,19 @@
             </h3>
         </div>
         <div class="box-content collapsable">
-
+            <?php $work_metas = $work->get_meta(); ?>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label><?php _e('Field name:','qpages'); ?></label>
-                        <?php if(count($available_metas)>0): ?>
+                        <?php if(count($work_metas)>0): ?>
                             <select name="dmeta_name" class="form-control" id="dmeta-sel">
-                                <?php foreach($available_metas as $meta): ?>
+                                <?php foreach($work_metas as $meta => $value): ?>
                                     <option value="<?php echo $meta; ?>"><?php echo $meta; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <input type="text" class="form-control" name="dmeta_name" id="dmeta" value="" size="30" style="display: none;" />
-                            <a href="#" id="btn btn-default"><?php _e('Add New','qpages'); ?></a>
+                            <a href="#" class="btn btn-default" id="add-meta-button"><span class="fa fa-plus"></span> <?php _e('Add New','qpages'); ?></a>
                         <?php else: ?>
                             <input type="text" class="form-control" name="dmeta_name" id="dmeta" value="" size="30" />
                         <?php endif; ?>
@@ -155,6 +173,8 @@
             </div>
             <hr>
 
+            <h4><?php _e('Existing custom data', 'works'); ?></h4>
+
             <div id="existing-meta">
                 <div class="row">
                     <div class="col-sm-4">
@@ -164,7 +184,8 @@
                         <strong><?php _e('Field value','qpages'); ?></strong>
                     </div>
                 </div>
-                <?php foreach($page_metas as $meta => $value): ?>
+                
+                <?php foreach($work_metas as $meta => $value): ?>
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="form-group">

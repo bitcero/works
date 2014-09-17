@@ -27,26 +27,6 @@ $adminmenu[$i]['options'] = array(
 );
 
 $i++;
-$adminmenu[$i]['title'] = __('Customer Types','works');
-$adminmenu[$i]['link'] = "admin/types.php";
-$adminmenu[$i]['icon'] = "../images/types.png";
-$adminmenu[$i]['location'] = "customertypes";
-$adminmenu[$i]['options'] = array(
-	array('title'=>__('List', 'works'),'link'=>'admin/types.php', 'selected'=>'types'),
-	array('title'=>__('Add multiple types', 'works'),'link'=>'admin/types.php?action=new', 'selected'=>'newtype')
-);
-
-$i++;
-$adminmenu[$i]['title'] = __('Customers','works');
-$adminmenu[$i]['link'] = "admin/clients.php";
-$adminmenu[$i]['icon'] = "../images/clients.png";
-$adminmenu[$i]['location'] = "customers";
-$adminmenu[$i]['options'] = array(
-	array('title'=>__('List', 'works'),'link'=>'admin/customers.php', 'selected'=>'customers'),
-	array('title'=>__('Add Customer', 'works'),'link'=>'admin/customers.php?action=new', 'selected'=>'newcustomer')
-);
-
-$i++;
 $adminmenu[$i]['title'] = __('Works','works');
 $adminmenu[$i]['link'] = "admin/works.php";
 $adminmenu[$i]['icon'] = "../images/works.png";
@@ -55,13 +35,3 @@ $adminmenu[$i]['options'] = array(
     array('title'=>__('List', 'works'),'link'=>'admin/works.php', 'selected'=>'works', 'icon' => 'fa fa-list'),
     array('title'=>__('Add Work', 'works'),'link'=>'admin/works.php?action=new', 'selected'=>'newwork', 'icon' => 'fa fa-plus')
 );
-
-$action = RMHttpRequest::get( 'action', 'string', '' );
-if ($action=='edit'){
-    $adminmenu[4]['options'][] = array(
-        'title'=>'Custom fields',
-        'link'=>'works.php?id='.rmc_server_var($_GET, 'id', 0).'&action=meta'
-    );
-}
-
-

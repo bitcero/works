@@ -13,12 +13,12 @@ $work = new Works_Work( $id );
 
 $util = new RMUtilities();
 
-if ( isset($post) && is_a( $post, 'MWPost' ) ){
+if ( isset($work) && is_a( $work, 'Works_Work' ) ){
 
-    if ($post->isNew())
+    if ($work->isNew())
         $params = '';
     else
-        $params = $post->getVar('image','e');
+        $params = $work->getVar('image','e');
 
 } else {
     $params = '';

@@ -18,6 +18,10 @@ class Works_Work extends RMObject
      * @var array Images container
      */
     private $images = array();
+    /**
+     * @var array Categories container
+     */
+    private $categories = array();
 
 	public function __construct($id=null){
 		
@@ -48,6 +52,64 @@ class Works_Work extends RMObject
 		return $this->getVar('id_work');
 	}
 
+    /**
+     * Get categories for this work.
+     * @param string $type <p>Can be 'id', 'name', 'objects' or 'all'. 'id' returns array with ids from categories. 'name' returns an array with [id] => [name] pairs.
+     * 'all' returns array with all data from categories, such as is stored in database table.</p>
+     * @return array
+     */
+    public function categories( $type = 'id' ){
+
+        if ( empty( $this->categories ) ){
+
+            $sql = "SELECT * FROM " . $this->db->prefix("mod_works_categories_rel") . " as r LEFT JOIN " . $this->db->prefix("mod_works_categories") . " as c ON
+                c.id_cat = r.category WHERE r.work = " . $this->id();
+
+            $result = $this->db->query( $sql );
+            while( $row = $this->db->fetchArray( $result ) ){
+
+                $this->categories[ $row['id_cat'] ] = $row;
+
+            }
+
+        }
+
+        if ( $type == 'id' ){
+
+            $ret = array();
+            foreach( $this->categories as $cat ){
+                $ret[] = $cat['id_cat'];
+            }
+            return $ret;
+
+        }
+
+        if ( $type == 'name' ){
+
+            $ret = array();
+            foreach( $this->categories as $id => $cat ){
+                $ret[ $id ] = $cat['name'];
+            }
+            return $ret;
+
+        }
+
+        if ( $type == 'objects' ){
+
+            $ret = array();
+            foreach( $this->categories as $id => $cat ){
+                $tmp = new Works_Category();
+                $tmp->assignVars( $cat );
+                $ret[] = $tmp;
+            }
+            return $ret;
+
+        }
+
+        return $this->categories;
+
+    }
+
 	/**
 	* @desc Incrementar el número de visitas
 	*/
@@ -66,7 +128,7 @@ class Works_Work extends RMObject
 		
 		$link = XOOPS_URL.'/';
 		if ($mc->permalinks){
-			$link .= trim($mc->htbase, '/').'/'.$this->title_id().'/';
+			$link .= trim($mc->htbase, '/').'/'.$this->titleid.'/';
 		} else {
 			$link .= 'modules/works/index.php?p=work&amp;id='.$this->id();
 		}
