@@ -13,6 +13,7 @@ if (!defined('XOOPS_ROOT_PATH'))
 
 $xoopsOption['template_main'] = 'works-item.tpl';
 $xoopsOption['module_subpage'] = 'work';
+
 include 'header.php';
 
 $mc =& $xoopsModuleConfig;
@@ -37,9 +38,12 @@ if(!Works_Functions::is_allowed( $work )){
     die();
 }
 
-if( $work->status == 'draft' ){
+if( $work->status == 'draft' )
     $xoopsTpl->assign('lang_preview', __('You are in preview mode! This work is hidden for all other users.','works'));
-}
+elseif ( $work->status == 'scheduled' )
+    $xoopsTpl->assign('lang_preview', __('You are in preview mode! This work is a scheduled work and is hidden for all other users.','works'));
+elseif ( $work->status == 'private' )
+    $xoopsTpl->assign('lang_preview', __('This is a private work. Only you and users that belong to authorized groups, can view this.','works'));
 
 $image = new RMImage();
 
@@ -60,7 +64,8 @@ $work_data = array(
     'metas'         => $work->get_meta(),
     'link'          => $work->permalink(),
     'images'        => $work->images(),
-    'categories'    => $work->categories( 'objects' )
+    'categories'    => $work->categories( 'objects' ),
+    'status'        => $work->status
 );
 
 $work_data = RMEvents::get()->run_event('works.work.data',$work_data, $work);
@@ -74,35 +79,34 @@ $tpl->assign('xoops_pagetitle', $work->title . ' &raquo; ' . $mc ['title']);
 /**
 * Otros trabajos
 **/
-if ($mc['other_works']>0){
+
+if ( $mc['other_works'] > 0 ){
 	if ($mc['other_works']==2){ //Trabajos destacados
-		$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE public=1 AND mark=1 AND id_work<>'".$work->id()."' ORDER BY RAND() LIMIT 0,".$mc['num_otherworks'];
+		$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE status='public' AND featured = 1 AND id_work != '".$work->id()."' ORDER BY RAND() LIMIT 0,".$mc['num_otherworks'];
 	}elseif($mc['other_works']==1){ //Misma categoría
-		$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE public=1 AND catego=".$work->category()." AND id_work<>'".$work->id()."' ORDER BY RAND() LIMIT 0,".$mc['num_otherworks'];
+        $cats = $work->categories( 'id' );
+        $sql = "SELECT w.* FROM " . $db->prefix('mod_works_works') . " as w LEFT JOIN
+                " . $db->prefix('mod_works_categories_rel') . " as c ON (c.work = w.id_work) WHERE c.category IN (".implode(",", $cats).") AND c.work != " . $work->id() .
+                " AND w.status = 'public' ORDER BY RAND() LIMIT 0, $mc[num_otherworks]";
+		//$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE status='public' AND catego=".$work->category()." AND id_work<>'".$work->id()."' ORDER BY RAND() LIMIT 0,".$mc['num_otherworks'];
 	}
 	$result = $db->query($sql);
-	$categos = array();
-	$clients = array();
+
 	while ($row = $db->fetchArray($result)){
 		$wk = new Works_Work();
 		$wk->assignVars($row);
-
-		if (!isset($categos[$wk->category()])) $categos[$wk->category()] = new Works_Category($wk->category());
-
-		if (!isset($clients[$wk->client()])) $clients[$wk->client()] = new PWClient($wk->client());
-        echo "1 - ";
 		$tpl->append('other_works',array(
-            'id'=>$wk->id(),
-            'title'=>$wk->title(),
-            'desc'=>$wk->descShort(),
-            'linkcat'=>$categos[$wk->category()]->link(),
-		    'catego'=>$categos[$wk->category()]->name(),
-            'client'=>$clients[$wk->client()]->name(),
-            'link'=>$wk->link(),
-		    'created'=>formatTimeStamp($wk->created(),'s'),
-            'image'=>XOOPS_UPLOAD_URL.'/works/ths/'.$wk->image(),
-            'views'=>$wk->views(),
-            'metas'=>$wk->get_metas()
+            'id'            => $wk->id(),
+            'title'         => $wk->title,
+            'description'   => TextCleaner::getInstance()->truncate( $wk->description, 40, '...'),
+            'customer'      => $wk->customer,
+            'web'           => $wk->web,
+            'url'           => $wk->url,
+            'link'          => $wk->permalink(),
+		    'created'       => formatTimeStamp($wk->created,'s'),
+            'image'         => RMImage::get()->load_from_params( $wk->image ),
+            'views'         => $wk->views,
+            'metas'         => $wk->get_meta()
         ));
 	}
 	
@@ -117,12 +121,12 @@ $tpl->assign('lang_site',__('Web site:','works'));
 $tpl->assign('lang_featured',__('Featured','works'));
 $tpl->assign('lang_views', __('Views:','works'));
 $tpl->assign('lang_comment',__('Comment','works'));
-$tpl->assign('lang_cost',__('Price','works'));
+$tpl->assign('lang_comments',__('Comments by Users','works'));
 $tpl->assign('lang_others',__('Related Works','works'));
 $tpl->assign('lang_date',__('Date','works'));
 $tpl->assign('lang_images',__('Work Images','works'));
 $tpl->assign('lang_rating',__('Our Rate','works'));
-$tpl->assign('works_type', $mc['other_works']);
+$tpl->assign('works_location', 'work-details');
 
 
 Works_Functions::makeHeader();
@@ -134,7 +138,8 @@ RMFunctions::comments_form('works', 'work='.$work->id(), 'module', PW_ROOT.'/cla
 // Professional Works uses LightBox plugin to show
 // work images.
 if (RMFunctions::plugin_installed('lightbox')){
-	RMLightbox::get()->add_element('#pw-work-images a');
+	RMLightbox::get()->add_element('.work-image-item');
+    RMLightbox::get()->add_option( 'rel', 'work-image-item' );
 	RMLightbox::get()->render();
 }
 

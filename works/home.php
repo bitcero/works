@@ -52,24 +52,10 @@ $categos = array();
 $clients = array();
 
 while ($row = $db->fetchArray($result)){
-	$recent = new Works_Work();
-	$recent->assignVars($row);
-    $image = new RMImage();
-    $image->load_from_params( $recent->image );
+	$work = new Works_Work();
+	$work->assignVars($row);
 
-	$tpl->append('works',array(
-        'id'=>$recent->id(),
-        'title'=>$recent->title,
-        'description'=> TextCleaner::getInstance()->truncate( $recent->description, 150, '...' ),
-	    'categories'=> $recent->categories( 'all' ),
-        'customer'=> $recent->customer,
-        'link'=>$recent->permalink(),
-	    'created'=>formatTimeStamp($recent->created,'s'),
-        'image'=> $image->get_by_size( 300 ),
-	    'rating'=>Works_Functions::rating($recent->rating),
-        'featured'=>$recent->featured,
-        'metas' => $recent->get_meta()
-    ));
+	$tpl->append('works', Works_Functions::render_data( $work, $mc['desclen'] ) );
 }
 
 
@@ -80,8 +66,6 @@ $tpl->assign('lang_client',__('Customer:','works'));
 $tpl->assign('lang_allsrecent',__('View all recent works','works'));
 $tpl->assign('link_recent',PW_URL.($mc['permalinks'] ? '/recent/' : '/recent.php'));
 $tpl->assign('link_featured',PW_URL.($mc['permalinks'] ? '/featured/' : '/featured.php'));
-$thSize = $mc['image_ths'];
-$tpl->assign('width',$thSize[0]+10);
 $tpl->assign('lang_featured', __('Featured','works'));
 
 

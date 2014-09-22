@@ -13,32 +13,25 @@ load_mod_locale('works');
 function works_block_testimonials_show($options){
 	global $xoopsModule, $xoopsModuleConfig;
 
-	include_once XOOPS_ROOT_PATH.'/modules/works/class/pwwork.class.php';
-	include_once XOOPS_ROOT_PATH.'/modules/works/class/pwclient.class.php';
-
 	$db = XoopsDatabaseFactory::getDatabaseConnection();
-	if (isset($xoopsModule) && ($xoopsModule->dirname()=='works')){
-		$mc =& $xoopsModuleConfig;
-	}else{
-		$mc =& RMUtilities::module_config('works');
-	}
+	$mc = RMSettings::module_settings( 'works' );
 
 
-	$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE comment<>'' ORDER BY ".($options[1] ? " created DESC " : " RAND() ");
-	$sql.= " LIMIT 0,".$options[0];
+	$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE status='public' AND comment != '' ORDER BY ".($options['type'] ? " created DESC " : " RAND() ");
+	$sql.= " LIMIT 0,".$options['limit'];
 	$result = $db->query($sql);
 	$clients = array();
 	while ($row = $db->fetchArray($result)){
 		$work = new Works_Work();
 		$work->assignVars($row);
 		
-		if (!isset($clients[$work->client()])) $clients[$work->client()] = new PWClient($work->client(), 1);
-		$client =& $clients[$work->client()];
-		
 		$rtn = array();
-		$rtn['client'] = $client->businessName();
-		$rtn['link'] = $work->link();
-		$rtn['comment'] = $work->comment();
+		$rtn['customer'] = $work->customer;
+		$rtn['comment'] = $work->comment;
+		$rtn['url'] = $work->url;
+		$rtn['web'] = $work->web;
+
+        $rtn['lang_cite'] = sprintf( __('%s from %s', 'works'), $work->customer, '<cite><a href="' . $work->url . '">' . $work->web . '</a>');
 	
 		$block['works'][] = $rtn;
 
@@ -49,16 +42,40 @@ function works_block_testimonials_show($options){
 }
 
 
-function works_block_testimonials_edit($options, &$form){
-	global $db;
-	
-	$form = new RMForm(__('Block Options','works'));
-	$form->addElement(new RMFormText(__('Comments number','works'),'options[0]',5,5,$options[0] ? $options[0] : 3),true);
-	$ele = new RMFormSelect(__('Works type','works'),'options[1]');
-	$ele->addOption(0,__('Random','works'),$options[1]==0 ? 1 : 0);
-	$ele->addOption(1,__('Recent works','works'), $options[1]==1 ? 1 :0);
-	$form->addElement($ele);
+function works_block_testimonials_edit($options){
 
-	return $form->render(false);
+    ob_start();
+    ?>
+
+    <div class="row form-group">
+        <div class="col-sm-4 col-md-3 col-sm-offset-1">
+            <label for="comments-number"><?php _e('Comments number:', 'works'); ?></label>
+        </div>
+        <div class="col-sm-6 col-md-7">
+            <input type="text" class="form-control" id="comments-number" name="options[limit]" value="<?php echo $options['limit']; ?>">
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-sm-4 col-md-3 col-sm-offset-1">
+            <label for="comments-wtype"><?php _e('Work type:', 'works'); ?></label>
+        </div>
+        <div class="col-sm-6 col-md-7">
+            <label class="radio-inline">
+                <input type="radio" name="options[type]" value="0"<?php echo !$options['type'] ? ' checked' : ''; ?>>
+                <?php _e('Random Works', 'works'); ?>
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="options[type]" value="1"<?php echo $options['type'] ? ' checked' : ''; ?>>
+                <?php _e('Recent Works', 'works'); ?>
+            </label>
+        </div>
+    </div>
+
+    <?php
+
+    $form = ob_get_clean();
+
+	return $form;
 }
 

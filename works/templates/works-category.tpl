@@ -1,8 +1,8 @@
-<{include file="db:pw_header.html"}>
-<h2 class="pwWorks"><{$lang_works}></h2>
+<{include file="db:works-header.tpl"}>
+<h3><{$lang_works}></h3>
 <div class="pw_grid_container">
-	<{foreach item=item from=$works}>
-		<{include file="db:pw_witem.html"}>
-	<{/foreach}>
+    <{foreach item=item from=$works}>
+        <{include file="db:works-loop-item.tpl"}>
+    <{/foreach}>
 </div>
 <{$navpage}>

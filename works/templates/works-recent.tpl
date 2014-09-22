@@ -1,12 +1,9 @@
-<{include file="db:pw_header.html"}>
-<h2 class="pwWorks"><{$lang_recents}></h2>
-<span class="infoNavPage"><{$lang_showing}></span>
-<div class="navPage">
-	<{$recentNavPage}>
-</div>
+<{include file="db:works-header.tpl"}>
+<h3><{$lang_recents}></h3>
+
 <div class="pw_grid_container">
-	<{foreach item=item from=$recents}>
-		<{include file="db:pw_witem.html"}>
+	<{foreach item=item from=$works}>
+		<{include file="db:works-loop-item.tpl"}>
 	<{/foreach}>
 </div>
 <{$navpage}>

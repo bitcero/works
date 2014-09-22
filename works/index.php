@@ -18,7 +18,7 @@ if($xoopsModuleConfig['permalinks']<=0){
 
     switch($p){
         case 'category':
-            include 'catego.php';
+            include 'category.php';
             break;
         case 'work':
             include 'work.php';
@@ -51,7 +51,7 @@ $vars = array();
 parse_str($request, $vars);
 
 if (isset($vars['work'])){ $post = $vars['work']; require 'work.php'; die(); }
-if (isset($vars['cat'])){ $category = $vars['cat']; require 'catego.php'; die(); }
+if (isset($vars['cat'])){ $category = $vars['cat']; require 'category.php'; die(); }
 
 $vars = explode('/', rtrim($request,'/'));
 
@@ -68,7 +68,7 @@ foreach ($vars as $i => $v){
  */
 if ($vars[0]=='category'){
 	$id = $vars[1];
-	require 'catego.php';
+	require 'category.php';
 	die();
 }
 

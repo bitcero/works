@@ -13,17 +13,7 @@ load_mod_locale('works');
 function works_block_categories_show($options){
 	global $xoopsModule, $xoopsModuleConfig;
 
-	include_once XOOPS_ROOT_PATH.'/modules/works/class/pwwork.class.php';
-	include_once XOOPS_ROOT_PATH.'/modules/works/class/pwclient.class.php';
-    include_once XOOPS_ROOT_PATH.'/modules/works/class/pwcategory.class.php';
-
 	$db = XoopsDatabaseFactory::getDatabaseConnection();
-
-	if (isset($xoopsModule) && ($xoopsModule->dirname()=='works')){
-		$mc =& $xoopsModuleConfig;
-	}else{
-		$mc =& RMUtilities::module_config('works');
-	}
 	
 	$db = XoopsDatabaseFactory::getDatabaseConnection();
 	$result = $db->query("SELECT * FROM ".$db->prefix("mod_works_categories")." ORDER BY name");
@@ -35,7 +25,7 @@ function works_block_categories_show($options){
         $cat->assignVars($row);
 		$ret = array();
 		$ret['name'] = $row['name'];
-		$ret['link'] = $cat->link();
+		$ret['link'] = $cat->permalink();
 		$block['categos'][] = $ret;
 	}
 	

@@ -1,14 +1,39 @@
 <{include file="db:works-header.tpl"}>
 <!-- Detalles del Trabajo -->
 <h2 class="work-title"><{$work.title}><{if $work.featured}> <sup><small class="label label-danger"><{$lang_featured}></small></sup><{/if}></h2>
-<div id="pw-image">
-	<img src="<{$work.image}>" alt="<{$work.title}>" class="img-responsive">
+
+<div id="work-image">
+    <a href="<{$work.image}>" title="<{$work.title}>" class="work-image-item"><img src="<{$work.image}>" alt="<{$work.title}>" class="img-responsive"></a>
 </div>
+<{if $work.images}>
+
+    <div class="work-images">
+        <{foreach item=image from=$work.images}>
+            <a href="<{$image.url}>" class="work-image-item" title="<{$image.title}>" style="background-image: url('<{$xoops_url}>/modules/rmcommon/include/resizer.php?src=<{$image.url}>&amp;h=150&amp;w=150');">
+                <span><span class="fa fa-search"></span></span>
+            </a>
+        <{/foreach}>
+    </div>
+
+<{/if}>
 
 <div class="row" id="work-details">
 
     <div class="col-md-7 col-lg-8">
         <{$work.description}>
+
+        <{if $work.comment}>
+        <blockquote class="blockquote-reverse">
+            <p><{$work.comment}></p>
+            <footer>
+                <{if $work.url != ''}>
+                    <a href="<{$work.url}>" title="<{$work.web}>"><{$work.customer}></a>
+                <{else}>
+                    <{$work.customer}>
+                <{/if}>
+            </footer>
+        </blockquote>
+        <{/if}>
     </div>
 
     <div class="col-md-5 col-lg-4">
@@ -53,89 +78,21 @@
     </div>
 
 </div>
-<div id="pw-details">
-	<div class="pw_description">
-		<h4><{$lang_desc}></h4>
-
-	</div>
-	<div class="pw_data">
-		<table cellspacing="0" border="0">
-			<tr class="<{cycle values="even,odd"}>">
-				<td></td>
-				<td><a href="<{$work.category.link}>"><{$work.category.name}></a></td>
-			</tr>
-			<{if $work.client}>
-			<tr class="<{cycle values="even,odd"}>">
-				<td><strong><{$lang_client}></strong></td>
-				<td><{$work.client}></td>
-			</tr>
-			<{/if}>
-			<tr class="<{cycle values="even,odd"}>">
-				<td><strong><{$lang_start}></strong></td>
-				<td><{$work.start}></td>
-			</tr>
-			<{if $work.period}>
-			<tr class="<{cycle values="even,odd"}>">
-				<td><strong><{$lang_period}></strong></td>
-				<td><{$work.period}></td>
-			</tr>
-			<{/if}>
-			<{if $work.cost}>
-			<tr class="<{cycle values="even,odd"}>">
-				<td><strong><{$lang_cost}></strong></td>
-				<td><{$work.cost}></td>
-			</tr>
-			<{/if}>
-			<{if $work.url}>
-			<tr class="<{cycle values="even,odd"}>">
-				<td><strong><{$lang_site}></strong></td>
-				<td><a href="<{$work.url}>" target="_blank"><{$work.site}></a></td>
-			</tr>
-			<{/if}>
-			<tr class="<{cycle values="even,odd"}>">
-				<td><strong><{$lang_rating}></strong></td>
-				<td><{$work.rating}></td>
-			</tr>
-			<tr class="<{cycle values="even,odd"}>">
-				<td><strong><{$lang_views}></strong></td>
-				<td><{$work.views}></td>
-			</tr>
-		</table>
-	</div>
-</div>
-<{if $work.comment}>
-<div id="pw-customer-comment">
-	"<{$work.comment}>"
-	<span>&#8212; <{$work.client}></span>
-</div>
-<{/if}>
-
-<{if $images}>
-<div id="pw-work-images">
-	<h3><{$lang_images}></h3>
-<{foreach item=img from=$images}>
-	<a rel="work-<{$work.id}>" style="width: <{$widthimg}>px;" href="<{$img.link_image}>" title="<{$img.title}>"><img src="<{$img.image}>" /><span><{$img.title}></span></a>
-<{/foreach}>
-</div>
-<{/if}>
-
-<!-- //Fin de Detalles del Trabajo -->
 
 <!-- Otros Trabajos -->
 <{if $other_works}>
-<h2 class="pwWorks"><{$lang_others}></h2>
-<div class="pw_grid_container">
-    <{foreach item=feat from=$other_works}>
-    <div class="<{cycle values="even,odd"}> pw_works_grid">
-        <a href="<{$feat.link}>"><img src="<{$feat.image}>" alt="<{$feat.title}>" /></a>
-        <div>        
-        <h3><a href="<{$feat.link}>"><{$feat.title}></a></h3>
-        <span class="desc"><{$feat.desc}></span>    
-        <span class="info"><strong><{$lang_catego}></strong> <a href="<{$feat.linkcat}>"><{$feat.catego}></a> |
-        <strong><{$lang_date}></strong> <{$feat.created}> |
-        <{if $feat.client}><strong><{$lang_client}></strong> <{$feat.client}><{/if}></span>
+<h4><{$lang_others}></h4>
+<div class="row works-related">
+    <{foreach item=related from=$other_works}>
+        <div class="col-xs-6 col-md-3">
+            <a href="<{$related.link}>" class="thumbnail">
+                <img src="<{$xoops_url}>/modules/rmcommon/include/resizer.php?src=<{$related.image}>&w=300&h=300" alt="<{$related.title}>">
+                <div class="caption">
+                    <h6><{$related.title}></h6>
+                    <p><{$related.description}></p>
+                </div>
+            </a>
         </div>
-    </div>
     <{/foreach}>
 </div>
 <{/if}>
@@ -143,6 +100,7 @@
 
 <!-- Start Comments -->
 <a name="comments"></a>
+<h4><{$lang_comments}></h4>
 <{include file="db:rmc-comments-display.html"}>
 <{include file="db:rmc-comments-form.html"}>
 <!-- /End comments -->

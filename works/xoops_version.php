@@ -168,7 +168,7 @@ $modversion = array(
 
     // 12. Blocks
     'blocks'        => array(
-        # Works
+        #··· Works
         array(
             'file'          => 'works-block-items.php',
             'name'          => __('Works', 'works'),
@@ -178,7 +178,7 @@ $modversion = array(
             'template'      => 'works-block-items.tpl',
             'options'       => array(0,0,0,1,1,1,0)
         ),
-        # Testimonials
+        #··· Testimonials
         array(
             'file'          => 'works-block-testimonials.php',
             'name'          => __('Testimonials', 'works'),
@@ -188,7 +188,7 @@ $modversion = array(
             'template'      => 'works-block-testimonials.tpl',
             'options'       => array(3,0)
         ),
-        # Categories
+        #··· Categories
         array(
             'file'          => 'works-block-categories.php',
             'name'          => __('Categories', 'works'),
@@ -197,6 +197,17 @@ $modversion = array(
             'edit_func'     => '',
             'template'      => 'works-block-categories.tpl',
             'options'       => array(1)
+        ),
+
+        #··· Work details
+        array(
+            'file'          => 'works-block-details.php',
+            'name'          => __('Work item details', 'works'),
+            'description'   => __('Shows details for selected work. This block only works in work page.', 'works'),
+            'show_func'     => 'works_block_details_show',
+            'edit_func'     => 'works_block_details_edit',
+            'template'      => 'works-block-details.tpl',
+            'options'       => array('description' => 0, 'len' => 80)
         )
     ),
 
@@ -233,14 +244,14 @@ $modversion = array(
             'default'       => 'Professional Works'
         ),
 
-        #··· Header title
+        #··· Description length for lists
         array(
-            'name'          => 'title',
-            'title'         => __('Header title', 'works'),
-            'description'   => __('This title will be show as header of module.', 'works'),
+            'name'          => 'desclen',
+            'title'         => __('Description length in works lists', 'works'),
+            'description'   => __('This value will limit the length of descriptions in works lists, such as home, categories, recent, etc.', 'works'),
             'formtype'      => 'textbox',
-            'valuetype'     => 'text',
-            'default'       => 'Professional Works'
+            'valuetype'     => 'int',
+            'default'       => '100'
         ),
 
         #··· Number of recent works

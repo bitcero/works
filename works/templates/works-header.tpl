@@ -1,4 +1,4 @@
-<{if $work && !$work.public}>
+<{if $works_location == 'work-details' && $work.status != 'public'}>
 <div class="pw-preview infoMsg">
     <{$lang_preview}>
 </div>

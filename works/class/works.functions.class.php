@@ -96,7 +96,7 @@ class Works_Functions
 	/**
 	* Get works based on given parameters
 	*/
-	public function get_works($limit, $category=null, $public=1, $object=true, $order="created DESC"){
+	static public function get_works($limit, $category=null, $status='public', $object=true, $order="created DESC"){
 		global $xoopsModule, $xoopsModuleConfig;
         
         include_once XOOPS_ROOT_PATH.'/modules/works/class/pwwork.class.php';
@@ -259,6 +259,32 @@ class Works_Functions
             return false;
 
         return true;
+
+    }
+
+    static function render_data( &$work, $desclen ){
+
+        $ret = array(
+            'id'            => $work->id(),
+            'title'         => $work->title,
+            'description'   => TextCleaner::getInstance()->truncate( $work->description, $desclen ),
+            'customer'      => $work->customer,
+            'web'           => $work->web,
+            'url'           => $work->url,
+            'created'       => formatTimeStamp($work->created,'s'),
+            'featured'      => $work->featured,
+            'image'         => RMImage::get()->load_from_params( $work->image ),
+            'comment'       => $work->comment,
+            'rating'        => $work->rating,
+            'views'         => $work->views,
+            'metas'         => $work->get_meta(),
+            'link'          => $work->permalink(),
+            'images'        => $work->images(),
+            'categories'    => $work->categories( 'objects' ),
+            'status'        => $work->status
+        );
+
+        return $ret;
 
     }
 

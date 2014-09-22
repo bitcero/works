@@ -13,115 +13,184 @@ load_mod_locale('works');
 function works_block_items_show($options){
 	global $xoopsModule, $xoopsModuleConfig;
 
-	include_once XOOPS_ROOT_PATH.'/modules/works/class/pwwork.class.php';
-	include_once XOOPS_ROOT_PATH.'/modules/works/class/pwclient.class.php';
-	include_once XOOPS_ROOT_PATH.'/modules/works/class/pwcategory.class.php';
-
 	$db = XoopsDatabaseFactory::getDatabaseConnection();
 	
-	if (isset($xoopsModule) && ($xoopsModule->dirname()=='works')){
-		$mc =& $xoopsModuleConfig;
-	}else{
-		$mc =& RMUtilities::module_config('works');
-	}
+	$mc = RMSettings::module_settings( 'works' );
 
-	$sql = "SELECT * FROM ".$db->prefix('mod_works_works').' WHERE public=1';
-	$sql1 = $options[1] ? " AND catego='".$options[1]."'" : '';
-	$sql2 = $options[2] ? " AND  client='".$options[2]."'" : ''; 
-	$sql3 = '';
-	switch($options[0]){
-		case 0:
-			$sql3 .= " ORDER BY RAND()";
-			break;
-		case 1:
-			$sql3 .= ($sql1 || $sql2 ? " AND " : " WHERE ")." mark=1 ORDER BY RAND()";
-			break;
-		case 2: 
-			$sql3 .= " ORDER BY created DESC ";
-			break;
-	}
-	
-	$sql3 .= " LIMIT 0,".$options[3];
+    if ( $options['category'] > 0 ){
 
-	$result = $db->query($sql.$sql1.$sql2.$sql3);
-	$clients = array();
-	$categos = array();
+        $sql = "SELECT w.* FROM " . $db->prefix( "mod_works_works" ) . " as w, " . $db->prefix( "mod_works_categories_rel") . " as r
+                WHERE r.category = " . $options['category'] . " AND w.id_work = r.work AND w.status = 'public' ";
+
+    } else {
+
+        $sql = "SELECT w.* FROM " . $db->prefix( "mod_works_works" ) . " as w WHERE w.status = 'public' ";
+
+    }
+
+    switch( $options['type'] ){
+        case 'recent':
+            $sql .= "ORDER BY w.created DESC";
+            break;
+        case 'featured':
+            $sql .= "AND featured = 1 ORDER BY RAND()";
+            break;
+        case 'random':
+        default:
+            $sql .= "ORDER BY RAND()";
+            break;
+    }
+
+    $sql .= " LIMIT 0, " . ($options['limit'] > 0 ? $options['limit'] : 3);
+
+	$result = $db->query($sql);
+    $block = array();
+
 	while($row = $db->fetchArray($result)){
 
 		$work = new Works_Work();
 		$work->assignVars($row);
 
-		if (!isset($clients[$work->client()])) $clients[$work->client()] = new PWClient($work->client(), 1);
-		$client =& $clients[$work->client()];
+        $tf = new RMTimeFormatter( 0, $options['format'] );
 
-		if (!isset($categos[$work->category()])) $categos[$work->category()] = new Works_Category($work->category(), 1);
-		$cat =& $categos[$work->category()];
-		
-		$rtn = array();
-		$rtn['title'] = $work->title();
-		if ($options[6]) $rtn['desc'] = substr($work->descShort(),0,50);
-		$rtn['link'] = $work->link();
-		$rtn['created'] = formatTimestamp($work->created(), 's');
-		if ($options[5]) $rtn['image'] = XOOPS_UPLOAD_URL.'/works/ths/'.$work->image();
-		$linkcat = XOOPS_URL.'/modules/works/'.($mc['urlmode'] ? 'cat/'.$cat->nameId() : 'catego.php?id='.$cat->nameId());
-		$rtn['cat'] = sprintf(__('Category: %s','works'),'<a href="'.$cat->link().'">'.$cat->name().'</a>');
-		$rtn['client'] = sprintf(__('Customer: %s','works'),$client->businessName());
-		$block['works'][] = $rtn;
+        $block['works'][] = array(
+            'title'         => $work->title,
+            'link'          => $work->permalink(),
+            'description'   => $options['description'] ? TextCleaner::getInstance()->truncate( $work->description, $options['len'] ) : '',
+            'created'       => sprintf( __('Created on %s', 'works'), $tf->format( $work->created ) ),
+            'updated'       => $tf->format( $work->modified ),
+            'image'         => $options['image'] ? RMImage::get()->load_from_params( $work->image ) : '',
+            'customer'      => $work->customer,
+            'web'           => $work->web,
+            'url'           => $work->url,
+            'views'         => $work->views,
+            'meta'          => $work->get_meta()
+        );
 
 	}
-	
-	$block['cols'] = $options[4];
-	$block['showdesc'] = $options[6];
-	$block['showimg'] = $options[5];
+
+    $block['options'] = array(
+        'display'   => $options['display'],
+        'width'     => $options['width'],
+        'height'    => $options['height'],
+        'grid'      => $options['grid'],
+        'col'       => 12 / $options['grid']
+    );
+
+    RMTemplate::get()->add_style( 'blocks.css', 'works' );
+
 	return $block;
 }
 
 
 function works_block_items_edit($options){
-	global $db;
 
-	include_once XOOPS_ROOT_PATH.'/modules/works/class/pwclient.class.php';
-	include_once XOOPS_ROOT_PATH.'/modules/works/class/pwcategory.class.php';
-	//Tipo de Trabajo
-	$form = new RMForm(__('Block Options','works'), 'form_options', '');
-	$ele = new RMFormSelect(__('Works type','works'),'options[0]');
-	$ele->addOption(0,__('Reandom works','works'),$options[0]==0 ? 1 : 0);
-	$ele->addOption(1,__('Featured works','works'),$options[0]==1 ? 1 : 0);
-	$ele->addOption(2,__('Recent works','works'),$options[0]==2 ? 1 : 0);
+    $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-	$form->addElement($ele);
+	ob_start(); ?>
 
-	//Obtenemos las categorías
-	$ele = new RMFormSelect(__('Category','works'),'options[1]');
-	$ele->addOption(0,__('All categories','works'));
-	$db = XoopsDatabaseFactory::getDatabaseConnection();
-	$result = $db->query("SELECT * FROM ".$db->prefix('mod_works_categories')." WHERE active=1");
-	while ($row = $db->fetchArray($result)){
-		$cat = new Works_Category();
-		$cat->assignVars($row);			
+    <div class="form-group">
+        <label for="works-type"><?php _e('Works type:', 'works'); ?></label>
+        <select class="form-control" name="options[type]" id="works-type">
+            <option value="random"<?php echo $options['type']=='random' ? ' selected' : ''; ?>><?php _e('Random works', 'works'); ?></option>
+            <option value="featured"<?php echo $options['type']=='featured' ? ' selected' : ''; ?>><?php _e('Featured works', 'works'); ?></option>
+            <option value="recent"<?php echo $options['type']=='recent' ? ' selected' : ''; ?>><?php _e('Recent works', 'works'); ?></option>
+        </select>
+    </div>
 
-		$ele->addOption($cat->id(),$cat->name(),$options[1]==$cat->id() ? 1 : 0);
-	}
-	$form->addElement($ele,true);
-	
-	//Obtenemos los clientes
-	$ele = new RMFormSelect(__('Customer','works'),'options[2]');
-	$ele->addOption(0,__('All customers','works'));
-	$result = $db->query("SELECT * FROM ".$db->prefix('mod_works_clients'));
-	while ($row = $db->fetchArray($result)){
-		$client = new PWClient();
-		$client->assignVars($row);			
-		$ele->addOption($client->id(),$client->name(),isset($ptions[2]) ? ($options[2]==$client->id() ? 1 : 0) : 0);
-	}
+    <div class="form-group">
+        <label for="works-category"><?php _e('Works from category:', 'works'); ?></label>
+        <select name="options[category]" id="works-category" class="form-control">
+            <option value="0"<?php echo $options['category'] <= 0 ? ' selected' : ''; ?>><?php _e('All categories', 'works'); ?></option>
+            <?php
+            $result = $db->query("SELECT * FROM ".$db->prefix('mod_works_categories')." WHERE status='active'");
+            while ($row = $db->fetchArray($result)){
+                $cat = new Works_Category();
+                $cat->assignVars($row);
 
-	$form->addElement($ele,true);
-	
-	//Número de trabajos
-	$form->addElement(new RMFormText(__('Works number','works'),'options[3]',5,5,isset($options[3]) ? $options[3] : ''),true);
-	$form->addElement(new RMFormText(__('Columns','works'),'options[4]',5,5,isset($options[4]) ? $options[4] : ''),true);
-	$form->addElement(new RMFormYesno(__('Show work image','works'),'options[5]',isset($options[5]) ? ($options[5] ? 1 : 0) : 0), true);
-	$form->addElement(new RMFormYesno(__('Show description','works'),'options[6]',isset($options[6]) ? ($options[6] ? 1 : 0) : 0), true);
+                echo '<option value="'.$cat->id().'"'.($options['category'] == $cat->id() ? ' selected' : '').'>'. $cat->name .'</option>';
+            }
+            ?>
+        </select>
+    </div>
 
-	return $form->render(false);
+    <div class="form-group">
+        <label for="works-limit"><?php _e('Number of works to show:', 'works'); ?></label>
+        <input type="text" class="form-control" name="options[limit]" id="works-limit" value="<?php echo $options['limit']; ?>">
+    </div>
+
+    <div class="form-group">
+        <label for="works-image"><?php _e('Show work image:', 'works'); ?></label><br>
+        <label class="radio-inline">
+            <input type="radio" name="options[image]" value="1"<?php echo $options['image'] ? ' checked' : ''; ?>>
+            <?php _e('Yes', 'works'); ?>
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="options[image]" value="0"<?php echo !$options['image'] ? ' checked' : ''; ?>>
+            <?php _e('No', 'works'); ?>
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label for="works-width"><?php _e('Image width:', 'works'); ?></label>
+        <input type="text" class="form-control" name="options[width]" id="works-width" value="<?php echo $options['width'] > 0 ? $options['width'] : 70; ?>">
+    </div>
+
+    <div class="form-group">
+        <label for="works-height"><?php _e('Image height:', 'works'); ?></label>
+        <input type="text" class="form-control" name="options[height]" id="works-height" value="<?php echo $options['height'] > 0 ? $options['height'] : 70; ?>">
+    </div>
+
+    <div class="form-group">
+        <label for="works-description"><?php _e('Show work description:', 'works'); ?></label><br>
+        <label class="radio-inline">
+            <input type="radio" name="options[description]" value="1"<?php echo $options['description'] ? ' checked' : ''; ?>>
+            <?php _e('Yes', 'works'); ?>
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="options[description]" value="0"<?php echo !$options['description'] ? ' checked' : ''; ?>>
+            <?php _e('No', 'works'); ?>
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label for="works-len"><?php _e('Description length:', 'works'); ?></label>
+        <input type="text" class="form-control" name="options[len]" id="works-len" value="<?php echo $options['len'] > 0 ? $options['len'] : 70; ?>">
+    </div>
+
+    <div class="page-header">
+        <h4><?php _e('Visualization options', 'works'); ?></h4>
+    </div>
+
+    <div class="form-group">
+        <label for="works-display"><?php _e('Content layout:', 'works'); ?></label>
+        <select name="options[display]" id="works-display" class="form-control">
+            <option value="list"<?php echo $options['display'] != 'grid' ? ' selected' : ''; ?>><?php _e('Show as list', 'works'); ?></option>
+            <option value="grid"<?php echo $options['display'] == 'grid' ? ' selected' : ''; ?>><?php _e('Show as grid', 'works'); ?></option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="works-grid"><?php _e('Grid columns:', 'works'); ?></label>
+        <select name="options[grid]" id="works-grid" class="form-control">
+            <option value="1"<?php echo $options['grid'] == 1 ? ' selected' : ''; ?>><?php _e('One', 'works'); ?></option>
+            <option value="2"<?php echo $options['grid'] == 2 ? ' selected' : ''; ?>><?php _e('Two', 'works'); ?></option>
+            <option value="3"<?php echo $options['grid'] == 3 ? ' selected' : ''; ?>><?php _e('Three', 'works'); ?></option>
+            <option value="4"<?php echo $options['grid'] == 4 ? ' selected' : ''; ?>><?php _e('Four', 'works'); ?></option>
+            <option value="6"<?php echo $options['grid'] == 6 ? ' selected' : ''; ?>><?php _e('Six', 'works'); ?></option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="works-format"><?php _e('Dates format:', 'works'); ?></label>
+        <input type="text" class="form-control" name="options[format]" id="works-format" value="<?php echo $options['format'] != '' ? $options['format'] : "%d% %T% %Y%"; ?>">
+    </div>
+
+
+    <?php
+
+    $form = ob_get_clean();
+
+    return $form;
 
 }

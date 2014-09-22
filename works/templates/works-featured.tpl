@@ -1,12 +1,8 @@
-<{include file="db:pw_header.html"}>
-<h2 class="pwWorks"><{$lang_feats}></h2>
-<span class="infoNavPage"><{$lang_showing}></span>
-<div class="navPage">
-	<{$featuredNavPage}>
-</div>
+<{include file="db:works-header.tpl"}>
+<h3><{$lang_feats}></h3>
 <div class="pw_grid_container">
-	<{foreach item=item from=$featureds}>
-		<{include file="db:pw_witem.html"}>
+	<{foreach item=item from=$works}>
+		<{include file="db:works-loop-item.tpl"}>
 	<{/foreach}>
 </div>
 <{$navpage}>

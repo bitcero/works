@@ -1,0 +1,16 @@
+.works-block-details{
+    font-size: 14px;
+}
+
+.works-block-items-list li img{
+    padding: 1px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 2px;
+}
+.works-block-items-list .media-heading{
+    margin: 0 0 4px 0;
+    font-weight: normal;
+}
+.works-block-items-list .help-block{
+    margin: 0;
+}
