@@ -44,17 +44,16 @@ class WorksController implements iCommentsController
         if(!isset($work) || $work<=0) return __('Not found','works');;
         
         if(isset($works[$work])){
-        	$ret = $works[$work]->title();
+        	$ret = $works[$work]->title;
 			return $ret;
         }
-        
-        include_once (XOOPS_ROOT_PATH.'/modules/works/class/pwwork.class.php');
+
         $item = new Works_Work($work);
         if($item->isNew()){
 			return __('Unknow','works');
         }
         
-        $ret = $item->title();
+        $ret = $item->title;
         $works[$work] = $item;
         return $ret;
         
@@ -68,17 +67,16 @@ class WorksController implements iCommentsController
         if(!isset($work) || $work<=0) return '';
         
         if(isset($works[$work])){
-        	$ret = $works[$work]->link().'#comment-'.$com->id();
+        	$ret = $works[$work]->link .'#comment-'.$com->id();
 			return $ret;
         }
-        
-        include_once (XOOPS_ROOT_PATH.'/modules/works/class/pwwork.class.php');
+
         $item = new Works_Work($work);
         if($item->isNew()){
 			return '';
         }
         
-        $ret = $item->link().'#comment-'.$com->id();
+        $ret = $item->link .'#comment-'.$com->id();
         $works[$work] = $item;
         return $ret;
 	}
