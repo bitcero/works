@@ -56,6 +56,10 @@ function works_block_details_show( $options ){
 
         foreach( $options['fields']['names'] as $key => $name ){
 
+            $value = $work->get_meta( $name );
+            if ( $value === false )
+                continue;
+
             $meta[] = array(
                 'caption'   => $options['fields']['titles'][$key],
                 'value'     => $work->get_meta( $name )
@@ -63,7 +67,8 @@ function works_block_details_show( $options ){
 
         }
 
-        $block = array_merge( $block, array('meta' => $meta) );
+        if ( !empty( $meta ) )
+            $block = array_merge( $block, array('meta' => $meta) );
 
     }
 

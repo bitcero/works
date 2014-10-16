@@ -50,7 +50,7 @@ $modversion = array(
     'rmversion'     => array(
         'major'     => 2,
         'minor'     => 2,
-        'revision'  => 0,
+        'revision'  => 5,
         'stage'     => -1,
         'name'      => 'Professional Works'
     ),
@@ -100,6 +100,11 @@ $modversion = array(
             'url'   => 'http://www.github.com/bitcero/'
         ),
         array(
+            'title' => 'Google+',
+            'type'  => 'google-plus-square',
+            'url'   => 'https://plus.google.com/100655708852776329288'
+        ),
+        array(
             'title' => __('My Blog', 'works'),
             'type'  => 'quote-left',
             'url'   => 'http://eduardocortes.mx'
@@ -120,6 +125,7 @@ $modversion = array(
     // 9. Database tables
     'tables'        => array(
         'mod_works_categories',
+        'mod_works_categories_rel',
         'mod_works_works',
         'mod_works_images',
         'mod_works_clients',

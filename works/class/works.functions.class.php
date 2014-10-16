@@ -264,6 +264,8 @@ class Works_Functions
 
     static function render_data( &$work, $desclen ){
 
+        $tf = new RMTimeFormatter( 0, '%d%/%T%/%Y%' );
+
         $ret = array(
             'id'            => $work->id(),
             'title'         => $work->title,
@@ -271,7 +273,7 @@ class Works_Functions
             'customer'      => $work->customer,
             'web'           => $work->web,
             'url'           => $work->url,
-            'created'       => formatTimeStamp($work->created,'s'),
+            'created'       => $tf->format( $work->created ),
             'featured'      => $work->featured,
             'image'         => RMImage::get()->load_from_params( $work->image ),
             'comment'       => $work->comment,
