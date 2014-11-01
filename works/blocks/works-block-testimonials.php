@@ -17,7 +17,7 @@ function works_block_testimonials_show($options){
 	$mc = RMSettings::module_settings( 'works' );
 
 
-	$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE status='public' AND comment != '' ORDER BY ".($options['type'] ? " created DESC " : " RAND() ");
+	$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE status='public' AND `comment` != '' ORDER BY ".($options['type'] ? " created DESC " : " RAND() ");
 	$sql.= " LIMIT 0,".$options['limit'];
 	$result = $db->query($sql);
 	$clients = array();

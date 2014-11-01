@@ -108,13 +108,7 @@ class Works_Functions
 		$sql .= $category>0 ? " AND catego='$category'" : '';
         $sql .= $order!='' ? " ORDER BY $order" : '';
 		$sql.= " LIMIT 0,$limit";
-		
-		if ($xoopsModule && $xoopsModule->dirname()=='works'){
-			$mc =& $xoopsModuleConfig;
-		} else {
-			$mc = RMUtilities::module_config('works');
-		}
-		
+
 		$result = $db->query($sql);
 		$works = array();
 		while ($row = $db->fetchArray($result)){
