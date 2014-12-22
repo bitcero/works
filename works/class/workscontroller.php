@@ -83,10 +83,10 @@ class WorksController implements iCommentsController
     
     public function get_main_link(){
 		
-		$mc = RMUtilities::module_config('works');
+		$mc = RMSettings::module_settings('works');
 		
-		if ($mc['permalinks']){
-			return XOOPS_URL.$mc['htbase'];
+		if ( $mc->permalinks ){
+			return XOOPS_URL.$mc->htbase;
 		} else {
 			return XOOPS_URL.'/modules/works';
 		}

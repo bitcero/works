@@ -31,20 +31,6 @@ class Works_Functions
 	}
 
 	/**
-	* @desc Rating del trabajo
-	* @param $rating del trabajo
-	**/
-	public function rating($rating){
-		$rtn = '<div class="pwRating" style="font-weight: bold; color: #999; font-family: Verdana, arial, helvetica, sans-serif; font-size: 10px; width: 69px; text-align: center;"><div style="text-align: left;width: 69px; height: 15px; background: url('.XOOPS_URL.'/modules/works/images/starsgray.png) no-repeat;">';
-		$rating = $rating;
-		$percent = 10/69;
-		$rtn .= '<div style="text-align: center; width: '.($rating>0 ? ($rating/$percent > 69 ? 69 : round($rating/$percent)) : 0).'px; height: 15px; background: url('.XOOPS_URL.'/modules/works/images/stars.png) no-repeat;">&nbsp;</div>';
-		$rtn .= '</div>';
-		$rtn .= "</div>";
-		return $rtn;
-	}
-
-	/**
 	* @desc Verifica el tipo de acceso a la información y si es necesario 
 	*la existencia del archivo htaccess
 	**/
@@ -94,57 +80,49 @@ class Works_Functions
 	}
 
 	/**
-	* Get works based on given parameters
-	*/
-	static public function get_works($limit, $category=null, $status='public', $object=true, $order="created DESC"){
+	 * Get works based on given parameters
+     * @param int $limit Limit of results to get
+     * @param int $category Id of category of works
+     * @param string $status Status of works. Can be <em>public</em>, <em>scheduled</em> or <em>draft</em>
+     * @param bool $object Return or not objects
+     * @param string $order Sort order
+     * @return array
+	 */
+	static public function get_works( $limit, $category=null, $status='public', $object=true, $order="created DESC", $len = 100 ){
 		global $xoopsModule, $xoopsModuleConfig;
         
-        include_once XOOPS_ROOT_PATH.'/modules/works/class/pwwork.class.php';
-        include_once XOOPS_ROOT_PATH.'/modules/works/class/pwcategory.class.php';
-        include_once XOOPS_ROOT_PATH.'/modules/works/class/pwclient.class.php';
-        
 		$db = XoopsDatabaseFactory::getDatabaseConnection();
-		$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE public=$public";
-		$sql .= $category>0 ? " AND catego='$category'" : '';
-        $sql .= $order!='' ? " ORDER BY $order" : '';
-		$sql.= " LIMIT 0,$limit";
+
+        $order= $order == '' ? "created DESC" : $order;
+        $status= $status == '' ? "public" : $status;
+
+        if ( $category == null || $category <= 0 ){
+
+            $sql = "SELECT * FROM " . $db->prefix( "mod_works_works" ) . " WHERE status = '$status' ORDER BY $order LIMIT 0, $limit";
+
+        } else {
+
+            $tbw = $db->prefix( "mod_works_works" );
+            $tbc = $db->prefix( "mod_works_categories_rel" );
+
+            $sql = "SELECT w.* FROM $tbw as w, $tbc as c WHERE c.category = $category AND w.id_work = c.work AND w.status = '$status' ORDER BY $order LIMIT 0, $limit";
+
+        }
 
 		$result = $db->query($sql);
 		$works = array();
+
 		while ($row = $db->fetchArray($result)){
 			$work = new Works_Work();
 			$work->assignVars($row);
 			$ret = array();
 
-			if (!isset($categos[$work->category()])) $categos[$work->category()] = new Works_Category($work->category());
-
-			if (!isset($clients[$work->client()])) $clients[$work->client()] = new PWClient($work->client());
-
-			$ret = array(
-				'id'=>$work->id(),
-				'title'=>$work->title(),
-				'desc'=>$work->descShort(),
-				'catego'=>$categos[$work->category()]->name(),
-				'client'=>$clients[$work->client()]->name(),
-				'link'=>$work->link(),
-				'created'=>formatTimeStamp($work->created(),'s'),
-                'created_time'=>$work->created(),
-				'image'=>XOOPS_UPLOAD_URL.'/works/ths/'.$work->image(),
-				'rating'=>Works_Functions::rating($work->rating()),
-				'featured'=>$work->mark(),
-				'linkcat'=>$categos[$work->category()]->link(),
-                'metas'=>$work->get_metas()
-			);
+			$ret = self::render_data( $work, $len );
 			
-			if ($object){
-	    		$w = new stdClass();
-				foreach ($ret as $var => $value){
-					$w->$var = $value;
-				}
-				$works[] = $w;
-		    } else {
+			if ( $object )
+				$works[] = (object) $ret;
+		    else
 				$works[] = $ret;
-		    }
 			
 		}
 		
@@ -206,15 +184,10 @@ class Works_Functions
      */
     static function send_404_status(){
 
-        header("HTTP/1.0 404 Not Found");
-        http_response_code(404);
-
-        $controller = RMUris::current_url();
-        $controller = str_replace( PW_URL, '', $controller );
-
-        include $GLOBALS['rmTpl']->get_template("rm-error-404.php", 'module', 'rmcommon');
-
-        return true;
+        RMFunctions::error_404(
+            __('Document not found!', 'works'),
+            'works'
+        );
 
     }
 
@@ -281,6 +254,15 @@ class Works_Functions
         );
 
         return $ret;
+
+    }
+
+    static function go_scheduled(){
+
+        $db = XoopsDatabaseFactory::getDatabaseConnection();
+
+        $sql = "UPDATE " . $db->prefix("mod_works_works") . " SET status='public' WHERE schedule <= '" . date('Y-m-d H:i:s', time()) . "' AND status = 'scheduled'";
+        $db->queryF( $sql );
 
     }
 

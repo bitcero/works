@@ -69,6 +69,8 @@ while($row = $db->fetchArray($result)){
 	);
 }
 
+Works_Functions::go_scheduled();
+
 $bc = RMBreadCrumb::get();
 $bc->add_crumb( __('Dashboard', 'works' ) );
 

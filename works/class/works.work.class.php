@@ -190,7 +190,7 @@ class Works_Work extends RMObject
         if ( $name != '' && isset( $this->meta[ $name ] ) )
             return $this->meta[$name];
         else
-            return false;
+            return $this->meta;
 
     }
 
