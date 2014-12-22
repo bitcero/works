@@ -74,7 +74,8 @@ $xoopsTpl->assign('work', $work_data);
 
 $work->addView();
 
-$tpl->assign('xoops_pagetitle', $work->title . ' &raquo; ' . $mc ['title']);
+$xoopsTpl->assign('xoops_pagetitle', $work->seo_title != '' ? $work->seo_title : $work->title );
+//$tpl->assign('xoops_pagetitle', $work->title . ' &raquo; ' . $mc ['title']);
 
 /**
 * Otros trabajos
@@ -134,6 +135,12 @@ Works_Functions::makeHeader();
 RMFunctions::get_comments('works','work='.$work->id());
 // Comments form
 RMFunctions::comments_form('works', 'work='.$work->id(), 'module', PW_ROOT.'/class/workscontroller.php');
+
+// Basic SEO
+$rmf = RMFunctions::get();
+$description = $work->getVar('seo_description','e');
+$keywords = $work->getVar('seo_keywords', 'e');
+$rmf->add_keywords_description($description!='' ? $description : '', $keywords!='' ? $keywords : '');
 
 // Professional Works uses LightBox plugin to show
 // work images.
