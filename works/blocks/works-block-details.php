@@ -45,7 +45,7 @@ function works_block_details_show( $options ){
             'website'       => __('Website', 'works'),
             'hits'          => __('Hits', 'works'),
             'created'       => __('Created', 'works'),
-            'updated'       => __('Last Update', 'works')
+            'updated'       => __('Last update', 'works')
 
         )
     );

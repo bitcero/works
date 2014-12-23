@@ -189,7 +189,7 @@ function saveClients($edit = 0){
     $client = RMEvents::get()->run_event('works.save.customer', $client);
     
 	if (!$client->save()){
-		redirectMsg('./clients.php?'.$ruta, __('Errores ocurred while trying to update database','works').'<br />'.$client->errors(),1);
+		redirectMsg('./clients.php?'.$ruta, __('Errors occurred while trying to update database!','works').'<br />'.$client->errors(),1);
 		die();
 	}else{
 		redirectMsg('./clients.php?'.$ruta, __('Database updated successfully!','works'),0);

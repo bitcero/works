@@ -291,7 +291,7 @@ function updateCategory(){
 		//Verificamos si la categoría existe
 		$cat = new Works_Category($k);
 		if ($cat->isNew()){
-			$errors.=sprintf(__('Specified category with ID "%s" does not exists!','works'), $k).'<br>';
+			$errors.=sprintf(__('Category with ID "%s" does not exists!','works'), $k).'<br>';
 			continue;
 		}
 
@@ -309,7 +309,7 @@ function updateCategory(){
 
 	if ($errors!='')
         RMUris::redirect_with_message(
-            __('Errors occurs while trying to save changes','works').'<br>'.$errors,
+            __('Errors occurred while trying to update database!','works').'<br>'.$errors,
             'categories.php',
             RMMSG_ERROR
         );
@@ -357,7 +357,7 @@ function activeCategory($act = 'active'){
 		//Verificamos si la categoría existe
 		$cat = new Works_Category($k);
 		if ($cat->isNew()){
-			$errors.=sprintf(__('Specified category with ID "%s" does not exists!','works'), $k) . '<br>';
+			$errors.=sprintf(__('Category with ID "%s" does not exists!','works'), $k) . '<br>';
 			continue;
 		}
 		
@@ -373,7 +373,7 @@ function activeCategory($act = 'active'){
 
 	if ($errors!='')
         RMUris::redirect_with_message(
-            __('Errors occurs while trying to save changes','works').'<br>'.$errors,
+            __('Errors occurred while trying to update database!','works').'<br>'.$errors,
             'categories.php',
             RMMSG_ERROR
         );

@@ -234,7 +234,7 @@ $modversion = array(
         array(
             'name'          => 'htbase',
             'title'         => __('Base path for permalinks', 'works'),
-            'description'   => __('Stablish the base path to use in friendly URLs.', 'works'),
+            'description'   => __('Sets the base path to use in friendly URLs.', 'works'),
             'formtype'      => 'textbox',
             'valuetype'     => 'text',
             'default'       => '/portfolio'
