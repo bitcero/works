@@ -40,7 +40,7 @@ $modversion = array(
     // 1. General
     'name'          => 'Professional Works',
     'description'   => __('A module to create portfolios in XOOPS','works'),
-    'version'       => 2,
+    'version'       => 2.2,
     'license'       => 'GPL 2',
     'dirname'       => 'works',
     'official'      => 0,

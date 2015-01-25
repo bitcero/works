@@ -1,5 +1,4 @@
 <?php
-// $Id: widgets.php 612 2011-02-14 21:29:27Z i.bitcero $
 // --------------------------------------------------------------
 // Professional Works
 // Advanced Portfolio System
@@ -16,7 +15,7 @@ function works_widget_categories(){
 	$widget['icon'] = '../images/cats16.png';
 	ob_start();
 ?>
-<form name="frm_categos" id="frm-categos" method="post" action="categos.php">
+<form name="frm_categos" id="frm-categos" method="post" action="categories.php">
     <div class="form-group">
         <label for="title"><?php _e('Title','works'); ?></label>
         <input type="text" name="name" id="title" size="30" class="form-control">
