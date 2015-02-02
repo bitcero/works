@@ -217,6 +217,8 @@ function works_verify_fields(){
 
     if ( 'undefined' !== typeof ( tinymce ) )
         tinymce.activeEditor.save();
+    else if ( 'undefined' !== typeof ( mdEditor ) )
+        mdEditor.save('description');
 
     var params = '';
     $("form").each( function() {

@@ -1,5 +1,4 @@
 <?php
-// $Id: categos.php 618 2011-03-04 05:41:51Z i.bitcero $
 // --------------------------------------------------------------
 // Professional Works
 // Advanced Portfolio System
@@ -42,7 +41,7 @@ function showCategories(){
 
 	RMTemplate::get()->assign('xoops_pagetitle', __('Works Categories','works'));
 	RMTemplate::get()->add_style('admin.css', 'works');
-    RMTemplate::get()->add_script( 'jquery.checkboxes.js', 'rmcommon', array( 'directory' => 'include' ) );
+    RMTemplate::get()->add_script( 'jquery.checkboxes.js', 'rmcommon' );
     RMTemplate::get()->add_script( 'admin_works.js', 'works' );
     RMTemplate::get()->add_head("<script type='text/javascript'>\nvar pw_message='".__('Do you really want to delete selected categories?','works')."';\n
         var pw_select_message = '".__('You must select some category before to execute this action!','works')."';</script>");
@@ -97,7 +96,7 @@ function formCategory($edit = 0){
 	if ($edit) $form->addElement(new RMFormHidden('id', $cat->id()));
 	$ele = new RMFormButtonGroup();
 	$ele->addButton('sbt', $edit ? __('Save Changes!','works') : __('Add Now!','works'), 'submit');
-	$ele->addButton('cancel', _CANCEL, 'button', 'onclick="window.location=\'categos.php\';"');
+	$ele->addButton('cancel', _CANCEL, 'button', 'onclick="window.location=\'categories.php\';"');
 	$form->addElement($ele);
     
     $form = RMEvents::get()->run_event('works.form.categories', $form);
@@ -142,7 +141,7 @@ function saveCategory($edit = 0){
 		$sql = "SELECT COUNT(*) FROM ".$db->prefix('mod_works_categories')." WHERE name='$name' AND id_cat<>'$id'";
 		list($num) = $db->fetchRow($db->query($sql));
 		if ($num>0)
-            RMUris::redirect_with_message( __('Another category with same name already exists!','works'), 'categos.php?op=edit&id='.$id, RMMSG_WARN );
+            RMUris::redirect_with_message( __('Another category with same name already exists!','works'), 'categories.php?op=edit&id='.$id, RMMSG_WARN );
 
 		if ($nameid){
 
