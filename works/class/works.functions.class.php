@@ -253,6 +253,11 @@ class Works_Functions
             'status'        => $work->status
         );
 
+        /**
+         * Notify to other components
+         */
+        RMEvents::get()->run_event( 'works.render.data', $ret, $work );
+
         return $ret;
 
     }
@@ -263,6 +268,84 @@ class Works_Functions
 
         $sql = "UPDATE " . $db->prefix("mod_works_works") . " SET status='public' WHERE schedule <= '" . date('Y-m-d H:i:s', time()) . "' AND status = 'scheduled'";
         $db->queryF( $sql );
+
+    }
+
+    /**
+     * Get categories and return the categories tree
+     *
+     * This fuction accepts parameters as array. The parameters could be:
+     * <pre>'parent'  = Id of parent category where to search (Default: 0)
+     * 'level' = The starting category level (tree) (Default: 0)
+     * 'status' = Search '' (for all), 'active' or 'inactive' categories (Default: '')
+     * 'exclude' = Id of the category to exclude from tree (Default: 0)
+     * 'expected' = Type of array expected: 'format' will return a formated data, 'raw' returns the data directly from database (Default: 'format)</pre>
+     *
+     * <strong>How to use:</strong>
+     * <pre>$categories = array();
+     * Works_Functions::categories_tree( $categories, array(
+     *     'parent'  => 1,
+     *     'level'   => 0,
+     *     'status'  => 'active',
+     *     'exclude' => 3,
+     *     'expected' => 'raw'
+     * ));</pre>
+     * @param array $tree Referenced array to fill with data
+     * @param array $parameters Parameters to perform search
+     */
+    static function categories_tree( &$tree, $parameters = array() ){
+
+        extract( $parameters );
+        $parent = isset( $parent ) ? $parent : 0;
+        $level = isset( $level ) ? $level : 0;
+        $status = isset( $status ) ? $status : '';
+        $exclude = isset( $exclude ) ? $exclude : 0;
+        $expected = isset( $expected ) ? $expected : 'format';
+        $links = isset( $links ) ? $links : true;
+
+        $db = XoopsDatabaseFactory::getDatabaseConnection();
+        if ( 'active' != $status && 'inactive' != $status )
+            $status = '';
+
+        $sql = "SELECT * FROM ".$db->prefix("mod_works_categories")." WHERE parent=$parent";
+        $sql .= trim($status == '') ? '' : " AND status = '" . $status . "'";
+        $sql .= 0 < $exclude ? " AND id_cat != $exclude" : '';
+        $sql .= " ORDER BY `position`,status";
+        $result = $db->query($sql);
+
+        while ($row = $db->fetchArray($result)) {
+
+            if ( 'raw' == $expected ){
+
+                $row['level'] = $level;
+                $tree[ $row['id_cat'] ] = $row;
+
+            } else {
+
+                $category = new Works_Category();
+                $category->assignVars( $row );
+
+                $tree[ $category->id() ] = array(
+                    'id'            => $category->id(),
+                    'name'          => $category->name,
+                    'description'   => $category->description,
+                    'status'        => $category->status,
+                    'parent'        => $category->parent,
+                    'level'         => $level,
+                    'link'          => $links ? $category->permalink() : ''
+                );
+
+            }
+
+            self::categories_tree( $tree, array(
+                'parent'    => $row['id_cat'],
+                'level'     => $level + 1,
+                'status'    => $status,
+                'exclude'   => $exclude,
+                'expected'  => $expected
+            ) );
+
+        }
 
     }
 

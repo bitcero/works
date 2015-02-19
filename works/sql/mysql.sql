@@ -6,6 +6,7 @@ CREATE TABLE `mod_works_categories` (
   `status` varchar(10) NOT NULL DEFAULT 'active',
   `nameid` varchar(150) NOT NULL,
   `created` int(10) NOT NULL DEFAULT '0',
+  `parent` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_cat`),
   KEY `status` (`status`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

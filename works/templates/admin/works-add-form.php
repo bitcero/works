@@ -8,6 +8,8 @@
         <input type="text" name="title" class="form-control input-lg" id="work-title" value="<?php echo $edit ? $work->title : ''; ?>" placeholder="<?php _e('Work title...', 'works'); ?>" required>
     </div>
 
+    <?php if( isset( $additional_fields['title'] ) && is_array( $additional_fields['title'] ) && !empty( $additional_fields['title'] )): echo implode( "\n", $additional_fields['title'] ); endif; ?>
+
     <div class="form-group" id="permalink-container">
         <label for="work-title-id"><?php _e('Permalink', 'works'); ?></label>
         <div class="input-group">
@@ -19,9 +21,13 @@
 
     </div>
 
+    <?php if( isset( $additional_fields['permalink'] ) && is_array( $additional_fields['permalink'] ) && !empty( $additional_fields['permalink'] )): echo implode( "\n", $additional_fields['permalink'] ); endif; ?>
+
     <div class="form-group">
         <?php echo $editor->render(); ?>
     </div>
+
+    <?php if( isset( $additional_fields['editor'] ) && is_array( $additional_fields['editor'] ) && !empty( $additional_fields['editor'] )): echo implode( "\n", $additional_fields['editor'] ); endif; ?>
 
     <!-- Project images -->
     <div class="cu-box">
@@ -57,6 +63,8 @@
 
         </div>
     </div>
+
+    <?php if( isset( $additional_fields['images'] ) && is_array( $additional_fields['images'] ) && !empty( $additional_fields['images'] )): echo implode( "\n", $additional_fields['images'] ); endif; ?>
 
     <div class="cu-box">
         <div class="box-header">
@@ -103,6 +111,8 @@
         </div>
     </div>
 
+    <?php if( isset( $additional_fields['customer'] ) && is_array( $additional_fields['customer'] ) && !empty( $additional_fields['customer'] )): echo implode( "\n", $additional_fields['customer'] ); endif; ?>
+
     <!-- Basic SEO -->
     <div class="cu-box">
         <div class="box-header">
@@ -132,6 +142,8 @@
         </div>
     </div>
     <!-- // End Basic SEO -->
+
+    <?php if( isset( $additional_fields['seo'] ) && is_array( $additional_fields['seo'] ) && !empty( $additional_fields['seo'] )): echo implode( "\n", $additional_fields['seo'] ); endif; ?>
 
     <div class="cu-box">
         <div class="box-header">
@@ -205,6 +217,8 @@
 
         </div>
     </div>
+
+    <?php if( isset( $additional_fields['meta'] ) && is_array( $additional_fields['meta'] ) && !empty( $additional_fields['meta'] )): echo implode( "\n", $additional_fields['meta'] ); endif; ?>
 
     <input type="hidden" name="action" id="works-action" value="<?php echo $edit ? 'saveedited' : 'save'; ?>">
     <?php if ( isset($pageNum) ): ?>

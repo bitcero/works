@@ -29,4 +29,4 @@ $tpl->assign('pw_path',PW_PATH);
 if (!file_exists(XOOPS_UPLOAD_PATH.'/works')) mkdir(XOOPS_UPLOAD_PATH.'/works');
 if (!file_exists(XOOPS_UPLOAD_PATH.'/works/ths')) mkdir(XOOPS_UPLOAD_PATH.'/works/ths');
 
-RMTemplate::get()->add_script(PW_URL.'/include/js/admin_works.js');
+RMTemplate::get()->add_script('admin_works.js', 'works');

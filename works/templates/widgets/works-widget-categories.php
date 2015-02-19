@@ -5,6 +5,7 @@
         <div class="checkbox">
             <label>
                 <input type="checkbox" name="cats[]" value="<?php echo $category['id']; ?>"<?php echo in_array( $category['id'], $existing ) ? ' checked' : ''; ?>>
+                <?php echo str_repeat('&#151;', $category['level']); ?>
                 <?php echo $category['name']; ?>
             </label>
         </div>

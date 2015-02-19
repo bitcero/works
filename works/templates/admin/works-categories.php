@@ -31,7 +31,6 @@
 		<th align="left"><?php _e('Name','works'); ?></th>
         <th class="text-center"><?php _e('Short name','works'); ?></th>
         <th><?php _e('Description','works'); ?></th>
-		<th class="text-center"><?php _e('Works','works'); ?></th>
 		<th class="text-center"><?php _e('Active','works'); ?></th>
 		<th class="text-center"><?php _e('Order','works'); ?></th>
 	</tr>
@@ -44,7 +43,6 @@
         <th align="left"><?php _e('Name','works'); ?></th>
         <th class="text-center"><?php _e('Short name','works'); ?></th>
         <th><?php _e('Description','works'); ?></th>
-        <th class="text-center"><?php _e('Works','works'); ?></th>
         <th class="text-center"><?php _e('Active','works'); ?></th>
         <th class="text-center"><?php _e('Order','works'); ?></th>
     </tr>
@@ -60,15 +58,21 @@
 	<tr class="text-center" valign="top">
 		<td><input type="checkbox" name="ids[]" value="<?php echo $cat['id']; ?>" id="item-<?php echo $cat['id']; ?>" /></td>
 		<td><strong><?php echo $cat['id']; ?></strong></td>
-		<td class="text-left"><a href="<?php echo $cat['link']; ?>"><?php echo $cat['name']; ?></a>
-        <span class="cu-item-options">
-            <a href="categories.php?action=edit&amp;id=<?php echo $cat['id']; ?>"><?php _e('Edit','works'); ?></a> |
-            <a href="#" onclick="select_option(<?php echo $cat['id']; ?>,'delete','frm-categos'); return false;"><?php _e('Delete','works'); ?></a>
-        </span>
+		<td class="text-left">
+            <?php echo 0 >= $cat['parent'] ? '<strong><span class="fa fa-folder text-warning"></span> ' : ''; ?>
+            <a href="<?php echo $cat['link']; ?>">
+                <?php echo str_repeat( '&#151;', $cat['level'] ); ?>
+                <?php echo $cat['name']; ?>
+            </a>
+            <?php echo 0 >= $cat['parent'] ? '</strong>' : ''; ?>
+            <span class="cu-item-options">
+                <a href="categories.php?action=edit&amp;id=<?php echo $cat['id']; ?>"><?php _e('Edit','works'); ?></a> |
+                <a href="#" onclick="select_option(<?php echo $cat['id']; ?>,'delete','frm-categos'); return false;"><?php _e('Delete','works'); ?></a> |
+                <a href="<?php echo $cat['link']; ?>"><?php _e('View', 'works'); ?></a>
+            </span>
         </td>
         <td><?php echo $cat['nameid']; ?></td>
         <td class="text-left"><?php echo $cat['description']; ?></td>
-		<td><?php echo $cat['works']; ?></td>
 		<td><?php if($cat['active']): ?><img src="<?php echo PW_URL; ?>/images/ok.png" /><?php else: ?><img src="<?php echo PW_URL; ?>/images/no.png" /><?php endif; ?></td>
 		<td><input type="text" name="order[<?php echo $cat['id']; ?>]" value="<?php echo $cat['position']; ?>" size="3" style="text-align: center;" /></td>
 	</tr>

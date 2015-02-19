@@ -13,8 +13,8 @@ load_mod_locale('works');
 
 if($xoopsModuleConfig['permalinks']<=0){
     // PHP Default URLs mode
-    $p = rmc_server_var($_REQUEST, 'p', 'home');
-    $id = rmc_server_var($_REQUEST, 'id', '');
+    $p = RMHttpRequest::request( 'p', 'string', 'home' );
+    $id = RMHttpRequest::request( 'id', 'string', '' );
 
     switch($p){
         case 'category':
@@ -38,8 +38,10 @@ $request = str_replace("/modules/works/", '', $request);
 if ($xoopsModuleConfig['permalinks']>0 && $xoopsModuleConfig['htbase']!='/' && $request!=''){
     $request = str_replace(rtrim($xoopsModuleConfig['htbase'],'/').'/', '', rtrim($request,'/').'/');
 }
-
 $yesquery = false;
+
+// Allow to plugins to manage requests to module
+$request = RMEvents::get()->run_event( 'works.parse.request', $request );
 
 if (substr($request, 0, 1)=='?'){ $request = substr($request, 1); $yesquery=true; }
 if ($request=='' || $request=='index.php'){
@@ -67,7 +69,8 @@ foreach ($vars as $i => $v){
  * categoría
  */
 if ($vars[0]=='category'){
-	$id = $vars[1];
+    array_shift( $vars );
+	$id = implode( "/", $vars );
 	require 'category.php';
 	die();
 }

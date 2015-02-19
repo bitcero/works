@@ -68,7 +68,7 @@ $work_data = array(
     'status'        => $work->status
 );
 
-$work_data = RMEvents::get()->run_event('works.work.data',$work_data, $work);
+$work_data = RMEvents::get()->run_event('works.render.data',$work_data, $work);
 
 $xoopsTpl->assign('work', $work_data);
 

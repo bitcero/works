@@ -154,6 +154,36 @@ function formWorks($edit = 0){
     $form = new RMForm('','','');
     $editor = new RMFormEditor(__('Description','works'),'description','100%','300px',$edit ? $work->getVar('description', 'e') : '');
 
+    /**
+     * Get additional fields for form.
+     * This event allow other modules, plugins or themes to integrate new fields in works creation form.
+     * The third component must return an array with next structure:
+     * <pre>
+     * $fields = array(
+     *     'after-box-id' => array('HTML content for field')
+     * );
+     * </pre>
+     *
+     * Example:
+     *
+     * <pre>
+     * $fields['editor'][] = '<div class="cu-box">...</div>';
+     * </pre>
+     *
+     * Where <em>after-box-id</em> is the identificator of standar work field in form. Possible values are:
+     * title, permalink, editor, images, customer, seo, meta
+     */
+    $additional_fields = array(
+        'title' => array(),
+        'permalink' => array(),
+        'editor'    => array(),
+        'images'    => array(),
+        'customer'  => array(),
+        'seo'       => array(),
+        'meta'      => array()
+    );
+    $additional_fields = RMEvents::get()->run_event( 'works.form.fields', $additional_fields, $work );
+
     include RMTemplate::get()->get_template( "admin/works-add-form.php", 'module', 'works' );
 
 	xoops_cp_footer();
@@ -322,6 +352,11 @@ function saveWorks($edit = 0){
             'message'   => __('This work has been saved, however the categories relations could not be saved!', 'works') . '<br>' . $db->error(),
             'work'      => $data
         ));
+
+    /**
+     * Notify to other components
+     */
+    RMEvents::get()->run_event( 'works.saved.work', $work );
 
     works_json_reponse( 1, 0, array(
         'message'   => __('Item saved successfully!', 'works'),
@@ -517,7 +552,7 @@ function works_meta_data(){
     Works_Functions::toolbar();
     RMTemplate::get()->add_style('admin.css', 'works');
     RMTemplate::get()->add_script(RMCURL.'/include/js/jquery.checkboxes.js');
-    RMTemplate::get()->add_script('../include/js/admin_works.js');
+    RMTemplate::get()->add_script('admin_works.js', 'works');
     RMTemplate::get()->add_head("<script type='text/javascript'>\nvar pw_message='".__('Do you really want to delete selected works?','works')."';\n
         var pw_select_message = '".__('You must select some work before to execute this action!','works')."';</script>");
     xoops_cp_location('<a href="./">'.$xoopsModule->name()."</a> &raquo; ".__('Work Custom Fields','works'));

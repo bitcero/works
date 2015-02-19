@@ -15,21 +15,21 @@ function showCategories(){
     
     define('RMCSUBLOCATION','catlist');
     
-	$categories = array();
-    $result = $db->query("SELECT * FROM ".$db->prefix("mod_works_categories")." ORDER BY position,status");
-    while ($row = $db->fetchArray($result)){
+	$items = array();
+    Works_Functions::categories_tree( $items, array( 'expected' => 'raw' ) );
+    foreach( $items as $item ){
         $cat = new Works_Category();
-        $cat->assignVars($row);
-        $link = PW_URL.'/'.($mc['permalinks'] ? 'category/'.$cat->nameid.'/' : 'category.php?id='.$cat->id());
+        $cat->assignVars($item);
         $categories[] = array(
             'id'        	=> $cat->id(),
-            'link'      	=> $link,
+            'link'      	=> $cat->permalink(),
             'name'      	=> $cat->name,
             'active'    	=> $cat->status == 'active' ? 1 : 0,
             'position'     	=> $cat->position,
-            'works'     	=> $cat->works(),
             'nameid'    	=> $cat->nameid,
-            'description'	=> $cat->description
+            'description'	=> $cat->description,
+            'parent'	    => $cat->parent,
+            'level'         => $item['level']
         );
     }
     
@@ -87,6 +87,19 @@ function formCategory($edit = 0){
 	$form->addElement(new RMFormText(__('Name','works'), 'name', 50, 150, $edit ? $cat->name : ''), true);
 
 	if ($edit) $form->addElement(new RMFormText(__('Short name','works'), 'nameid', 50, 150, $cat->nameid), true);
+
+    $categories = array();
+    Works_Functions::categories_tree( $categories, array(
+        'exclude'    => $edit ? $cat->id() : 0
+    ) );
+    $parents = new RMFormSelect( __('Parent category', 'works' ), 'parent', 0, $edit ? array( $cat->parent ) : array() );
+    $parents->addOption( 0, __('Select category...', 'works') );
+    foreach( $categories as $id => $category ){
+        $parents->addOption( $id, str_repeat("&#151;", $category['level']) . ' ' . $category['name'] );
+    }
+    $form->addElement( $parents );
+    unset( $parents, $category, $categories );
+
 	$form->addElement(new RMFormEditor(__('Description','works'), 'description', '100%','250px', $edit ? $cat->getVar('description', 'e') : ''));
 	$form->addElement(new RMFormYesNo(__('Enable category','works'), 'status', $edit ? ($cat->status == 'active' ? 1 : 0 ) : 1));
 	$form->addElement(new RMFormText(__('Display order','works'), 'position', 8, 3, $edit ? $cat->position : 0), true, 'num');
@@ -111,6 +124,7 @@ function saveCategory($edit = 0){
 	global $db, $mc, $xoopsSecurity;
 
     $id = RMHttpRequest::post( 'id', 'integer', 0 );
+    $parent = RMHttpRequest::post( 'parent', 'integer', 0 );
     $position = RMHttpRequest::post( 'position', 'integer', 0 );
     $name = RMHttpRequest::post( 'name', 'string', '' );
     $nameid = RMHttpRequest::post( 'nameid', 'string', '' );
@@ -118,10 +132,6 @@ function saveCategory($edit = 0){
     $return = RMHttpRequest::post( 'return', 'string', '' );
     $status = RMHttpRequest::post( 'status', 'integer', 1 );
     $status = $status == 1 ? 'active' : 'inactive';
-
-	foreach ($_POST as $k => $v){
-		$$k = $v;
-	}
 	
 	if (!$xoopsSecurity->check())
         RMUris::redirect_with_message( __('Session token expired!', 'works' ), 'categories.php?action='.($edit ? 'edit&id='.$id : 'new'), RMMSG_ERROR );
@@ -181,6 +191,7 @@ function saveCategory($edit = 0){
 	$cat->setVar( 'position', $position );
 	$cat->setVar( 'status', $status );
 	$cat->setVar( 'nameid', $nameid );
+	$cat->setVar( 'parent', $parent );
 	$cat->isNew() ? $cat->setVar( 'created', time() ) : '';
     
     $cat = RMEvents::get()->run_event('works.save.category', $cat);

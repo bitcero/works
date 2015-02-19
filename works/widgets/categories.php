@@ -16,22 +16,7 @@ $mc = $xoopsModuleConfig;
 $work = new Works_Work( $id );
 
 $categories = array();
-$result = $xoopsDB->query("SELECT * FROM ".$xoopsDB->prefix("mod_works_categories")." ORDER BY position,status");
-while ($row = $xoopsDB->fetchArray($result)){
-    $cat = new Works_Category();
-    $cat->assignVars($row);
-    $link = PW_URL.'/'.($mc['permalinks'] ? 'category/'.$cat->nameid.'/' : 'category.php?id='.$cat->id());
-    $categories[] = array(
-        'id'        	=> $cat->id(),
-        'link'      	=> $link,
-        'name'      	=> $cat->name,
-        'active'    	=> $cat->status == 'active' ? 1 : 0,
-        'position'     	=> $cat->position,
-        'works'     	=> $cat->works(),
-        'nameid'    	=> $cat->nameid,
-        'description'	=> $cat->description
-    );
-}
+Works_Functions::categories_tree( $categories );
 
 ob_start();
 include RMTemplate::get()->get_template( 'widgets/works-widget-categories.php', 'module', 'works' );
