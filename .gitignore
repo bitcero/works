@@ -36,4 +36,6 @@ Icon
 .Spotlight-V100
 .Trashes
 
+less/
+*.less
 prepros.cfg
