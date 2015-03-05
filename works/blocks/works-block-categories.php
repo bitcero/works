@@ -13,21 +13,10 @@ load_mod_locale('works');
 function works_block_categories_show($options){
 	global $xoopsModule, $xoopsModuleConfig;
 
-	$db = XoopsDatabaseFactory::getDatabaseConnection();
+	$categories = array();
+    Works_Functions::categories_tree( $categories );
 	
-	$db = XoopsDatabaseFactory::getDatabaseConnection();
-	$result = $db->query("SELECT * FROM ".$db->prefix("mod_works_categories")." ORDER BY name");
-	
-	$block = array();
-	
-	while($row = $db->fetchArray($result)){
-        $cat = new Works_Category();
-        $cat->assignVars($row);
-		$ret = array();
-		$ret['name'] = $row['name'];
-		$ret['link'] = $cat->permalink();
-		$block['categos'][] = $ret;
-	}
+	$block['categories'] = $categories;
 	
 	return $block;
 }

@@ -60,10 +60,10 @@ $vars = explode('/', rtrim($request,'/'));
 foreach ($vars as $i => $v){
 	if ($v=='page'){
 		$page = $vars[$i+1];
+        unset( $vars[$i], $vars[$i+1] );
 		break;
 	}
 }
-
 /**
  * Si el primer valor es category entonces se realiza la búsqueda por
  * categoría
@@ -106,12 +106,6 @@ if ($yesquery){
 	exit();
 }
 
-header("HTTP/1.0 404 Not Found");
-if (substr(php_sapi_name(), 0, 3) == 'cgi')
-      header('Status: 404 Not Found', TRUE);
-  	else
-      header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
-
-echo "<h1>ERROR 404. Document not Found</h1>";
+RMFunctions::error_404( __('Document not found', 'docs'), 'docs' );
 exit();
 

@@ -256,7 +256,7 @@ class Works_Functions
         /**
          * Notify to other components
          */
-        RMEvents::get()->run_event( 'works.render.data', $ret, $work );
+        $ret = RMEvents::get()->run_event( 'works.render.data', $ret, $work );
 
         return $ret;
 

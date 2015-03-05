@@ -148,7 +148,7 @@ function saveCategory($edit = 0){
             RMUris::redirect_with_message( __('Specified category does not exists!','works'), 'categories.php', RMMSG_WARN );
 
 		//Verificamos el nombre de la categoría
-		$sql = "SELECT COUNT(*) FROM ".$db->prefix('mod_works_categories')." WHERE name='$name' AND id_cat<>'$id'";
+		$sql = "SELECT COUNT(*) FROM ".$db->prefix('mod_works_categories')." WHERE name='$name' AND id_cat != $id AND parent=$parent";
 		list($num) = $db->fetchRow($db->query($sql));
 		if ($num>0)
             RMUris::redirect_with_message( __('Another category with same name already exists!','works'), 'categories.php?op=edit&id='.$id, RMMSG_WARN );

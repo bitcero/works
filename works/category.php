@@ -15,7 +15,6 @@ include 'header.php';
 Works_Functions::makeHeader();
 
 $mc =& $xoopsModuleConfig;
-
 if ($id==''){
 	header( 'location: '.PW_URL);
 	die();
@@ -79,5 +78,8 @@ $tpl->assign( 'lang_featured', __( 'Featured','works' ) );
 
 RMBreadCrumb::get()->add_crumb( __( 'Portfolio','works'), PW_URL );
 RMBreadCrumb::get()->add_crumb( $cat->getVar( 'name'), PW_URL );
+
+// Body class
+RMTemplate::get()->add_body_class('works-list categories-list');
 
 include 'footer.php';
