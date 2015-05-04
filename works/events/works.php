@@ -20,7 +20,6 @@ class WorksWorksPreload
 	    if (defined("WORKS_LOCATION") && WORKS_LOCATION=='dashboard'){
 			include_once '../include/widgets.php';
 			$widgets[] = works_widget_categories();
-			$widgets[] = works_widget_types();
 	    }
         
 		return $widgets;

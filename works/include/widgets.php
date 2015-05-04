@@ -35,28 +35,3 @@ function works_widget_categories(){
 	return $widget;
 }
 
-function works_widget_types(){
-	global $xoopsSecurity;
-	
-	$widget['title'] = __("Quick Customers Types",'works');
-	$widget['icon'] = '../images/types.png';
-	ob_start();
-?>
-<form name="frm_types" id="frm-types" method="post" action="types.php">
-    <div class="input-group">
-        <label for="type-name" class="input-group-addon"><?php _e('Type name:','works'); ?></label>
-        <input type="text" name="type[]" class="form-control" id="type-name" size="30" />
-        <span class="input-group-btn">
-            <button type="submit" class="btn btn-primary"><?php _e('Create Type','works'); ?></button>
-        </span>
-    </div>
-
-
-	<input type="hidden" name="op" value="save" />
-	<input type="hidden" name="return" value="<?php echo urlencode("admin/index.php"); ?>" />
-	<?php echo $xoopsSecurity->getTokenHTML(); ?>
-</form>
-<?php
-	$widget['content'] = ob_get_clean();
-	return $widget;
-}

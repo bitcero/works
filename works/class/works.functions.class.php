@@ -236,7 +236,7 @@ class Works_Functions
         $ret = array(
             'id'            => $work->id(),
             'title'         => $work->title,
-            'description'   => TextCleaner::getInstance()->truncate( $work->description, $desclen ),
+            'description'   => $desclen > 0 ? TextCleaner::getInstance()->truncate( $work->description, $desclen ) : '',
             'customer'      => $work->customer,
             'web'           => $work->web,
             'url'           => $work->url,

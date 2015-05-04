@@ -47,10 +47,11 @@ $modversion = array(
 
     // 2. Common Utilities
     'rmnative'      => 1,
+    'url'           => 'https://github.com/bitcero/works',
     'rmversion'     => array(
         'major'     => 2,
         'minor'     => 2,
-        'revision'  => 9,
+        'revision'  => 10,
         'stage'     => -1,
         'name'      => 'Professional Works'
     ),
@@ -60,8 +61,8 @@ $modversion = array(
 
     // 3. Author information
     'author'        => "Eduardo Cortes",
-    'authormail'    => "yo@eduardocortes.mx",
-    'authorweb'     => "EduardoCortes.mx",
+    'authormail'    => "i.bitcero@gmail.com",
+    'authorweb'     => "Eduardo Cortes",
     'authorurl'     => "http://eduardocortes.mx",
     'credits'       => "Eduardo Cortes",
 

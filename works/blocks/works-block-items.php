@@ -53,13 +53,18 @@ function works_block_items_show($options){
 
         $tf = new RMTimeFormatter( 0, $options['format'] );
 
+        $image_params = array(
+            'width'     => $options['width'],
+            'height'    => $options['height']
+        );
+
         $block['works'][] = array(
             'title'         => $work->title,
             'link'          => $work->permalink(),
             'description'   => $options['description'] ? TextCleaner::getInstance()->truncate( $work->description, $options['len'] ) : '',
             'created'       => sprintf( __('Created on %s', 'works'), $tf->format( $work->created ) ),
             'updated'       => $tf->format( $work->modified ),
-            'image'         => $options['image'] ? RMImage::get()->load_from_params( $work->image ) : '',
+            'image'         => $options['image'] ? RMImageResizer::resize( RMImage::get()->load_from_params( $work->image ), $image_params )->url  : '',
             'customer'      => $work->customer,
             'web'           => $work->web,
             'url'           => $work->url,
@@ -71,8 +76,6 @@ function works_block_items_show($options){
 
     $block['options'] = array(
         'display'   => $options['display'],
-        'width'     => $options['width'],
-        'height'    => $options['height'],
         'grid'      => $options['grid'],
         'col'       => 12 / $options['grid']
     );

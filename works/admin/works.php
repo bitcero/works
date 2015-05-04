@@ -205,7 +205,7 @@ function saveWorks($edit = 0){
 
     // General section
     $title = RMHttpRequest::post( 'title', 'string', '' );
-    $title_id = RMHttpRequest::post( 'title_id', 'string', '' );
+    $title_id = RMHttpRequest::post( 'titleid', 'string', '' );
     $description = RMHttpRequest::post( 'description', 'string', '' );
     $seo_title = RMHttpRequest::post( 'seo_title', 'string', '' );
     $seo_description = RMHttpRequest::post( 'seo_description', 'string', '' );
