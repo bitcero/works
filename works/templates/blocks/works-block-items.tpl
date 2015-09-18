@@ -2,7 +2,7 @@
 
     <ul class="media-list works-block-items-list">
         <{foreach item=work from=$block.works}>
-            <li class="media">
+            <li class="media">I: <{$work.image}>
                 <{if $work.image!=''}>
                     <a href="<{$work.link}>" class="pull-left">
                         <img alt="<{$work.title}>" class="media-object" src="<{$work.image}>">
