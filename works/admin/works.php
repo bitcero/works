@@ -29,7 +29,7 @@ function works_json_reponse( $token, $error, $data ){
 * @desc Visualiza todos los trabajos existentes
 **/ 
 function showWorks(){
-	global $xoopsModule, $xoopsSecurity;
+	global $xoopsModule, $xoopsSecurity, $cuIcons;
     
     define('RMCSUBLOCATION','workslist');
     
@@ -98,7 +98,7 @@ function showWorks(){
 * @desc Formulario de creacion/edición de trabajos
 **/
 function formWorks($edit = 0){
-    global $xoopsSecurity;
+    global $xoopsSecurity, $cuIcons;
 
 	global $xoopsModule, $xoopsModuleConfig;
     
@@ -529,51 +529,6 @@ function markWorks($mark = 0){
 	
 }
 
-/**
-* Add meta data
-*/
-function works_meta_data(){
-    global $xoopsModule, $xoopsSecurity;
-    
-    $id = rmc_server_var($_GET, 'id', 0);
-    $page = rmc_server_var($_GET, 'page', 0);
-    
-    if ($id<=0){
-        redirectMsg('works.php', __('You must provide a work ID!','works'), 0);
-        die();
-    }
-    
-    $work = new Works_Work($id);
-    if ($work->isNew()){
-        redirectMsg('works.php', __('Specified work does not exists!','works'), 0);
-        die();
-    }
-    
-    Works_Functions::toolbar();
-    RMTemplate::get()->add_style('admin.css', 'works');
-    RMTemplate::get()->add_script(RMCURL.'/include/js/jquery.checkboxes.js');
-    RMTemplate::get()->add_script('admin_works.js', 'works');
-    RMTemplate::get()->add_head("<script type='text/javascript'>\nvar pw_message='".__('Do you really want to delete selected works?','works')."';\n
-        var pw_select_message = '".__('You must select some work before to execute this action!','works')."';</script>");
-    xoops_cp_location('<a href="./">'.$xoopsModule->name()."</a> &raquo; ".__('Work Custom Fields','works'));
-    
-    // Load metas
-    $metas = array();
-    $db = XoopsDatabaseFactory::getDatabaseConnection();
-    $sql = "SELECT * FROM ".$db->prefix("pw_meta")." WHERE work='$id'";
-    $result = $db->query($sql);
-    while($row = $db->fetchArray($result)){
-        $metas[] = $row;
-    }
-    
-    xoops_cp_header();
-    
-    include RMTemplate::get()->get_template('admin/pw_metas.php', 'module', 'works');
-    
-    xoops_cp_footer();
-    
-}
-
 function works_save_meta(){
     global $xoopsSecurity;
     
@@ -694,9 +649,6 @@ switch($action){
 	case 'nomark';
 		markWorks(0);
 		break;
-    case 'meta':
-        works_meta_data();
-        break;
     case 'savemeta':
         works_save_meta();
         break;

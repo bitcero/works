@@ -30,10 +30,13 @@
     <?php if( isset( $additional_fields['editor'] ) && is_array( $additional_fields['editor'] ) && !empty( $additional_fields['editor'] )): echo implode( "\n", $additional_fields['editor'] ); endif; ?>
 
     <!-- Project images -->
-    <div class="cu-box">
+    <div class="cu-box box-info">
         <div class="box-header">
             <span class="fa fa-caret-up box-handler"></span>
-            <h3><?php _e('Project Images', 'works'); ?></h3>
+            <h3 class="box-title">
+                <?php echo $cuIcons->getIcon('svg-rmcommon-image'); ?>
+                <?php _e('Project Images', 'works'); ?>
+            </h3>
         </div>
         <div class="box-content">
 
@@ -69,7 +72,10 @@
     <div class="cu-box">
         <div class="box-header">
             <span class="fa fa-caret-up box-handler"></span>
-            <h3><?php _e('Customer Data', 'works'); ?></h3>
+            <h3 class="box-title">
+                <?php echo $cuIcons->getIcon('svg-rmcommon-user-circle'); ?>
+                <?php _e('Customer Data', 'works'); ?>
+            </h3>
         </div>
         <div class="box-content">
             <div class="row">
@@ -114,10 +120,13 @@
     <?php if( isset( $additional_fields['customer'] ) && is_array( $additional_fields['customer'] ) && !empty( $additional_fields['customer'] )): echo implode( "\n", $additional_fields['customer'] ); endif; ?>
 
     <!-- Basic SEO -->
-    <div class="cu-box">
+    <div class="cu-box box-grey">
         <div class="box-header">
             <span class="fa fa-caret-up box-handler"></span>
-            <h3><?php _e('SEO Options', 'works'); ?></h3>
+            <h3 class="box-title">
+                <?php echo $cuIcons->getIcon('svg-rmcommon-search'); ?>
+                <?php _e('SEO Options', 'works'); ?>
+            </h3>
         </div>
         <div class="box-content">
 
@@ -148,7 +157,7 @@
     <div class="cu-box">
         <div class="box-header">
             <span class="fa fa-caret-up box-handler"></span>
-            <h3>
+            <h3 class="box-title">
                 <?php _e('Custom Data','works'); ?>
             </h3>
         </div>

@@ -51,7 +51,7 @@ $modversion = array(
     'rmversion'     => array(
         'major'     => 2,
         'minor'     => 2,
-        'revision'  => 12,
+        'revision'  => 18,
         'stage'     => -1,
         'name'      => 'Professional Works'
     ),
@@ -68,10 +68,7 @@ $modversion = array(
 
     // 4. Logo and icons
     'image'         => "images/logo.png",
-    'icon16'        => "images/works-16.png",
-    'icon24'        => 'images/works-24.png',
-    'icon32'        => 'images/works-32.png',
-    'icon48'        => "images/works-48.png",
+    'icon'          => "fa fa-briefcase text-brown",
 
     // 5. Social
     'social'        => array(

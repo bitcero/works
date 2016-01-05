@@ -13,13 +13,13 @@ load_mod_locale('works');
 $i = 0;
 $adminmenu[$i]['title'] = __('Dashboard', 'works');
 $adminmenu[$i]['link'] = "admin/index.php";
-$adminmenu[$i]['icon'] = "../images/dashboard.png";
+$adminmenu[$i]['icon'] = "svg-rmcommon-dashboard text-midnight";
 $adminmenu[$i]['location'] = "dashboard";
 
 $i++;
 $adminmenu[$i]['title'] = __('Categories', 'works');
 $adminmenu[$i]['link'] = "admin/categories.php";
-$adminmenu[$i]['icon'] = "../images/cats16.png";
+$adminmenu[$i]['icon'] = "svg-rmcommon-folder text-orange";
 $adminmenu[$i]['location'] = "categories";
 $adminmenu[$i]['options'] = array(
 	array('title'=>__('List all', 'works'),'link'=>'admin/categories.php', 'selected'=>'categories', 'icon' => 'fa fa-list'),
@@ -29,7 +29,7 @@ $adminmenu[$i]['options'] = array(
 $i++;
 $adminmenu[$i]['title'] = __('Works','works');
 $adminmenu[$i]['link'] = "admin/works.php";
-$adminmenu[$i]['icon'] = "../images/works.png";
+$adminmenu[$i]['icon'] = "svg-rmcommon-briefcase text-brown";
 $adminmenu[$i]['location'] = "works";
 $adminmenu[$i]['options'] = array(
     array('title'=>__('List', 'works'),'link'=>'admin/works.php', 'selected'=>'works', 'icon' => 'fa fa-list'),

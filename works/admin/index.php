@@ -76,7 +76,11 @@ $bc->add_crumb( __('Dashboard', 'works' ) );
 
 RMTemplate::get()->add_style('admin.css', 'works');
 RMTemplate::get()->add_style('dashboard.css', 'works');
-//RMTemplate::get()->set_help('http://redmexico.com.mx/docs/professional-works');
+RMTemplate::getInstance()->add_body_class('dashboard');
+
+$dashboardPanels = [];
+$dashboardPanels = RMEvents::get()->trigger('works.dashboard.panels', $dashboardPanels);
+
 xoops_cp_header();
 
 include RMTemplate::get()->get_template("admin/works-dashboard.php", 'module', 'works');
