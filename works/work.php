@@ -132,9 +132,23 @@ $tpl->assign('works_location', 'work-details');
 
 Works_Functions::makeHeader();
 
-RMFunctions::get_comments('works','work='.$work->id());
+$common->comments()->load([
+    'url' => XOOPS_ROOT_PATH . '/modules/works/work.php',
+    'identifier' => 'work=' . $work->id(),
+    'object' => 'works',
+    'type' => 'module',
+    'assign' => true
+]);
+
 // Comments form
-RMFunctions::comments_form('works', 'work='.$work->id(), 'module', PW_ROOT.'/class/workscontroller.php');
+$xoopsTpl->assign('comments_form', $common->comments()->form([
+    'url' => XOOPS_ROOT_PATH . '/modules/works/work.php',
+    'object' => 'works',
+    'type' => 'module',
+    'identifier' => 'work=' . $work->id(),
+    'file' => MW_PATH . '/class/workscontroller.php'
+]));
+
 
 // Basic SEO
 $rmf = RMFunctions::get();

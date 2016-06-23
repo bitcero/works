@@ -102,5 +102,5 @@
 <a name="comments"></a>
 <h4><{$lang_comments}></h4>
 <{include file="db:rmc-comments-display.html"}>
-<{include file="db:rmc-comments-form.html"}>
+<{$comments_form}>
 <!-- /End comments -->
