@@ -66,7 +66,7 @@ CREATE TABLE `mod_works_works` (
   `modified` datetime NOT NULL,
   `status` varchar(10) NOT NULL DEFAULT 'public',
   `groups` text NOT NULL,
-  `schedule` datetime NOT NULL,
+  `schedule` datetime NULL,
   `rating` int(11) NOT NULL DEFAULT '0',
   `views` int(11) NOT NULL DEFAULT '0',
   `comms` int(11) NOT NULL DEFAULT '0',

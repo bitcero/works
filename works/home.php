@@ -19,7 +19,7 @@ Works_Functions::makeHeader();
 $tpl->assign('works_subpage', 'index');
 
 //Barra de Navegación
-$sql = "SELECT COUNT(*) FROM ".$db->prefix('mod_works_works')." WHERE public=1";
+$sql = "SELECT COUNT(*) FROM ".$db->prefix('mod_works_works')." WHERE status='public'";
 	
 list($num)=$db->fetchRow($db->query($sql));
 

@@ -311,9 +311,13 @@ function saveWorks($edit = 0){
 
         $work->setVar( 'schedule', $schedule );
 
+    } else {
+        $work->setVar('schedule', date('Y-m-d H:i:s'));
     }
 
-    $work->setVar( 'created', $edit ? $work->created : date('Y-m-d H:i:s') );
+    if($work->isNew()){
+        $work->setVar( 'created', date('Y-m-d H:i:s') );
+    }
     $work->setVar( 'modified', date('Y-m-d H:i:s') );
     $work->setVar( 'seo_title', $seo_title );
     $work->setVar( 'seo_description', $seo_description );

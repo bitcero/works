@@ -14,7 +14,7 @@ class Works_Functions
 	/**
 	* @desc Crea el encabezado de la sección frontal
 	*/
-	public function makeHeader(){
+	static function makeHeader(){
 		global $xoopsModuleConfig, $xoopsTpl, $xoopsUser, $db;
 		
 		$xoopsTpl->assign('pw_title', $xoopsModuleConfig['title']);
