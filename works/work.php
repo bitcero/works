@@ -1,12 +1,31 @@
 <?php
-// $Id: work.php 1072 2012-09-23 20:31:52Z i.bitcero $
-// --------------------------------------------------------------
-// Professional Works
-// Module for personals and professionals portfolios
-// Author: Eduardo Cortés <i.bitcero@gmail.com>
-// Email: i.bitcero@gmail.com
-// License: GPL 2.0
-// --------------------------------------------------------------
+/**
+ * Professional Works
+ *
+ * Copyright © 2015 Eduardo Cortés http://www.redmexico.com.mx
+ * -------------------------------------------------------------
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * -------------------------------------------------------------
+ * @copyright    Eduardo Cortés (http://www.redmexico.com.mx)
+ * @license      GNU GPL 2
+ * @package      works
+ * @author       Eduardo Cortés (AKA bitcero)    <i.bitcero@gmail.com>
+ * @url          http://www.redmexico.com.mx
+ * @url          http://www.eduardocortes.mx
+ */
 
 if (!defined('XOOPS_ROOT_PATH'))
     require '../../mainfile.php';
@@ -65,10 +84,11 @@ $work_data = array(
     'link'          => $work->permalink(),
     'images'        => $work->images(),
     'categories'    => $work->categories( 'objects' ),
-    'status'        => $work->status
+    'status'        => $work->status,
+    'videos'        => $work->videos()
 );
 
-$work_data = RMEvents::get()->run_event('works.render.data',$work_data, $work);
+$work_data = RMEvents::get()->trigger('works.render.data',$work_data, $work);
 
 $xoopsTpl->assign('work', $work_data);
 
@@ -111,7 +131,7 @@ if ( $mc['other_works'] > 0 ){
         ));
 	}
 	
-	RMEvents::get()->run_event('works.load.other.works', $work);
+	RMEvents::get()->trigger('works.load.other.works', $work);
 	
 }
 

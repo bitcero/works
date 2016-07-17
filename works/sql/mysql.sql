@@ -76,3 +76,14 @@ CREATE TABLE `mod_works_works` (
   PRIMARY KEY (`id_work`),
   KEY `titleid` (`titleid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `mod_works_videos` (
+`video_id` int(11) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `work` int(11) NOT NULL,
+  PRIMARY KEY (`video_id`),
+  KEY `work` (`work`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
