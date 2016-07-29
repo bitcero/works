@@ -18,4 +18,4 @@ define('PW_ROOT',XOOPS_ROOT_PATH.'/modules/works');
 $tpl = $xoopsTpl;
 $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-RMTemplate::get()->add_style('main.css','works');
+RMTemplate::get()->add_style('main.min.css','works');

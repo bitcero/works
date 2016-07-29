@@ -178,8 +178,9 @@ $rmf->add_keywords_description($description!='' ? $description : '', $keywords!=
 
 // Professional Works uses LightBox plugin to show
 // work images.
-if (RMFunctions::plugin_installed('lightbox')){
-	RMLightbox::get()->add_element('.work-image-item');
+if ($common->plugins()->isInstalled('lightbox')){
+    $common->template()->add_script('works.min.js', 'works', ['footer' => 1, 'id' => 'works-js']);
+	RMLightbox::get()->add_element('.work-image-item.image-item');
     RMLightbox::get()->add_option( 'rel', 'work-image-item' );
 	RMLightbox::get()->render();
 }
