@@ -1,12 +1,31 @@
 <?php
-// $Id: work.php 1072 2012-09-23 20:31:52Z i.bitcero $
-// --------------------------------------------------------------
-// Professional Works
-// Module for personals and professionals portfolios
-// Author: Eduardo Cortés <i.bitcero@gmail.com>
-// Email: i.bitcero@gmail.com
-// License: GPL 2.0
-// --------------------------------------------------------------
+/**
+ * Professional Works
+ *
+ * Copyright © 2015 Eduardo Cortés http://www.redmexico.com.mx
+ * -------------------------------------------------------------
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * -------------------------------------------------------------
+ * @copyright    Eduardo Cortés (http://www.redmexico.com.mx)
+ * @license      GNU GPL 2
+ * @package      works
+ * @author       Eduardo Cortés (AKA bitcero)    <i.bitcero@gmail.com>
+ * @url          http://www.redmexico.com.mx
+ * @url          http://www.eduardocortes.mx
+ */
 
 if (!defined('XOOPS_ROOT_PATH'))
     require '../../mainfile.php';
@@ -65,10 +84,11 @@ $work_data = array(
     'link'          => $work->permalink(),
     'images'        => $work->images(),
     'categories'    => $work->categories( 'objects' ),
-    'status'        => $work->status
+    'status'        => $work->status,
+    'videos'        => $work->videos()
 );
 
-$work_data = RMEvents::get()->run_event('works.render.data',$work_data, $work);
+$work_data = RMEvents::get()->trigger('works.render.data',$work_data, $work);
 
 $xoopsTpl->assign('work', $work_data);
 
@@ -111,7 +131,7 @@ if ( $mc['other_works'] > 0 ){
         ));
 	}
 	
-	RMEvents::get()->run_event('works.load.other.works', $work);
+	RMEvents::get()->trigger('works.load.other.works', $work);
 	
 }
 
@@ -132,9 +152,23 @@ $tpl->assign('works_location', 'work-details');
 
 Works_Functions::makeHeader();
 
-RMFunctions::get_comments('works','work='.$work->id());
+$common->comments()->load([
+    'url' => XOOPS_ROOT_PATH . '/modules/works/work.php',
+    'identifier' => 'work=' . $work->id(),
+    'object' => 'works',
+    'type' => 'module',
+    'assign' => true
+]);
+
 // Comments form
-RMFunctions::comments_form('works', 'work='.$work->id(), 'module', PW_ROOT.'/class/workscontroller.php');
+$xoopsTpl->assign('comments_form', $common->comments()->form([
+    'url' => XOOPS_ROOT_PATH . '/modules/works/work.php',
+    'object' => 'works',
+    'type' => 'module',
+    'identifier' => 'work=' . $work->id(),
+    'file' => MW_PATH . '/class/workscontroller.php'
+]));
+
 
 // Basic SEO
 $rmf = RMFunctions::get();
@@ -144,8 +178,9 @@ $rmf->add_keywords_description($description!='' ? $description : '', $keywords!=
 
 // Professional Works uses LightBox plugin to show
 // work images.
-if (RMFunctions::plugin_installed('lightbox')){
-	RMLightbox::get()->add_element('.work-image-item');
+if ($common->plugins()->isInstalled('lightbox')){
+    $common->template()->add_script('works.min.js', 'works', ['footer' => 1, 'id' => 'works-js']);
+	RMLightbox::get()->add_element('.work-image-item.image-item');
     RMLightbox::get()->add_option( 'rel', 'work-image-item' );
 	RMLightbox::get()->render();
 }

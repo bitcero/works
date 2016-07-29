@@ -1,12 +1,31 @@
 <?php
-// $Id: works.php 903 2012-01-03 07:09:43Z i.bitcero $
-// --------------------------------------------------------------
-// Professional Works
-// Module for personals and professionals portfolios
-// Author: BitC3R0 <i.bitcero@gmail.com>
-// Email: i.bitcero@gmail.com
-// License: GPL 2.0
-// --------------------------------------------------------------
+/**
+ * Professional Works
+ *
+ * Copyright © 2015 Eduardo Cortés http://www.redmexico.com.mx
+ * -------------------------------------------------------------
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * -------------------------------------------------------------
+ * @copyright    Eduardo Cortés (http://www.redmexico.com.mx)
+ * @license      GNU GPL 2
+ * @package      works
+ * @author       Eduardo Cortés (AKA bitcero)    <i.bitcero@gmail.com>
+ * @url          http://www.redmexico.com.mx
+ * @url          http://www.eduardocortes.mx
+ */
 
 define('RMCLOCATION','works');
 include 'header.php';
@@ -29,7 +48,7 @@ function works_json_reponse( $token, $error, $data ){
 * @desc Visualiza todos los trabajos existentes
 **/ 
 function showWorks(){
-	global $xoopsModule, $xoopsSecurity;
+	global $xoopsModule, $xoopsSecurity, $cuIcons;
     
     define('RMCSUBLOCATION','workslist');
     
@@ -79,16 +98,16 @@ function showWorks(){
 
 	}
 
-    RMTemplate::get()->add_style('admin.css', 'works');
-    RMTemplate::get()->add_script('jquery.checkboxes.js', 'rmcommon', array( 'directory' => 'include' ) );
-    RMTemplate::get()->add_script( 'admin_works.js', 'works' );
+    RMTemplate::getInstance()->add_style('admin.css', 'works');
+    RMTemplate::getInstance()->add_script('jquery.checkboxes.js', 'rmcommon', array( 'directory' => 'include' ) );
+    RMTemplate::getInstance()->add_script( 'admin-works.js', 'works', ['id' => 'works-js', 'footer' => 1] );
 
     $bc = RMBreadCrumb::get();
     $bc->add_crumb( __('Existing works', 'works' ) );
 
 	xoops_cp_header();
     
-    include RMTemplate::get()->get_template("admin/works-works.php", 'module', 'works');
+    include RMTemplate::getInstance()->get_template("admin/works-works.php", 'module', 'works');
     
 	xoops_cp_footer();
 }
@@ -98,7 +117,7 @@ function showWorks(){
 * @desc Formulario de creacion/edición de trabajos
 **/
 function formWorks($edit = 0){
-    global $xoopsSecurity;
+    global $xoopsSecurity, $cuIcons, $common;
 
 	global $xoopsModule, $xoopsModuleConfig;
     
@@ -138,18 +157,19 @@ function formWorks($edit = 0){
 
     }
 
-    RMTemplate::get()->add_script( 'works-form.js', 'works' );
-    RMTemplate::get()->add_style( 'works-form.css', 'works' );
-    RMTemplate::get()->add_script( 'jquery.datetimepicker.js', 'works' );
-    RMTemplate::get()->add_style( 'jquery.datetimepicker.css', 'works' );
+    RMTemplate::getInstance()->add_script( 'works-form.min.js', 'works', ['id' => 'works-js', 'footer' => 1] );
+    RMTemplate::getInstance()->add_style( 'works-form.min.css', 'works', ['id' => 'works-css'] );
+    RMTemplate::getInstance()->add_script( 'jquery.datetimepicker.js', 'works' );
+    RMTemplate::getInstance()->add_style( 'jquery.datetimepicker.css', 'works' );
 
     ob_start();
+    load_mod_locale('works');
     include PW_PATH . '/include/js-lang.js';
     $lang = ob_get_clean();
 
-    RMTemplate::get()->add_head_script($lang);
+    RMTemplate::getInstance()->add_inline_script($lang);
 
-    RMTemplate::get()->header();
+    RMTemplate::getInstance()->header();
 
     $form = new RMForm('','','');
     $editor = new RMFormEditor(__('Description','works'),'description','100%','300px',$edit ? $work->getVar('description', 'e') : '');
@@ -184,7 +204,7 @@ function formWorks($edit = 0){
     );
     $additional_fields = RMEvents::get()->run_event( 'works.form.fields', $additional_fields, $work );
 
-    include RMTemplate::get()->get_template( "admin/works-add-form.php", 'module', 'works' );
+    include RMTemplate::getInstance()->get_template( "admin/works-add-form.php", 'module', 'works' );
 
 	xoops_cp_footer();
 
@@ -311,9 +331,13 @@ function saveWorks($edit = 0){
 
         $work->setVar( 'schedule', $schedule );
 
+    } else {
+        $work->setVar('schedule', date('Y-m-d H:i:s'));
     }
 
-    $work->setVar( 'created', $edit ? $work->created : date('Y-m-d H:i:s') );
+    if($work->isNew()){
+        $work->setVar( 'created', date('Y-m-d H:i:s') );
+    }
     $work->setVar( 'modified', date('Y-m-d H:i:s') );
     $work->setVar( 'seo_title', $seo_title );
     $work->setVar( 'seo_description', $seo_description );
@@ -356,7 +380,7 @@ function saveWorks($edit = 0){
     /**
      * Notify to other components
      */
-    RMEvents::get()->run_event( 'works.saved.work', $work );
+    RMEvents::get()->trigger( 'works.saved.work', $work, $data );
 
     works_json_reponse( 1, 0, array(
         'message'   => __('Item saved successfully!', 'works'),
@@ -529,51 +553,6 @@ function markWorks($mark = 0){
 	
 }
 
-/**
-* Add meta data
-*/
-function works_meta_data(){
-    global $xoopsModule, $xoopsSecurity;
-    
-    $id = rmc_server_var($_GET, 'id', 0);
-    $page = rmc_server_var($_GET, 'page', 0);
-    
-    if ($id<=0){
-        redirectMsg('works.php', __('You must provide a work ID!','works'), 0);
-        die();
-    }
-    
-    $work = new Works_Work($id);
-    if ($work->isNew()){
-        redirectMsg('works.php', __('Specified work does not exists!','works'), 0);
-        die();
-    }
-    
-    Works_Functions::toolbar();
-    RMTemplate::get()->add_style('admin.css', 'works');
-    RMTemplate::get()->add_script(RMCURL.'/include/js/jquery.checkboxes.js');
-    RMTemplate::get()->add_script('admin_works.js', 'works');
-    RMTemplate::get()->add_head("<script type='text/javascript'>\nvar pw_message='".__('Do you really want to delete selected works?','works')."';\n
-        var pw_select_message = '".__('You must select some work before to execute this action!','works')."';</script>");
-    xoops_cp_location('<a href="./">'.$xoopsModule->name()."</a> &raquo; ".__('Work Custom Fields','works'));
-    
-    // Load metas
-    $metas = array();
-    $db = XoopsDatabaseFactory::getDatabaseConnection();
-    $sql = "SELECT * FROM ".$db->prefix("pw_meta")." WHERE work='$id'";
-    $result = $db->query($sql);
-    while($row = $db->fetchArray($result)){
-        $metas[] = $row;
-    }
-    
-    xoops_cp_header();
-    
-    include RMTemplate::get()->get_template('admin/pw_metas.php', 'module', 'works');
-    
-    xoops_cp_footer();
-    
-}
-
 function works_save_meta(){
     global $xoopsSecurity;
     
@@ -663,6 +642,174 @@ function works_delete_meta(){
     
 }
 
+/**
+ * Add a new video and response via ajax
+ */
+function works_add_video( $edit = 0 ){
+    global $common;
+
+    $common->ajax()->prepare();
+    $common->checkToken();
+
+    $id = $common->httpRequest()->post('id', 'integer', 0);
+    $url = $common->httpRequest()->post('url', 'string', '');
+    $title = $common->httpRequest()->post('title', 'string', '');
+    $description = $common->httpRequest()->post('description', 'string', '');
+    $image = $common->httpRequest()->post('image', 'string', '');
+    $type = $common->httpRequest()->post('type', 'string', '');
+    $full = $common->httpRequest()->post('fullScreen', 'integer', 1);
+    $videoId = $common->httpRequest()->post('video', 'integer', 0);
+
+    if($id<=0){
+        $common->ajax()->notifyError(__('Project must exists in order to add videos!', 'works'));
+    }
+
+    if('' == $url || '' == $title){
+        $common->ajax()->notifyError(__('Please provide the URL and title for this video!', 'works'));
+    }
+
+    $work = new Works_Work($id);
+    if($work->isNew()){
+        $common->ajax()->notifyError(__('Especified work does not exists!', 'works'));
+    }
+
+    if($edit){
+
+        if($videoId <= 0){
+            $common->ajax()->notifyError(__('You must provide a video ID to edit', 'works'));
+        }
+
+        $video = new Works_Video($videoId);
+        if($video->isNew()){
+            $common->ajax()->response(__('Specified video does not exists!', 'works'));
+        }
+
+    } else {
+        $video = new Works_Video();
+    }
+
+    $video->url = $url;
+    $video->title = $title;
+    $video->description = $description;
+    $video->image = $image;
+    $video->work = $id;
+
+    if(0 == $edit){
+        $video->type = $type;
+        $video->fullscreen = $full;
+    }
+
+    if('' == $image){
+        $image = Works_Functions::videoThumbnail($url);
+    }
+
+    $video->image = $image;
+
+    if($video->save()){
+        $common->ajax()->response(
+            $edit ? __('Video updated successfully!', 'works') : __('Video added successfully!', 'works'), 0, 1, [
+                'notify' => [
+                    'type' => 'alert-success',
+                    'icon' => 'svg-rmcommon-video',
+                ],
+                'video' => [
+                    'id' => $video->id(),
+                    'url' => $url,
+                    'title' => $title,
+                    'description' => $description,
+                    'image' => RMImageResizer::getInstance()->resize($image, ['width' => 300, 'height' => 180])->url
+                ]
+            ]
+        );
+    }
+
+}
+
+
+function works_edit_video(){
+    global $common;
+
+    $common->ajax()->prepare();
+    $common->checkToken();
+
+    $workId = $common->httpRequest()->get('work', 'integer', 0);
+    $videoId = $common->httpRequest()->get('id', 'integer', 0);
+
+    if($workId <= 0 || $videoId <= 0){
+        $common->ajax()->notifyError(__('You must provide a valid project ID and a valid video ID', 'works'));
+    }
+
+    $work = new Works_Work($workId);
+
+    if($work->isNew()){
+        $common->ajax()->notifyError(__('Specified project does not exists!', 'works'));
+    }
+
+    $video = new Works_Video($videoId);
+    if($video->isNew()){
+        $common->ajax()->notifyError(__('Specified video does not exists!', 'works'));
+    }
+
+    $common->ajax()->response(
+        __('Video data', 'works'), 0, 1, [
+            'video' => [
+                'id' => $video->id(),
+                'title' => $video->title,
+                'description' => $video->description,
+                'url' => $video->url,
+                'image' => $video->image,
+                'type' => $video->type,
+                'fullscreen' => $video->fullscreen,
+                'work' => $workId
+            ]
+        ]
+    );
+
+}
+
+/**
+ * Deletes a video
+ * Response via AJAX with JSON format
+ */
+function works_delete_video(){
+    global $common;
+
+    $common->ajax()->prepare();
+    $common->checkToken();
+
+    $workId = $common->httpRequest()->post('work', 'integer', 0);
+    $id = $common->httpRequest()->post('id', 'integer', 0);
+    
+    if($workId <= 0 || $id <= 0){
+        $common->ajax()->notifyError(__('You must provide a valid video ID and a project ID!', 'works'));
+    }
+    
+    $work = new Works_Work($workId);
+    if($work->isNew()){
+        $common->ajax()->notifyError(__('Specified project does not exists!', 'works'));
+    }
+
+    $video = new Works_Video($id);
+    if($video->isNew()){
+        $common->ajax()->notifyError(__('Specified video does not exists!', 'works'));
+    }
+
+    if($video->delete()){
+        $common->ajax()->response(
+            sprintf(__('Video <strong>%s</strong> deleted successfully!', 'works'), $video->title), 0, 1, [
+                'id' => $id,
+                'notify' => [
+                    'type' => 'alert-success',
+                    'icon' => 'svg-rmcommon-ok-circle'
+                ]
+            ]
+        );
+    }
+
+    $common->ajax()->notifyError(sprintf(__('Video <strong>%s</strong> could not be deleted:', 'works'), $video->title) . $video->errors());
+
+}
+
 
 $action = RMHttpRequest::request( 'action', 'string', '' );
 
@@ -694,14 +841,23 @@ switch($action){
 	case 'nomark';
 		markWorks(0);
 		break;
-    case 'meta':
-        works_meta_data();
-        break;
     case 'savemeta':
         works_save_meta();
         break;
     case 'delmeta':
         works_delete_meta();
+        break;
+    case 'add-video':
+        works_add_video();
+        break;
+    case 'update-video':
+        works_add_video(1);
+        break;
+    case 'edit-video':
+        works_edit_video();
+        break;
+    case 'delete-video':
+        works_delete_video();
         break;
 	default:
 		showWorks();

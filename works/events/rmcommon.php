@@ -10,7 +10,7 @@
 class WorksRmcommonPreload
 {
 
-    public function eventRmcommonLoadRightWidgets($widgets){
+    static function eventRmcommonLoadRightWidgets($widgets){
         global $xoopsModule;
 
         if (!isset($xoopsModule) || $xoopsModule->getVar('dirname')!='works')

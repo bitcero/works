@@ -58,19 +58,12 @@ function works_block_items_show($options){
             'height'    => $options['height']
         );
 
-        $block['works'][] = array(
-            'title'         => $work->title,
-            'link'          => $work->permalink(),
-            'description'   => $options['description'] ? TextCleaner::getInstance()->truncate( $work->description, $options['len'] ) : '',
-            'created'       => sprintf( __('Created on %s', 'works'), $tf->format( $work->created ) ),
-            'updated'       => $tf->format( $work->modified ),
-            'image'         => $options['image'] ? RMImageResizer::resize( RMImage::get()->load_from_params( $work->image ), $image_params )->url  : '',
-            'customer'      => $work->customer,
-            'web'           => $work->web,
-            'url'           => $work->url,
-            'views'         => $work->views,
-            'meta'          => $work->get_meta()
-        );
+        $workData = Works_Functions::render_data($work, $options['len']);
+        $workData['image'] = $options['image'] ? RMImageResizer::resize( $workData['image'], $image_params )->url  : '';
+        $workData['description'] = $options['description'] ? $workData['description'] : '';
+        $workData['created'] = sprintf( __('Created on %s', 'works'), $tf->format( $work->created ) );
+
+        $block['works'][] = $workData;
 
 	}
 
@@ -80,7 +73,7 @@ function works_block_items_show($options){
         'col'       => 12 / $options['grid']
     );
 
-    RMTemplate::get()->add_style( 'blocks.css', 'works' );
+    RMTemplate::getInstance()->add_style( 'blocks.css', 'works' );
 
 	return $block;
 }

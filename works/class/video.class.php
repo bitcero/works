@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Professional Works
  *
@@ -26,31 +27,31 @@
  * @url          http://www.redmexico.com.mx
  * @url          http://www.eduardocortes.mx
  */
+class Works_Video extends RMObject
+{
 
-load_mod_locale('works');
+    public function __construct($id = null)
+    {
 
-$i = 0;
-$adminmenu[$i]['title'] = __('Dashboard', 'works');
-$adminmenu[$i]['link'] = "admin/index.php";
-$adminmenu[$i]['icon'] = "svg-rmcommon-dashboard text-midnight";
-$adminmenu[$i]['location'] = "dashboard";
+        // Prevent to be translated
+        $this->noTranslate = [
+            'url', 'image'
+        ];
 
-$i++;
-$adminmenu[$i]['title'] = __('Categories', 'works');
-$adminmenu[$i]['link'] = "admin/categories.php";
-$adminmenu[$i]['icon'] = "svg-rmcommon-folder text-orange";
-$adminmenu[$i]['location'] = "categories";
-$adminmenu[$i]['options'] = array(
-	array('title'=>__('List all', 'works'),'link'=>'admin/categories.php', 'selected'=>'categories', 'icon' => 'fa fa-list'),
-	array('title'=>__('Add Category', 'works'),'link'=>'admin/categories.php?action=new', 'selected'=>'newcategory', 'icon' => 'fa fa-plus')
-);
+        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->_dbtable = $this->db->prefix("mod_works_videos");
+        $this->setNew();
+        $this->initVarsFromTable();
 
-$i++;
-$adminmenu[$i]['title'] = __('Works','works');
-$adminmenu[$i]['link'] = "admin/works.php";
-$adminmenu[$i]['icon'] = "svg-rmcommon-briefcase text-brown";
-$adminmenu[$i]['location'] = "works";
-$adminmenu[$i]['options'] = array(
-    array('title'=>__('List', 'works'),'link'=>'admin/works.php', 'selected'=>'works', 'icon' => 'fa fa-list'),
-    array('title'=>__('Add Work', 'works'),'link'=>'admin/works.php?action=new', 'selected'=>'newwork', 'icon' => 'fa fa-plus')
-);
+        $this->ownerName = 'works';
+        $this->ownerType = 'module';
+
+        if ($id == null) return;
+
+        if($this->loadValues($id)){
+            $this->unsetNew();
+        }
+
+    }
+
+}

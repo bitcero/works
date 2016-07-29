@@ -1,14 +1,31 @@
 <?php
-/*
-Professional Works
-Module for personals and professionals portfolios
-Author: Eduardo Cortes <i.bitcero@gmail.com>
-Email: i.bitcero@gmail.com
-Website: eduardocortes.mx
-License: GPL 2.0
--------------------------------------------------
-PLEASE: DO NOT MODIFY ABOVE LINES
-*/
+/**
+ * Professional Works
+ *
+ * Copyright © 2015 Eduardo Cortés http://www.redmexico.com.mx
+ * -------------------------------------------------------------
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * -------------------------------------------------------------
+ * @copyright    Eduardo Cortés (http://www.redmexico.com.mx)
+ * @license      GNU GPL 2
+ * @package      works
+ * @author       Eduardo Cortés (AKA bitcero)    <i.bitcero@gmail.com>
+ * @url          http://www.redmexico.com.mx
+ * @url          http://www.eduardocortes.mx
+ */
 
 /**
  * This file contains all XOOPS information for Professional Works
@@ -51,7 +68,7 @@ $modversion = array(
     'rmversion'     => array(
         'major'     => 2,
         'minor'     => 2,
-        'revision'  => 12,
+        'revision'  => 24,
         'stage'     => -1,
         'name'      => 'Professional Works'
     ),
@@ -68,10 +85,7 @@ $modversion = array(
 
     // 4. Logo and icons
     'image'         => "images/logo.png",
-    'icon16'        => "images/works-16.png",
-    'icon24'        => 'images/works-24.png',
-    'icon32'        => 'images/works-32.png',
-    'icon48'        => "images/works-48.png",
+    'icon'          => "fa fa-briefcase text-brown",
 
     // 5. Social
     'social'        => array(
@@ -132,6 +146,7 @@ $modversion = array(
         'mod_works_clients',
         'mod_works_types',
         'mod_works_meta',
+        'mod_works_videos'
     ),
 
     // 10. Search
