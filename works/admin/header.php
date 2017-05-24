@@ -35,7 +35,7 @@ define('PW_PUBLIC_URL', $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . tri
 
 # Definimos el motor de plantillas si no existe
 $mc =& $xoopsModuleConfig;
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
 $tpl = RMTemplate::get();
 $db = XoopsDatabaseFactory::getDatabaseConnection();
