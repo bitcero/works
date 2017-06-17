@@ -92,5 +92,16 @@ class WorksController implements iCommentsController
 		}
 		
     }
+
+    public static function getInstance()
+    {
+        static $instance;
+
+        if (!isset($instance)) {
+            $instance = new WorksController();
+        }
+
+        return $instance;
+    }
     
 }
