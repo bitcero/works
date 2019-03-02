@@ -41,12 +41,12 @@ $adminmenu[$i]['link'] = "admin/categories.php";
 $adminmenu[$i]['icon'] = "svg-rmcommon-folder text-orange";
 $adminmenu[$i]['location'] = "categories";
 $adminmenu[$i]['options'] = array(
-	array('title'=>__('List all', 'works'),'link'=>'admin/categories.php', 'selected'=>'categories', 'icon' => 'fa fa-list'),
-	array('title'=>__('Add Category', 'works'),'link'=>'admin/categories.php?action=new', 'selected'=>'newcategory', 'icon' => 'fa fa-plus')
+    array('title'=>__('List all', 'works'),'link'=>'admin/categories.php', 'selected'=>'categories', 'icon' => 'fa fa-list'),
+    array('title'=>__('Add Category', 'works'),'link'=>'admin/categories.php?action=new', 'selected'=>'newcategory', 'icon' => 'fa fa-plus')
 );
 
 $i++;
-$adminmenu[$i]['title'] = __('Works','works');
+$adminmenu[$i]['title'] = __('Works', 'works');
 $adminmenu[$i]['link'] = "admin/works.php";
 $adminmenu[$i]['icon'] = "svg-rmcommon-briefcase text-brown";
 $adminmenu[$i]['location'] = "works";

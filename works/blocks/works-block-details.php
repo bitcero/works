@@ -10,34 +10,38 @@ License:    GPL 2.0
 PLEASE: DO NOT MODIFY ABOVE LINES
 */
 
-function works_block_details_show( $options ){
+function works_block_details_show($options)
+{
     global $id, $xoopsModule, $xoopsOption;
 
     /* This block only works in "works" module and in "details" page */
-    if ( !$xoopsModule || $xoopsModule->getVar('dirname') != 'works' )
+    if (!$xoopsModule || $xoopsModule->getVar('dirname') != 'works') {
         return;
+    }
 
-    if ( $xoopsOption['module_subpage'] != 'work' )
+    if ($xoopsOption['module_subpage'] != 'work') {
         return;
+    }
 
-    $work = new Works_Work( $id );
-    if ( $work->isNew() )
+    $work = new Works_Work($id);
+    if ($work->isNew()) {
         return;
+    }
 
-    $tf = new RMTimeFormatter( 0, __('%d% %M% %Y%', 'works') );
+    $tf = new RMTimeFormatter(0, __('%d% %M% %Y%', 'works'));
 
     $block = array(
         'title'         => $work->title,
-        'description'   => $options['description'] ? TextCleaner::getInstance()->truncate( $work->description, $options['len'] ) : '',
-        'image'         => RMImage::get()->load_from_params( $work->image ),
-        'customer'      => isset( $options['details']['customer'] ) ? $work->customer : '',
-        'web'           => isset( $options['details']['web'] ) ? $work->web : '',
-        'url'           => isset( $options['details']['web'] ) ? $work->url : '',
-        'views'         => isset( $options['details']['hits'] ) ? sprintf( __('%u times', 'works'), $work->views ) : '',
+        'description'   => $options['description'] ? TextCleaner::getInstance()->truncate($work->description, $options['len']) : '',
+        'image'         => RMImage::get()->load_from_params($work->image),
+        'customer'      => isset($options['details']['customer']) ? $work->customer : '',
+        'web'           => isset($options['details']['web']) ? $work->web : '',
+        'url'           => isset($options['details']['web']) ? $work->url : '',
+        'views'         => isset($options['details']['hits']) ? sprintf(__('%u times', 'works'), $work->views) : '',
         'comments'      => $work->comments,
-        'categories'    => isset( $options['details']['cats'] ) ? $work->categories( 'objects' ) : array(),
-        'created'       => isset( $options['details']['created'] ) ? $tf->format( $work->created ) : '',
-        'modified'      => isset( $options['details']['updated'] ) ? $tf->format( $work->modified ) : '',
+        'categories'    => isset($options['details']['cats']) ? $work->categories('objects') : array(),
+        'created'       => isset($options['details']['created']) ? $tf->format($work->created) : '',
+        'modified'      => isset($options['details']['updated']) ? $tf->format($work->modified) : '',
         'lang'          => array(
 
             'categories'    => __('Categories', 'works'),
@@ -50,40 +54,35 @@ function works_block_details_show( $options ){
         )
     );
 
-    if ( $options['custom'] ){
-
+    if ($options['custom']) {
         $meta = array();
 
-        foreach( $options['fields']['names'] as $key => $name ){
-
-            $value = $work->get_meta( $name );
-            if ( $value === false )
+        foreach ($options['fields']['names'] as $key => $name) {
+            $value = $work->get_meta($name);
+            if ($value === false) {
                 continue;
+            }
 
             $meta[] = array(
                 'caption'   => $options['fields']['titles'][$key],
-                'value'     => $work->get_meta( $name )
+                'value'     => $work->get_meta($name)
             );
-
         }
 
-        if ( !empty( $meta ) )
-            $block = array_merge( $block, array('meta' => $meta) );
-
+        if (!empty($meta)) {
+            $block = array_merge($block, array('meta' => $meta));
+        }
     }
 
     // Add styles
-    RMTemplate::get()->add_style( 'blocks.css', 'works' );
+    RMTemplate::get()->add_style('blocks.css', 'works');
 
     return $block;
-
 }
 
-function works_block_details_edit( $options ){
-
-    ob_start();
-
-    ?>
+function works_block_details_edit($options)
+{
+    ob_start(); ?>
 
     <div class="row">
 
@@ -172,7 +171,7 @@ function works_block_details_edit( $options ){
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach( $options['fields']['names'] as $id => $name ): ?>
+                    <?php foreach ($options['fields']['names'] as $id => $name): ?>
                     <tr>
                         <td>
                             <input type="text" class="form-control" name="options[fields][names][]" value="<?php echo $name; ?>">
@@ -231,5 +230,4 @@ function works_block_details_edit( $options ){
     $form = ob_get_clean();
 
     return $form;
-
 }

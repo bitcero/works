@@ -11,69 +11,69 @@
 
 class Works_Category extends RMObject
 {
-	public function __construct($id=null){
-		
-		$this->db = XoopsDatabaseFactory::getDatabaseConnection();
-		$this->_dbtable = $this->db->prefix("mod_works_categories");
-		$this->setNew();
-		$this->initVarsFromTable();
-		if ($id==''){
-			return;
-		}
-		
-		if (is_numeric($id)){
-			if ($this->loadValues($id)) $this->unsetNew();
-			return true;
-		}
+    public function __construct($id=null)
+    {
+        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->_dbtable = $this->db->prefix("mod_works_categories");
+        $this->setNew();
+        $this->initVarsFromTable();
+        if ($id=='') {
+            return;
+        }
+        
+        if (is_numeric($id)) {
+            if ($this->loadValues($id)) {
+                $this->unsetNew();
+            }
+            return true;
+        }
 
         $this->primary = "nameid";
 
-        $parts = explode( "/", $id );
+        $parts = explode("/", $id);
         
-        if ( count( $parts ) > 1 ){
-
+        if (count($parts) > 1) {
             $sql = "SELECT C" . (count($parts)) . ".* FROM $this->_dbtable as C1\n";
-            for( $i=2;$i<=count($parts);$i++){
+            for ($i=2;$i<=count($parts);$i++) {
                 $sql .= " INNER JOIN $this->_dbtable AS C" . ($i) . " ON C" . ($i) . ".parent=C".($i-1).".id_cat\n";
             }
             $sql .= " WHERE C1.nameid = '$parts[0]' AND C1.parent = 0\n";
 
-            $row = $this->db->fetchArray( $this->db->query( $sql ) );
-            $this->setVars( $row );
+            $row = $this->db->fetchArray($this->db->query($sql));
+            $this->setVars($row);
             $this->unsetNew();
             $this->primary = 'id_cat';
             return true;
-
         }
 
-        if ($this->loadValues($id)) $this->unsetNew();
+        if ($this->loadValues($id)) {
+            $this->unsetNew();
+        }
         $this->primary = "id_cat";
-		
-	}
-	
-	public function id(){
-		return $this->getVar('id_cat');
-	}
-	
-	/**
-	* Get the category link formated
-	*/
-	public function permalink(){
+    }
+    
+    public function id()
+    {
+        return $this->getVar('id_cat');
+    }
+    
+    /**
+    * Get the category link formated
+    */
+    public function permalink()
+    {
+        $mc = RMSettings::module_settings('works');
 
-        $mc = RMSettings::module_settings( 'works' );
+        $link = XOOPS_URL.'/';
 
-		$link = XOOPS_URL.'/';
-
-        if ( 0 == $this->parent ){
-
-            if ( $mc->permalinks ){
+        if (0 == $this->parent) {
+            if ($mc->permalinks) {
                 $link .= trim($mc->htbase, '/').'/category/'.$this->nameid.'/';
             } else {
                 $link .= 'modules/works/index.php?p=category&amp;id='.$this->nameid;
             }
 
             return $link;
-
         }
 
         $db = XoopsDatabaseFactory::getDatabaseConnection();
@@ -92,44 +92,43 @@ class Works_Category extends RMObject
                 ON T1._id = T2.id_cat
                 ORDER BY T1.lvl DESC;";
 
-        $result = $db->query( $sql );
+        $result = $db->query($sql);
 
         $link .= 'category/';
-        while( list($id) = $db->fetchRow( $result ) ){
+        while (list($id) = $db->fetchRow($result)) {
             $link .= $id .'/';
         }
 
         $link .= $this->id() . '/';
-		
-		return $link;
-		
-	}
+        
+        return $link;
+    }
 
-	/**
-	* @desc Obtiene el total de trabajos de la categoría
-	**/
-	public function works(){
-
+    /**
+    * @desc Obtiene el total de trabajos de la categoría
+    **/
+    public function works()
+    {
         $tw = $this->db->prefix('mod_works_works');
         $tr = $this->db->prefix('mod_works_categories_rel');
 
-		$sql = "SELECT COUNT(*) FROM $tw as w, $tr as r WHERE r.category='".$this->id()."' AND w.id_work=r.work";
-		list($num) = $this->db->fetchRow($this->db->query($sql));
+        $sql = "SELECT COUNT(*) FROM $tw as w, $tr as r WHERE r.category='".$this->id()."' AND w.id_work=r.work";
+        list($num) = $this->db->fetchRow($this->db->query($sql));
 
-		return $num;
+        return $num;
+    }
+    
+    public function save()
+    {
+        if ($this->isNew()) {
+            return $this->saveToTable();
+        } else {
+            return $this->updateTable();
+        }
+    }
 
-	}
-	
-	public function save(){
-		if ($this->isNew()){
-			return $this->saveToTable();
-		} else {
-			return $this->updateTable();
-		}
-	}
-
-	public function delete(){
-		return $this->deleteFromTable();
-	}
-
+    public function delete()
+    {
+        return $this->deleteFromTable();
+    }
 }

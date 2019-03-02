@@ -9,17 +9,17 @@
 
 global $xoopsDB;
 
-$id = RMHttpRequest::request( 'id', 'integer', 0 );
+$id = RMHttpRequest::request('id', 'integer', 0);
 global $xoopsModuleConfig;
 $mc = $xoopsModuleConfig;
 
-$work = new Works_Work( $id );
+$work = new Works_Work($id);
 
 $categories = array();
-Works_Functions::categories_tree( $categories );
+Works_Functions::categories_tree($categories);
 
 ob_start();
-include RMTemplate::get()->get_template( 'widgets/works-widget-categories.php', 'module', 'works' );
+include RMTemplate::get()->get_template('widgets/works-widget-categories.php', 'module', 'works');
 $content = ob_get_clean();
 
 $widget = array(

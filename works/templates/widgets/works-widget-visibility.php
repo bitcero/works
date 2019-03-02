@@ -12,7 +12,7 @@
     <div class="form-group" id="visibility-groups"<?php echo $work->status != 'private' ? ' style="display: none;"' : ''; ?>>
         <label><?php _e('Allowed groups:', 'works'); ?></label>
         <?php
-        $groups = new RMFormGroups('', 'groups', 1, 1, 1, $work->groups );
+        $groups = new RMFormGroups('', 'groups', 1, 1, 1, $work->groups);
         echo $groups->render();
         ?>
     </div>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="form-group">
-        <label for="work-featured"><?php _e('Work type:', 'works' ); ?></label>
+        <label for="work-featured"><?php _e('Work type:', 'works'); ?></label>
         <select name="featured" id="work-featured" class="form-control">
             <option value="0"<?php echo $work->featured ? '' : ' selected'; ?>><?php _e('Normal', 'works'); ?></option>
             <option value="1"<?php echo $work->featured ? ' selected' : ''; ?>><?php _e('Featured', 'works'); ?></option>
@@ -34,9 +34,9 @@
 
     <div class="form-group text-center">
         <button type="button" id="work-submit-forms" class="btn btn-primary">
-            <?php if ( $work->status == 'draft'): ?>
+            <?php if ($work->status == 'draft'): ?>
                 <?php _e('Save as draft', 'works'); ?></button>
-            <?php elseif ( $work->status == 'public' || $work->status == 'private' ): ?>
+            <?php elseif ($work->status == 'public' || $work->status == 'private'): ?>
                 <?php _e('Save and publish', 'works'); ?></button>
             <?php else: ?>
                 <?php _e('Save scheduled', 'works'); ?></button>

@@ -64,10 +64,14 @@ class Works_Work extends RMObject
         $this->ownerName = 'works';
         $this->ownerType = 'module';
 
-        if ($id == null) return;
+        if ($id == null) {
+            return;
+        }
 
         if (is_numeric($id)) {
-            if (!$this->loadValues(intval($id))) return;
+            if (!$this->loadValues(intval($id))) {
+                return;
+            }
         } else {
             $this->primary = 'titleid';
             if (!$this->loadValues($id)) {
@@ -78,7 +82,6 @@ class Works_Work extends RMObject
 
         $this->primary = 'id_work';
         $this->unsetNew();
-
     }
 
     public function id()
@@ -94,43 +97,33 @@ class Works_Work extends RMObject
      */
     public function categories($type = 'id')
     {
-
         if (empty($this->categories)) {
-
             $sql = "SELECT * FROM " . $this->db->prefix("mod_works_categories_rel") . " as r LEFT JOIN " . $this->db->prefix("mod_works_categories") . " as c ON
                 c.id_cat = r.category WHERE r.work = " . $this->id();
 
             $result = $this->db->query($sql);
             while ($row = $this->db->fetchArray($result)) {
-
                 $this->categories[$row['id_cat']] = $row;
-
             }
-
         }
 
         if ($type == 'id') {
-
             $ret = array();
             foreach ($this->categories as $cat) {
                 $ret[] = $cat['id_cat'];
             }
             return $ret;
-
         }
 
         if ($type == 'name') {
-
             $ret = array();
             foreach ($this->categories as $id => $cat) {
                 $ret[$id] = $cat['name'];
             }
             return $ret;
-
         }
 
         if ($type == 'objects') {
-
             $ret = array();
             foreach ($this->categories as $id => $cat) {
                 $tmp = new Works_Category();
@@ -138,11 +131,9 @@ class Works_Work extends RMObject
                 $ret[] = $tmp;
             }
             return $ret;
-
         }
 
         return $this->categories;
-
     }
 
     /**
@@ -160,7 +151,6 @@ class Works_Work extends RMObject
 
     public function permalink()
     {
-
         $mc = RMSettings::module_settings('works');
 
         $link = XOOPS_URL . '/';
@@ -180,19 +170,15 @@ class Works_Work extends RMObject
      */
     public function set_images($images)
     {
-
         $this->images = array();
 
         foreach ($images as $image) {
-
             $temp = explode("|", $image, 2);
             $this->images[] = array(
                 'title' => $temp[1],
                 'url' => $temp[0]
             );
-
         }
-
     }
 
     /**
@@ -201,16 +187,16 @@ class Works_Work extends RMObject
      */
     public function images()
     {
-
-        if (empty($this->images))
+        if (empty($this->images)) {
             $this->images = Works_Functions::images($this->id());
+        }
 
         return $this->images;
     }
 
     public function videos()
     {
-        if (empty($this->videos)){
+        if (empty($this->videos)) {
             $this->videos = Works_Functions::videos($this->id());
         }
 
@@ -224,28 +210,24 @@ class Works_Work extends RMObject
      */
     public function set_meta($names, $values)
     {
-
         $this->meta = array();
 
         foreach ($names as $id => $name) {
-
             $this->meta[$name] = $values[$id];
-
         }
-
     }
 
     public function get_meta($name = '')
     {
-
-        if (empty($this->meta))
+        if (empty($this->meta)) {
             $this->meta = Works_Functions::metas($this->id());
+        }
 
-        if ($name != '' && isset($this->meta[$name]))
+        if ($name != '' && isset($this->meta[$name])) {
             return $this->meta[$name];
-        else
+        } else {
             return $this->meta;
-
+        }
     }
 
     public function save()
@@ -256,84 +238,81 @@ class Works_Work extends RMObject
             $return = $this->updateTable();
         }
 
-        if (!$return)
+        if (!$return) {
             return false;
+        }
 
         // Save images
 
         $this->db->queryF("DELETE FROM " . $this->db->prefix("mod_works_images") . " WHERE work = " . $this->id());
         $sql = '';
         foreach ($this->images as $image) {
-
             $sql .= "('$image[title]','$image[url]'," . $this->id() . "),";
-
         }
 
         if ($sql != '') {
-
             $sql = $sql = 'INSERT INTO ' . $this->db->prefix("mod_works_images") . " (title,image,work) VALUES " . rtrim($sql, ",");
             $return = $this->db->queryF($sql);
 
-            if (!$return)
+            if (!$return) {
                 $this->addError(__('Images could not be saved:', 'works') . ' ' . $this->db->error());
+            }
         }
 
         // Save meta
         $this->db->queryF("DELETE FROM " . $this->db->prefix("mod_works_meta") . " WHERE work = " . $this->id());
         $sql = '';
         foreach ($this->meta as $name => $value) {
-
             $sql .= "('" . MyTextSanitizer::addSlashes($name) . "','" . MyTextSanitizer::addSlashes($value) . "'," . $this->id() . "),";
-
         }
 
         if ($sql != '') {
-
             $sql = 'INSERT INTO ' . $this->db->prefix("mod_works_meta") . " (`name`,`value`,`work`) VALUES " . rtrim($sql, ",");
             $return = $this->db->queryF($sql);
 
-            if (!$return)
+            if (!$return) {
                 $this->addError(__('Custom data could not be saved:', 'works') . ' ' . $this->db->error());
-
+            }
         }
 
         return $return;
-
     }
 
     public function delete()
     {
-
         $return = $this->deleteFromTable();
 
-        if (!$return)
+        if (!$return) {
             return false;
+        }
 
         $return = $this->db->queryF("DELETE FROM " . $this->db->prefix("mod_works_images") . " WHERE work = " . $this->id());
-        if (!$return)
+        if (!$return) {
             $this->addError(__('Images data could not be deleted:', 'works') . ' ' . $this->db->error());
+        }
 
         // Delete videos
         $videos = Works_Functions::videos($this->id());
 
-        foreach($videos as $video){
+        foreach ($videos as $video) {
             @unlink(str_replace(XOOPS_URL, XOOPS_ROOT_PATH, $video['image']));
         }
 
         $return = $this->db->queryF("DELETE FROM " . $this->db->prefix("mod_works_videos") . " WHERE work = " . $this->id());
-        if (!$return)
+        if (!$return) {
             $this->addError(__('Videos data could not be deleted:', 'works') . ' ' . $this->db->error());
+        }
 
         $return = $this->db->queryF("DELETE FROM " . $this->db->prefix("mod_works_meta") . " WHERE work = " . $this->id());
-        if (!$return)
+        if (!$return) {
             $this->addError(__('Custom data could not be deleted:', 'works') . ' ' . $this->db->error());
+        }
 
         $return = $this->db->queryF("DELETE FROM " . $this->db->prefix("mod_works_categories_rel") . " WHERE work = " . $this->id());
-        if (!$return)
+        if (!$return) {
             $this->addError(__('Categories relations could not be deleted:', 'works') . ' ' . $this->db->error());
+        }
 
         return $return;
-
     }
-
 }

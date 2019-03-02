@@ -50,13 +50,15 @@
 
 include_once 'include/xv-header.php';
 
-if(function_exists("load_mod_locale")) load_mod_locale('works');
+if (function_exists("load_mod_locale")) {
+    load_mod_locale('works');
+}
 
 $modversion = array(
 
     // 1. General
     'name'          => 'Professional Works',
-    'description'   => __('A module to create portfolios in XOOPS','works'),
+    'description'   => __('A module to create portfolios in XOOPS', 'works'),
     'version'       => 2.2,
     'license'       => 'GPL 2',
     'dirname'       => 'works',
@@ -346,16 +348,12 @@ $modversion = array(
     // 14. Module Pages
     'subpages'      => array(
 
-        'index'     => __('Homepage','works'),
-        'recent'    => __('Recent works','works'),
-        'featured'  => __('Featured works','works'),
-        'work'      => __('Work details','works'),
-        'category'  => __('Category content','works')
+        'index'     => __('Homepage', 'works'),
+        'recent'    => __('Recent works', 'works'),
+        'featured'  => __('Featured works', 'works'),
+        'work'      => __('Work details', 'works'),
+        'category'  => __('Category content', 'works')
 
     )
     
 );
-
-
-
-

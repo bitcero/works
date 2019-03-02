@@ -10,25 +10,22 @@
 
 load_mod_locale('works');
 
-function works_block_items_show($options){
-	global $xoopsModule, $xoopsModuleConfig;
+function works_block_items_show($options)
+{
+    global $xoopsModule, $xoopsModuleConfig;
 
-	$db = XoopsDatabaseFactory::getDatabaseConnection();
-	
-	$mc = RMSettings::module_settings( 'works' );
+    $db = XoopsDatabaseFactory::getDatabaseConnection();
+    
+    $mc = RMSettings::module_settings('works');
 
-    if ( $options['category'] > 0 ){
-
-        $sql = "SELECT w.* FROM " . $db->prefix( "mod_works_works" ) . " as w, " . $db->prefix( "mod_works_categories_rel") . " as r
+    if ($options['category'] > 0) {
+        $sql = "SELECT w.* FROM " . $db->prefix("mod_works_works") . " as w, " . $db->prefix("mod_works_categories_rel") . " as r
                 WHERE r.category = " . $options['category'] . " AND w.id_work = r.work AND w.status = 'public' ";
-
     } else {
-
-        $sql = "SELECT w.* FROM " . $db->prefix( "mod_works_works" ) . " as w WHERE w.status = 'public' ";
-
+        $sql = "SELECT w.* FROM " . $db->prefix("mod_works_works") . " as w WHERE w.status = 'public' ";
     }
 
-    switch( $options['type'] ){
+    switch ($options['type']) {
         case 'recent':
             $sql .= "ORDER BY w.created DESC";
             break;
@@ -43,15 +40,14 @@ function works_block_items_show($options){
 
     $sql .= " LIMIT 0, " . ($options['limit'] > 0 ? $options['limit'] : 3);
 
-	$result = $db->query($sql);
+    $result = $db->query($sql);
     $block = array();
 
-	while($row = $db->fetchArray($result)){
+    while ($row = $db->fetchArray($result)) {
+        $work = new Works_Work();
+        $work->assignVars($row);
 
-		$work = new Works_Work();
-		$work->assignVars($row);
-
-        $tf = new RMTimeFormatter( 0, $options['format'] );
+        $tf = new RMTimeFormatter(0, $options['format']);
 
         $image_params = array(
             'width'     => $options['width'],
@@ -59,13 +55,12 @@ function works_block_items_show($options){
         );
 
         $workData = Works_Functions::render_data($work, $options['len']);
-        $workData['image'] = $options['image'] ? RMImageResizer::resize( $workData['image'], $image_params )->url  : '';
+        $workData['image'] = $options['image'] ? RMImageResizer::resize($workData['image'], $image_params)->url  : '';
         $workData['description'] = $options['description'] ? $workData['description'] : '';
-        $workData['created'] = sprintf( __('Created on %s', 'works'), $tf->format( $work->created ) );
+        $workData['created'] = sprintf(__('Created on %s', 'works'), $tf->format($work->created));
 
         $block['works'][] = $workData;
-
-	}
+    }
 
     $block['options'] = array(
         'display'   => $options['display'],
@@ -73,17 +68,17 @@ function works_block_items_show($options){
         'col'       => 12 / $options['grid']
     );
 
-    RMTemplate::getInstance()->add_style( 'blocks.css', 'works' );
+    RMTemplate::getInstance()->add_style('blocks.css', 'works');
 
-	return $block;
+    return $block;
 }
 
 
-function works_block_items_edit($options){
-
+function works_block_items_edit($options)
+{
     $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-	ob_start(); ?>
+    ob_start(); ?>
 
     <div class="form-group">
         <label for="works-type"><?php _e('Works type:', 'works'); ?></label>
@@ -100,13 +95,12 @@ function works_block_items_edit($options){
             <option value="0"<?php echo $options['category'] <= 0 ? ' selected' : ''; ?>><?php _e('All categories', 'works'); ?></option>
             <?php
             $result = $db->query("SELECT * FROM ".$db->prefix('mod_works_categories')." WHERE status='active'");
-            while ($row = $db->fetchArray($result)){
-                $cat = new Works_Category();
-                $cat->assignVars($row);
+    while ($row = $db->fetchArray($result)) {
+        $cat = new Works_Category();
+        $cat->assignVars($row);
 
-                echo '<option value="'.$cat->id().'"'.($options['category'] == $cat->id() ? ' selected' : '').'>'. $cat->name .'</option>';
-            }
-            ?>
+        echo '<option value="'.$cat->id().'"'.($options['category'] == $cat->id() ? ' selected' : '').'>'. $cat->name .'</option>';
+    } ?>
         </select>
     </div>
 
@@ -188,5 +182,4 @@ function works_block_items_edit($options){
     $form = ob_get_clean();
 
     return $form;
-
 }

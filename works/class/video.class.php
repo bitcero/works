@@ -29,7 +29,6 @@
  */
 class Works_Video extends RMObject
 {
-
     public function __construct($id = null)
     {
 
@@ -46,12 +45,12 @@ class Works_Video extends RMObject
         $this->ownerName = 'works';
         $this->ownerType = 'module';
 
-        if ($id == null) return;
-
-        if($this->loadValues($id)){
-            $this->unsetNew();
+        if ($id == null) {
+            return;
         }
 
+        if ($this->loadValues($id)) {
+            $this->unsetNew();
+        }
     }
-
 }

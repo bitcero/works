@@ -27,140 +27,143 @@
  * @url          http://www.eduardocortes.mx
  */
 
-define('RMCLOCATION','works');
+define('RMCLOCATION', 'works');
 include 'header.php';
 
-function works_json_reponse( $token, $error, $data ){
+function works_json_reponse($token, $error, $data)
+{
     global $xoopsSecurity;
 
-    if ( $token )
+    if ($token) {
         $data['token'] = $xoopsSecurity->createToken(0, 'CUTOKEN');
+    }
 
-    if ( $error )
+    if ($error) {
         $data['error'] = 1;
+    }
 
-    echo json_encode( $data );
+    echo json_encode($data);
     die();
-
 }
 
 /**
 * @desc Visualiza todos los trabajos existentes
-**/ 
-function showWorks(){
-	global $xoopsModule, $xoopsSecurity, $cuIcons;
+**/
+function showWorks()
+{
+    global $xoopsModule, $xoopsSecurity, $cuIcons;
     
-    define('RMCSUBLOCATION','workslist');
+    define('RMCSUBLOCATION', 'workslist');
     
     $db = XoopsDatabaseFactory::getDatabaseConnection();
     
-    $page = RMHttpRequest::request( 'page', 'integer', 1 );
+    $page = RMHttpRequest::request('page', 'integer', 1);
     $page = $page <= 0 ? 1 : $page;
     $limit = 15;
-    $show = RMHttpRequest::request( 'show', 'string', '' );
+    $show = RMHttpRequest::request('show', 'string', '');
     
-	//Barra de Navegación
-	$sql = "SELECT COUNT(*) FROM ".$db->prefix('mod_works_works');
-	if ($show != '')
+    //Barra de Navegación
+    $sql = "SELECT COUNT(*) FROM ".$db->prefix('mod_works_works');
+    if ($show != '') {
         $sql .= " WHERE status='$show'";
+    }
     
-	list($num)=$db->fetchRow($db->query($sql));
+    list($num)=$db->fetchRow($db->query($sql));
 
     $tpages = ceil($num/$limit);
-    $page = $page > $tpages ? $tpages : $page; 
+    $page = $page > $tpages ? $tpages : $page;
 
     $start = $num<=0 ? 0 : ($page - 1) * $limit;
     
     $nav = new RMPageNav($num, $limit, $page, 5);
     $nav->target_url('works.php?page={PAGE_NUM}');
 
-	$sql = str_replace( "COUNT(*)", '*', $sql);
-	$sql.= " ORDER BY id_work DESC LIMIT $start, $limit"; 
-	$result = $db->query($sql);
+    $sql = str_replace("COUNT(*)", '*', $sql);
+    $sql.= " ORDER BY id_work DESC LIMIT $start, $limit";
+    $result = $db->query($sql);
     $works = array(); //Container
     $tf = new RMTimeFormatter(0, '%T% %d%, %Y% at %h%:%i%');
     
-	while ($row = $db->fetchArray($result)){
-		$work = new Works_Work();
-		$work->assignVars($row);
+    while ($row = $db->fetchArray($result)) {
+        $work = new Works_Work();
+        $work->assignVars($row);
 
-		$works[] = array(
+        $works[] = array(
             'id'            => $work->id(),
             'title'         => $work->title,
             'featured'      => $work->featured,
             'status'        => $work->status,
             'url'           => $work->permalink(),
-            'categories'    => $work->categories( 'name' ),
-            'created'       => $tf->format( $work->created ),
-            'modified'      => $tf->format( $work->modified ),
+            'categories'    => $work->categories('name'),
+            'created'       => $tf->format($work->created),
+            'modified'      => $tf->format($work->modified),
             'customer'      => $work->customer
         );
-
-	}
+    }
 
     RMTemplate::getInstance()->add_style('admin.css', 'works');
-    RMTemplate::getInstance()->add_script('jquery.checkboxes.js', 'rmcommon', array( 'directory' => 'include' ) );
-    RMTemplate::getInstance()->add_script( 'admin-works.js', 'works', ['id' => 'works-js', 'footer' => 1] );
+    RMTemplate::getInstance()->add_script('jquery.checkboxes.js', 'rmcommon', array( 'directory' => 'include' ));
+    RMTemplate::getInstance()->add_script('admin-works.js', 'works', ['id' => 'works-js', 'footer' => 1]);
 
     $bc = RMBreadCrumb::get();
-    $bc->add_crumb( __('Existing works', 'works' ) );
+    $bc->add_crumb(__('Existing works', 'works'));
 
-	xoops_cp_header();
+    xoops_cp_header();
     
     include RMTemplate::getInstance()->get_template("admin/works-works.php", 'module', 'works');
     
-	xoops_cp_footer();
+    xoops_cp_footer();
 }
 
 
 /**
 * @desc Formulario de creacion/edición de trabajos
 **/
-function formWorks($edit = 0){
+function formWorks($edit = 0)
+{
     global $xoopsSecurity, $cuIcons, $common;
 
-	global $xoopsModule, $xoopsModuleConfig;
+    global $xoopsModule, $xoopsModuleConfig;
     
-    define('RMCSUBLOCATION','new-work');
+    define('RMCSUBLOCATION', 'new-work');
     
-	$page = RMHttpRequest::request( 'page', 'integer', 1 );
-	$query = "page=$page";
+    $page = RMHttpRequest::request('page', 'integer', 1);
+    $query = "page=$page";
 
     $bc = RMBreadCrumb::get();
-    $bc->add_crumb( __('Works management', 'works' ), 'works.php' );
-    $bc->add_crumb( $edit ? __('Editing work', 'works' ) : __( 'Adding work', 'works' ) );
+    $bc->add_crumb(__('Works management', 'works'), 'works.php');
+    $bc->add_crumb($edit ? __('Editing work', 'works') : __('Adding work', 'works'));
 
-    $id = RMHttpRequest::request( 'id', 'integer', 0 );
+    $id = RMHttpRequest::request('id', 'integer', 0);
 
-	if ($edit){
+    if ($edit) {
 
-		//Verificamos que el trabajo sea válido
-		if ($id<=0)
+        //Verificamos que el trabajo sea válido
+        if ($id<=0) {
             RMUris::redirect_with_message(
-                __('Provided Work ID is not valid!','works'),
+                __('Provided Work ID is not valid!', 'works'),
                 'works.php?' . $query,
                 RMMSG_ERROR
             );
+        }
 
-		//Verificamos que el trabajo exista
-		$work = new Works_Work($id);
-		if ($work->isNew())
+        //Verificamos que el trabajo exista
+        $work = new Works_Work($id);
+        if ($work->isNew()) {
             RMUris::redirect_with_message(
-                __('Specified work does not exists!','works'),
+                __('Specified work does not exists!', 'works'),
                 'works.php?' . $query,
                 RMMSG_ERROR
             );
-
-	} else {
-
+        }
+    } else {
         $work = new Works_Work();
-
     }
 
-    RMTemplate::getInstance()->add_script( 'works-form.min.js', 'works', ['id' => 'works-js', 'footer' => 1] );
-    RMTemplate::getInstance()->add_style( 'works-form.min.css', 'works', ['id' => 'works-css'] );
-    RMTemplate::getInstance()->add_script( 'jquery.datetimepicker.js', 'works' );
-    RMTemplate::getInstance()->add_style( 'jquery.datetimepicker.css', 'works' );
+    RMTemplate::getInstance()->add_script('works-form.min.js', 'works', ['id' => 'works-js', 'footer' => 1]);
+    RMTemplate::getInstance()->add_style('works-form.min.css', 'works', ['id' => 'works-css']);
+    RMTemplate::getInstance()->add_script('jquery.datetimepicker.js', 'works');
+    RMTemplate::getInstance()->add_style('jquery.datetimepicker.css', 'works');
 
     ob_start();
     load_mod_locale('works');
@@ -171,8 +174,8 @@ function formWorks($edit = 0){
 
     RMTemplate::getInstance()->header();
 
-    $form = new RMForm('','','');
-    $editor = new RMFormEditor(__('Description','works'),'description','100%','300px',$edit ? $work->getVar('description', 'e') : '');
+    $form = new RMForm('', '', '');
+    $editor = new RMFormEditor(__('Description', 'works'), 'description', '100%', '300px', $edit ? $work->getVar('description', 'e') : '');
 
     /**
      * Get additional fields for form.
@@ -202,167 +205,165 @@ function formWorks($edit = 0){
         'seo'       => array(),
         'meta'      => array()
     );
-    $additional_fields = RMEvents::get()->run_event( 'works.form.fields', $additional_fields, $work );
+    $additional_fields = RMEvents::get()->run_event('works.form.fields', $additional_fields, $work);
 
-    include RMTemplate::getInstance()->get_template( "admin/works-add-form.php", 'module', 'works' );
+    include RMTemplate::getInstance()->get_template("admin/works-add-form.php", 'module', 'works');
 
-	xoops_cp_footer();
-
+    xoops_cp_footer();
 }
 
 /**
 * @desc Almacena la información del trabajo en la base de datos
 **/
-function saveWorks($edit = 0){
-
-	global $xoopsSecurity, $xoopsModuleConfig, $xoopsLogger;
+function saveWorks($edit = 0)
+{
+    global $xoopsSecurity, $xoopsModuleConfig, $xoopsLogger;
 
     $xoopsLogger->renderingEnabled = false;
     $xoopsLogger->activated = false;
 
-    $id = RMHttpRequest::post( 'id', 'integer', 0 );
-    $featured = RMHttpRequest::post( 'featured', 'integer', 0 );
+    $id = RMHttpRequest::post('id', 'integer', 0);
+    $featured = RMHttpRequest::post('featured', 'integer', 0);
 
     // General section
-    $title = RMHttpRequest::post( 'title', 'string', '' );
-    $title_id = RMHttpRequest::post( 'titleid', 'string', '' );
-    $description = RMHttpRequest::post( 'description', 'string', '' );
-    $seo_title = RMHttpRequest::post( 'seo_title', 'string', '' );
-    $seo_description = RMHttpRequest::post( 'seo_description', 'string', '' );
-    $seo_keywords = RMHttpRequest::post( 'seo_keywords', 'string', '' );
+    $title = RMHttpRequest::post('title', 'string', '');
+    $title_id = RMHttpRequest::post('titleid', 'string', '');
+    $description = RMHttpRequest::post('description', 'string', '');
+    $seo_title = RMHttpRequest::post('seo_title', 'string', '');
+    $seo_description = RMHttpRequest::post('seo_description', 'string', '');
+    $seo_keywords = RMHttpRequest::post('seo_keywords', 'string', '');
 
     // Customer section
-    $customer_name = RMHttpRequest::post( 'customer_name', 'string', '' );
-    $web = RMHttpRequest::post( 'web', 'string', '' );
-    $url = formatURL( RMHttpRequest::post( 'url', 'string', '' ) );
-    $comment = RMHttpRequest::post( 'customer_comment', 'string', '' );
+    $customer_name = RMHttpRequest::post('customer_name', 'string', '');
+    $web = RMHttpRequest::post('web', 'string', '');
+    $url = formatURL(RMHttpRequest::post('url', 'string', ''));
+    $comment = RMHttpRequest::post('customer_comment', 'string', '');
 
     // Images
-    $images = RMHttpRequest::post( 'images', 'array', array() );
-    $image = RMHttpRequest::post( 'image', 'string', '' );
+    $images = RMHttpRequest::post('images', 'array', array());
+    $image = RMHttpRequest::post('image', 'string', '');
 
     // Custom data
-    $meta['names'] = RMHttpRequest::post( 'meta_name', 'array', array() );
-    $meta['values'] = RMHttpRequest::post( 'meta_value', 'array', array() );
+    $meta['names'] = RMHttpRequest::post('meta_name', 'array', array());
+    $meta['values'] = RMHttpRequest::post('meta_value', 'array', array());
 
     // Status
-    $status = RMHttpRequest::post( 'status', 'string', 'public' );
-    $schedule = RMHttpRequest::post( 'schedule', 'string', '' );
-    $image = RMHttpRequest::post( 'image', 'string', '' );
-    $categories = RMHttpRequest::post( 'cats', 'array', array() );
+    $status = RMHttpRequest::post('status', 'string', 'public');
+    $schedule = RMHttpRequest::post('schedule', 'string', '');
+    $image = RMHttpRequest::post('image', 'string', '');
+    $categories = RMHttpRequest::post('cats', 'array', array());
 
-	/*if ( !$xoopsSecurity->check() )
+    /*if ( !$xoopsSecurity->check() )
         works_json_reponse( 0, 1, array('message' => __('Session token expired!','works') ) );*/
 
-	if ( $edit ){
+    if ($edit) {
 
-		//Verificamos que el trabajo sea válido
-		if ( $id<=0 )
-            works_json_reponse( 1, 1, array(
-                'message' => __( 'Work ID not provided', 'works' )
-            ) );
-
-		//Verificamos que el trabajo exista
-		$work = new Works_Work( $id );
-		if ($work->isNew())
-            works_json_reponse( 1, 1, array(
-                'message' => __( 'Specified work does not exists!', 'works' )
+        //Verificamos que el trabajo sea válido
+        if ($id<=0) {
+            works_json_reponse(1, 1, array(
+                'message' => __('Work ID not provided', 'works')
             ));
+        }
 
-	}else{
-
-		$work = new Works_Work();
-
-	}
-	
-	$db = XoopsDatabaseFactory::getDatabaseConnection();
+        //Verificamos que el trabajo exista
+        $work = new Works_Work($id);
+        if ($work->isNew()) {
+            works_json_reponse(1, 1, array(
+                'message' => __('Specified work does not exists!', 'works')
+            ));
+        }
+    } else {
+        $work = new Works_Work();
+    }
+    
+    $db = XoopsDatabaseFactory::getDatabaseConnection();
 
     // Create the title ID
-    $title_id = $title_id == '' ? TextCleaner::getInstance()->sweetstring( $title ) : TextCleaner::getInstance()->sweetstring( $title_id );
+    $title_id = $title_id == '' ? TextCleaner::getInstance()->sweetstring($title) : TextCleaner::getInstance()->sweetstring($title_id);
 
-	// Check if work exists already
-	if ($edit)
-		$sql = "SELECT COUNT(*) FROM ".$db->prefix("mod_works_works")." WHERE (title='$title' || titleid='$title_id') and id_work != $id";
-	else
-		$sql = "SELECT COUNT(*) FROM ".$db->prefix("mod_works_works")." WHERE title='$title' || titleid='$title_id'";
+    // Check if work exists already
+    if ($edit) {
+        $sql = "SELECT COUNT(*) FROM ".$db->prefix("mod_works_works")." WHERE (title='$title' || titleid='$title_id') and id_work != $id";
+    } else {
+        $sql = "SELECT COUNT(*) FROM ".$db->prefix("mod_works_works")." WHERE title='$title' || titleid='$title_id'";
+    }
 
-	list( $num ) = $db->fetchRow( $db->query( $sql ) );
-	if ($num>0)
-        works_json_reponse( 1, 1, array(
-            __( 'Another work with same name already exists!', 'works' )
+    list($num) = $db->fetchRow($db->query($sql));
+    if ($num>0) {
+        works_json_reponse(1, 1, array(
+            __('Another work with same name already exists!', 'works')
         ));
+    }
 
-	$work->setVar( 'title', $title );
-	$work->setVar( 'titleid', $title_id );
-	$work->setVar( 'description', $description );
-    $work->setVar( 'customer', $customer_name );
-    $work->setVar( 'comment', $comment );
-    $work->setVar( 'web', $web );
-    $work->setVar( 'url', $url );
-    $work->setVar( 'featured', $featured );
-    $work->setVar( 'image', $image );
-    $work->setVar( 'status', $status );
+    $work->setVar('title', $title);
+    $work->setVar('titleid', $title_id);
+    $work->setVar('description', $description);
+    $work->setVar('customer', $customer_name);
+    $work->setVar('comment', $comment);
+    $work->setVar('web', $web);
+    $work->setVar('url', $url);
+    $work->setVar('featured', $featured);
+    $work->setVar('image', $image);
+    $work->setVar('status', $status);
 
     // Set the groups when status is private
-    if ( $status == 'private' ){
-
-        $groups = RMHttpRequest::post( 'groups', 'array', array() );
-        if ( empty( $groups ) )
-            works_json_reponse( 1, 1, array(
-                'message' => __( 'You must select at least one group to authorize', 'works' )
+    if ($status == 'private') {
+        $groups = RMHttpRequest::post('groups', 'array', array());
+        if (empty($groups)) {
+            works_json_reponse(1, 1, array(
+                'message' => __('You must select at least one group to authorize', 'works')
             ));
-        $work->setVar( 'groups', $groups );
-
+        }
+        $work->setVar('groups', $groups);
     }
 
     // Set the schedule when status is scheduled
-    if ( $status == 'scheduled' ){
-
-        if ( $schedule == '' )
-            works_json_reponse( 1, 1, array(
-                'message' => __('You must specify a scheduled date for this work!', 'works' )
+    if ($status == 'scheduled') {
+        if ($schedule == '') {
+            works_json_reponse(1, 1, array(
+                'message' => __('You must specify a scheduled date for this work!', 'works')
             ));
+        }
 
-        $date_validator = DateTime::createFromFormat( 'Y-m-d H:i', $schedule );
-        if ( !$date_validator || $date_validator->format( 'Y-m-d H:i' ) != $schedule )
-            works_json_reponse( 1, 1, array(
-                'message' => __('The specified scheduled date is not valid!', 'works' )
+        $date_validator = DateTime::createFromFormat('Y-m-d H:i', $schedule);
+        if (!$date_validator || $date_validator->format('Y-m-d H:i') != $schedule) {
+            works_json_reponse(1, 1, array(
+                'message' => __('The specified scheduled date is not valid!', 'works')
             ));
+        }
 
-        $work->setVar( 'schedule', $schedule );
-
+        $work->setVar('schedule', $schedule);
     } else {
         $work->setVar('schedule', date('Y-m-d H:i:s'));
     }
 
-    if($work->isNew()){
-        $work->setVar( 'created', date('Y-m-d H:i:s') );
+    if ($work->isNew()) {
+        $work->setVar('created', date('Y-m-d H:i:s'));
     }
-    $work->setVar( 'modified', date('Y-m-d H:i:s') );
-    $work->setVar( 'seo_title', $seo_title );
-    $work->setVar( 'seo_description', $seo_description );
-    $work->setVar( 'seo_keywords', $seo_keywords );
+    $work->setVar('modified', date('Y-m-d H:i:s'));
+    $work->setVar('seo_title', $seo_title);
+    $work->setVar('seo_description', $seo_description);
+    $work->setVar('seo_keywords', $seo_keywords);
 
-	// Set multiple images
-    $work->set_images( $images );
+    // Set multiple images
+    $work->set_images($images);
 
     // Set custom data
-    $work->set_meta( $meta['names'], $meta['values'] );
+    $work->set_meta($meta['names'], $meta['values']);
 
-	if (!$work->save())
-        works_json_reponse( 1, 1, array(
+    if (!$work->save()) {
+        works_json_reponse(1, 1, array(
             'message' => __('Errors occurred while trying to update database!', 'works') . '<br>' . $work->errors()
         ));
+    }
 
     // Add categories relations
-    $db->queryF( "DELETE FROM " . $db->prefix( "mod_works_categories_rel" ) . " WHERE work = " . $work->id() );
-    $sql = "INSERT INTO " . $db->prefix( "mod_works_categories_rel" ) . " (category, work) VALUES ";
-    foreach( $categories as $id_cat ){
-
+    $db->queryF("DELETE FROM " . $db->prefix("mod_works_categories_rel") . " WHERE work = " . $work->id());
+    $sql = "INSERT INTO " . $db->prefix("mod_works_categories_rel") . " (category, work) VALUES ";
+    foreach ($categories as $id_cat) {
         $sql .= "($id_cat," . $work->id()."),";
-
     }
-    $sql = rtrim( $sql, ',' );
+    $sql = rtrim($sql, ',');
 
     $data = array(
         'id'        => $work->id(),
@@ -371,214 +372,212 @@ function saveWorks($edit = 0){
         'url'       => $work->permalink()
     );
 
-    if ( !$db->queryF( $sql ) )
-        works_json_reponse( 1, 1, array(
+    if (!$db->queryF($sql)) {
+        works_json_reponse(1, 1, array(
             'message'   => __('This work has been saved, however the categories relations could not be saved!', 'works') . '<br>' . $db->error(),
             'work'      => $data
         ));
+    }
 
     /**
      * Notify to other components
      */
-    RMEvents::get()->trigger( 'works.saved.work', $work, $data );
+    RMEvents::get()->trigger('works.saved.work', $work, $data);
 
-    works_json_reponse( 1, 0, array(
+    works_json_reponse(1, 0, array(
         'message'   => __('Item saved successfully!', 'works'),
         'data'      => $data
     ));
-
 }
 
 /**
 * @desc Elimina de la base de datos la información del trabajo
 **/
-function deleteWorks(){
+function deleteWorks()
+{
+    global $xoopsSecurity, $xoopsModule;
 
-	global $xoopsSecurity, $xoopsModule;
-
-	$ids = rmc_server_var($_POST, 'ids', 0);
-	$page = rmc_server_var($_POST, 'page', 1);
+    $ids = rmc_server_var($_POST, 'ids', 0);
+    $page = rmc_server_var($_POST, 'page', 1);
     $show = rmc_server_var($_POST, 'show', 1);
-	
-	$ruta = "pag=$page&show=$show";
-
-	//Verificamos que nos hayan proporcionado un trabajo para eliminar
-	if (!is_array($ids)){
-		redirectMsg('./works.php?'.$ruta, __('You must select a work at least!','works'),1);
-		die();
-	}
-
-     if (!$xoopsSecurity->check()){
-	    redirectMsg('./works.php?'.$ruta, __('Session token expired!','works'), 1);
-		die();
-	 }
-
-	 $errors = '';
-	 foreach ($ids as $k){
-	    //Verificamos si el trabajo es válido
-		if ($k<=0){
-		    $errors.=sprintf(__('Work ID "%s" is not valid!','works'), $k);
-			continue;
-		}
-
-		//Verificamos si el trabajo existe
-		$work = new Works_Work($k);
-		if ($work->isNew()){
-		    $errors.=sprintf(__('Work with ID "%s" does not exists!','works'), $k);
-			continue;
-		}
-		
-		if (!$work->delete()){
-		    $errors.=sprintf(__('Work "%s" could not be deleted!','works'),$work->title());
-		}
-	 }
-	
-	if ($errors!=''){
-	    redirectMsg('./works.php?'.$ruta,__('Errors ocurred while trying to delete works','works').'<br />'.$errors,1);
-		die();
-	}else{
-	    redirectMsg('./works.php?'.$ruta,__('Works deleted successfully!','works'),0);
-		die();
-	}
-
-}
-
-/**
-* @desc Publica o no los trabajos
-**/
-function publicWorks($pub = 0){
-	global $xoopsSecurity;
-
-	$ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
-	$page = isset($_REQUEST['pag']) ? $_REQUEST['pag'] : '';
-  	$show = rmc_server_var($_POST, 'show', 1);
-
-	$ruta = "page=$page&show=$show";
-
-	//Verificamos que nos hayan proporcionado un trabajo para publicar
-	if (!is_array($ids)){
-		redirectMsg('./works.php?'.$ruta, __('You must specify a work ID','works'),1);
-		die();
-	}
-	
-	if (!$xoopsSecurity->check()){
-		redirectMsg('./works.php?'.$ruta, __('Session token expired!','works'), 1);
-		die();
-	}
-	$errors = '';
-	foreach ($ids as $k){
-		//Verificamos si el trabajo es válido
-		if ($k<=0){
-			$errors.=sprintf(__('Work ID "%s" is not valid!', 'works'), $k);
-			continue;
-		}
-
-		//Verificamos si el trabajo existe
-		$work = new Works_Work($k);
-		if ($work->isNew()){
-			$errors.=sprintf(__('Work with ID "%s" does not exists!','works'), $k);
-			continue;
-		}
-
-		$work->setPublic($pub);
-		
-		if (!$work->save()){
-			$errors.=sprintf(__('Work "%s" could not be saved!','works'),$k);
-		}
-	}
-	
-	if ($errors!=''){
-		redirectMsg('./works.php?'.$ruta,__('Errors ocurred while trying to update works').'<br />'.$errors,1);
-		die();
-	}else{
-		redirectMsg('./works.php?'.$ruta,__('Works updated successfully!','works'),0);
-		die();
-	}
-
-	
-}
-
-/**
-* @desc Destaca o no los trabajos
-**/
-function markWorks($mark = 0){
-	global $xoopsSecurity;
-
-	$ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
-	$page = isset($_REQUEST['pag']) ? $_REQUEST['pag'] : '';
-  	$show = rmc_server_var($_POST, 'show', 1);
-
-	$ruta = "page=$page&show=$show";
-
-	//Verificamos que nos hayan proporcionado un trabajo para destacar
-	if (!is_array($ids)){
-        redirectMsg('./works.php?'.$ruta, __('You must specify a work ID','works'),1);
-        die();
-    }
     
-    if (!$xoopsSecurity->check()){
-        redirectMsg('./works.php?'.$ruta, __('Session token expired!','works'), 1);
+    $ruta = "pag=$page&show=$show";
+
+    //Verificamos que nos hayan proporcionado un trabajo para eliminar
+    if (!is_array($ids)) {
+        redirectMsg('./works.php?'.$ruta, __('You must select a work at least!', 'works'), 1);
         die();
     }
-	$errors = '';
-	foreach ($ids as $k){
-		//Verificamos si el trabajo es válido
-		if ($k<=0){
+
+    if (!$xoopsSecurity->check()) {
+        redirectMsg('./works.php?'.$ruta, __('Session token expired!', 'works'), 1);
+        die();
+    }
+
+    $errors = '';
+    foreach ($ids as $k) {
+        //Verificamos si el trabajo es válido
+        if ($k<=0) {
             $errors.=sprintf(__('Work ID "%s" is not valid!', 'works'), $k);
             continue;
         }
 
         //Verificamos si el trabajo existe
         $work = new Works_Work($k);
-        if ($work->isNew()){
-            $errors.=sprintf(__('Work with ID "%s" does not exists!','works'), $k);
+        if ($work->isNew()) {
+            $errors.=sprintf(__('Work with ID "%s" does not exists!', 'works'), $k);
+            continue;
+        }
+        
+        if (!$work->delete()) {
+            $errors.=sprintf(__('Work "%s" could not be deleted!', 'works'), $work->title());
+        }
+    }
+    
+    if ($errors!='') {
+        redirectMsg('./works.php?'.$ruta, __('Errors ocurred while trying to delete works', 'works').'<br />'.$errors, 1);
+        die();
+    } else {
+        redirectMsg('./works.php?'.$ruta, __('Works deleted successfully!', 'works'), 0);
+        die();
+    }
+}
+
+/**
+* @desc Publica o no los trabajos
+**/
+function publicWorks($pub = 0)
+{
+    global $xoopsSecurity;
+
+    $ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
+    $page = isset($_REQUEST['pag']) ? $_REQUEST['pag'] : '';
+    $show = rmc_server_var($_POST, 'show', 1);
+
+    $ruta = "page=$page&show=$show";
+
+    //Verificamos que nos hayan proporcionado un trabajo para publicar
+    if (!is_array($ids)) {
+        redirectMsg('./works.php?'.$ruta, __('You must specify a work ID', 'works'), 1);
+        die();
+    }
+    
+    if (!$xoopsSecurity->check()) {
+        redirectMsg('./works.php?'.$ruta, __('Session token expired!', 'works'), 1);
+        die();
+    }
+    $errors = '';
+    foreach ($ids as $k) {
+        //Verificamos si el trabajo es válido
+        if ($k<=0) {
+            $errors.=sprintf(__('Work ID "%s" is not valid!', 'works'), $k);
             continue;
         }
 
-		$work->setMark($mark);
-		
-		if (!$work->save()){
-            $errors.=sprintf(__('Work "%s" could not be saved!','works'),$k);
+        //Verificamos si el trabajo existe
+        $work = new Works_Work($k);
+        if ($work->isNew()) {
+            $errors.=sprintf(__('Work with ID "%s" does not exists!', 'works'), $k);
+            continue;
         }
-	}
-	
-	if ($errors!=''){
-		redirectMsg('./works.php?'.$ruta,__('Errors ocurred while trying to update works').'<br />'.$errors,1);
-        die();
-    }else{
-        redirectMsg('./works.php?'.$ruta,__('Works updated successfully!','works'),0);
-        die();
-	}
 
-	
+        $work->setPublic($pub);
+        
+        if (!$work->save()) {
+            $errors.=sprintf(__('Work "%s" could not be saved!', 'works'), $k);
+        }
+    }
+    
+    if ($errors!='') {
+        redirectMsg('./works.php?'.$ruta, __('Errors ocurred while trying to update works').'<br />'.$errors, 1);
+        die();
+    } else {
+        redirectMsg('./works.php?'.$ruta, __('Works updated successfully!', 'works'), 0);
+        die();
+    }
 }
 
-function works_save_meta(){
+/**
+* @desc Destaca o no los trabajos
+**/
+function markWorks($mark = 0)
+{
+    global $xoopsSecurity;
+
+    $ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
+    $page = isset($_REQUEST['pag']) ? $_REQUEST['pag'] : '';
+    $show = rmc_server_var($_POST, 'show', 1);
+
+    $ruta = "page=$page&show=$show";
+
+    //Verificamos que nos hayan proporcionado un trabajo para destacar
+    if (!is_array($ids)) {
+        redirectMsg('./works.php?'.$ruta, __('You must specify a work ID', 'works'), 1);
+        die();
+    }
+    
+    if (!$xoopsSecurity->check()) {
+        redirectMsg('./works.php?'.$ruta, __('Session token expired!', 'works'), 1);
+        die();
+    }
+    $errors = '';
+    foreach ($ids as $k) {
+        //Verificamos si el trabajo es válido
+        if ($k<=0) {
+            $errors.=sprintf(__('Work ID "%s" is not valid!', 'works'), $k);
+            continue;
+        }
+
+        //Verificamos si el trabajo existe
+        $work = new Works_Work($k);
+        if ($work->isNew()) {
+            $errors.=sprintf(__('Work with ID "%s" does not exists!', 'works'), $k);
+            continue;
+        }
+
+        $work->setMark($mark);
+        
+        if (!$work->save()) {
+            $errors.=sprintf(__('Work "%s" could not be saved!', 'works'), $k);
+        }
+    }
+    
+    if ($errors!='') {
+        redirectMsg('./works.php?'.$ruta, __('Errors ocurred while trying to update works').'<br />'.$errors, 1);
+        die();
+    } else {
+        redirectMsg('./works.php?'.$ruta, __('Works updated successfully!', 'works'), 0);
+        die();
+    }
+}
+
+function works_save_meta()
+{
     global $xoopsSecurity;
     
     $id = rmc_server_var($_POST, 'id', 0);
     
-    if ($id<=0){
-        redirectMsg('works.php', __('You must provide a work ID!','works'), 1);
+    if ($id<=0) {
+        redirectMsg('works.php', __('You must provide a work ID!', 'works'), 1);
         die();
     }
     
     $work = new Works_Work($id);
-    if ($work->isNew()){
-        redirectMsg('works.php', __('Specified work does not exists!','works'), 1);
+    if ($work->isNew()) {
+        redirectMsg('works.php', __('Specified work does not exists!', 'works'), 1);
         die();
     }
     
-    if (!$xoopsSecurity->check()){
-        redirectMsg('works.php?id='.$id.'&op=meta', __('Session token expired!','works'), 1);
+    if (!$xoopsSecurity->check()) {
+        redirectMsg('works.php?id='.$id.'&op=meta', __('Session token expired!', 'works'), 1);
         die();
     }
     
     $name = rmc_server_var($_POST, 'name', '');
     $value = rmc_server_var($_POST, 'value', '');
     
-    if ($name=='' || $value==''){
-        redirectMsg('works.php?id='.$id.'&op=meta', __('Please, fill all data!','works'), 1);
+    if ($name=='' || $value=='') {
+        redirectMsg('works.php?id='.$id.'&op=meta', __('Please, fill all data!', 'works'), 1);
         die();
     }
     
@@ -590,62 +589,62 @@ function works_save_meta(){
     
     $value = TextCleaner::addslashes($value);
     
-    if ($num>0){
+    if ($num>0) {
         $sql = "UPDATE ".$db->prefix("pw_meta")." SET value='$value' WHERE name='$name' AND work='$id'";
     } else {
         $sql = "INSERT INTO ".$db->prefix("pw_meta")." (`value`,`name`,`work`) VALUES ('$value','$name','$id')";
     }
     
-    if ($db->queryF($sql)){
-        redirectMsg('works.php?id='.$id.'&op=meta', __('Custom field added successfully!','works'), 0);
+    if ($db->queryF($sql)) {
+        redirectMsg('works.php?id='.$id.'&op=meta', __('Custom field added successfully!', 'works'), 0);
     } else {
-        redirectMsg('works.php?id='.$id.'&op=meta', __('Custom field could not be added. Please try again!','works').'<br />'.$db->error(), 1);
+        redirectMsg('works.php?id='.$id.'&op=meta', __('Custom field could not be added. Please try again!', 'works').'<br />'.$db->error(), 1);
     }
-    
 }
 
-function works_delete_meta(){
+function works_delete_meta()
+{
     global $xoopsSecurity;
     
     $id = rmc_server_var($_POST, 'id', 0);
     
-    if ($id<=0){
-        redirectMsg('works.php', __('You must provide a work ID!','works'), 1);
+    if ($id<=0) {
+        redirectMsg('works.php', __('You must provide a work ID!', 'works'), 1);
         die();
     }
     
     $work = new Works_Work($id);
-    if ($work->isNew()){
-        redirectMsg('works.php', __('Specified work does not exists!','works'), 1);
+    if ($work->isNew()) {
+        redirectMsg('works.php', __('Specified work does not exists!', 'works'), 1);
         die();
     }
     
-    if (!$xoopsSecurity->check()){
-        redirectMsg('works.php?id='.$id.'&op=meta', __('Session token expired!','works'), 1);
+    if (!$xoopsSecurity->check()) {
+        redirectMsg('works.php?id='.$id.'&op=meta', __('Session token expired!', 'works'), 1);
         die();
     }
     
-    $ids = rmc_server_var($_POST, 'ids', array()); 
-    if (!is_array($ids) || empty($ids)){
-        redirectMsg('works.php', __('Select some fields to delete!','works'), 1);
+    $ids = rmc_server_var($_POST, 'ids', array());
+    if (!is_array($ids) || empty($ids)) {
+        redirectMsg('works.php', __('Select some fields to delete!', 'works'), 1);
         die();
     }
     
     $db = XoopsDatabaseFactory::getDatabaseConnection();
-    $sql = "DELETE FROM ".$db->prefix("pw_meta")." WHERE id_meta IN(".implode(",",$ids).")";
+    $sql = "DELETE FROM ".$db->prefix("pw_meta")." WHERE id_meta IN(".implode(",", $ids).")";
     
-    if ($db->queryF($sql)){
-        redirectMsg('works.php?id='.$id.'&op=meta', __('Custom fields deleted successfully!','works'), 0);
+    if ($db->queryF($sql)) {
+        redirectMsg('works.php?id='.$id.'&op=meta', __('Custom fields deleted successfully!', 'works'), 0);
     } else {
-        redirectMsg('works.php?id='.$id.'&op=meta', __('Custom fields could not be deleted!','works').'<br />'.$db->error(), 1);
+        redirectMsg('works.php?id='.$id.'&op=meta', __('Custom fields could not be deleted!', 'works').'<br />'.$db->error(), 1);
     }
-    
 }
 
 /**
  * Add a new video and response via ajax
  */
-function works_add_video( $edit = 0 ){
+function works_add_video($edit = 0)
+{
     global $common;
 
     $common->ajax()->prepare();
@@ -660,30 +659,28 @@ function works_add_video( $edit = 0 ){
     $full = $common->httpRequest()->post('fullScreen', 'integer', 1);
     $videoId = $common->httpRequest()->post('video', 'integer', 0);
 
-    if($id<=0){
+    if ($id<=0) {
         $common->ajax()->notifyError(__('Project must exists in order to add videos!', 'works'));
     }
 
-    if('' == $url || '' == $title){
+    if ('' == $url || '' == $title) {
         $common->ajax()->notifyError(__('Please provide the URL and title for this video!', 'works'));
     }
 
     $work = new Works_Work($id);
-    if($work->isNew()){
+    if ($work->isNew()) {
         $common->ajax()->notifyError(__('Especified work does not exists!', 'works'));
     }
 
-    if($edit){
-
-        if($videoId <= 0){
+    if ($edit) {
+        if ($videoId <= 0) {
             $common->ajax()->notifyError(__('You must provide a video ID to edit', 'works'));
         }
 
         $video = new Works_Video($videoId);
-        if($video->isNew()){
+        if ($video->isNew()) {
             $common->ajax()->response(__('Specified video does not exists!', 'works'));
         }
-
     } else {
         $video = new Works_Video();
     }
@@ -694,20 +691,23 @@ function works_add_video( $edit = 0 ){
     $video->image = $image;
     $video->work = $id;
 
-    if(0 == $edit){
+    if (0 == $edit) {
         $video->type = $type;
         $video->fullscreen = $full;
     }
 
-    if('' == $image){
+    if ('' == $image) {
         $image = Works_Functions::videoThumbnail($url);
     }
 
     $video->image = $image;
 
-    if($video->save()){
+    if ($video->save()) {
         $common->ajax()->response(
-            $edit ? __('Video updated successfully!', 'works') : __('Video added successfully!', 'works'), 0, 1, [
+            $edit ? __('Video updated successfully!', 'works') : __('Video added successfully!', 'works'),
+            0,
+            1,
+            [
                 'notify' => [
                     'type' => 'alert-success',
                     'icon' => 'svg-rmcommon-video',
@@ -722,11 +722,11 @@ function works_add_video( $edit = 0 ){
             ]
         );
     }
-
 }
 
 
-function works_edit_video(){
+function works_edit_video()
+{
     global $common;
 
     $common->ajax()->prepare();
@@ -735,23 +735,26 @@ function works_edit_video(){
     $workId = $common->httpRequest()->get('work', 'integer', 0);
     $videoId = $common->httpRequest()->get('id', 'integer', 0);
 
-    if($workId <= 0 || $videoId <= 0){
+    if ($workId <= 0 || $videoId <= 0) {
         $common->ajax()->notifyError(__('You must provide a valid project ID and a valid video ID', 'works'));
     }
 
     $work = new Works_Work($workId);
 
-    if($work->isNew()){
+    if ($work->isNew()) {
         $common->ajax()->notifyError(__('Specified project does not exists!', 'works'));
     }
 
     $video = new Works_Video($videoId);
-    if($video->isNew()){
+    if ($video->isNew()) {
         $common->ajax()->notifyError(__('Specified video does not exists!', 'works'));
     }
 
     $common->ajax()->response(
-        __('Video data', 'works'), 0, 1, [
+        __('Video data', 'works'),
+        0,
+        1,
+        [
             'video' => [
                 'id' => $video->id(),
                 'title' => $video->title,
@@ -764,14 +767,14 @@ function works_edit_video(){
             ]
         ]
     );
-
 }
 
 /**
  * Deletes a video
  * Response via AJAX with JSON format
  */
-function works_delete_video(){
+function works_delete_video()
+{
     global $common;
 
     $common->ajax()->prepare();
@@ -780,23 +783,26 @@ function works_delete_video(){
     $workId = $common->httpRequest()->post('work', 'integer', 0);
     $id = $common->httpRequest()->post('id', 'integer', 0);
     
-    if($workId <= 0 || $id <= 0){
+    if ($workId <= 0 || $id <= 0) {
         $common->ajax()->notifyError(__('You must provide a valid video ID and a project ID!', 'works'));
     }
     
     $work = new Works_Work($workId);
-    if($work->isNew()){
+    if ($work->isNew()) {
         $common->ajax()->notifyError(__('Specified project does not exists!', 'works'));
     }
 
     $video = new Works_Video($id);
-    if($video->isNew()){
+    if ($video->isNew()) {
         $common->ajax()->notifyError(__('Specified video does not exists!', 'works'));
     }
 
-    if($video->delete()){
+    if ($video->delete()) {
         $common->ajax()->response(
-            sprintf(__('Video <strong>%s</strong> deleted successfully!', 'works'), $video->title), 0, 1, [
+            sprintf(__('Video <strong>%s</strong> deleted successfully!', 'works'), $video->title),
+            0,
+            1,
+            [
                 'id' => $id,
                 'notify' => [
                     'type' => 'alert-success',
@@ -807,40 +813,39 @@ function works_delete_video(){
     }
 
     $common->ajax()->notifyError(sprintf(__('Video <strong>%s</strong> could not be deleted:', 'works'), $video->title) . $video->errors());
-
 }
 
 
-$action = RMHttpRequest::request( 'action', 'string', '' );
+$action = RMHttpRequest::request('action', 'string', '');
 
-switch($action){
-	case 'new':
-		formWorks();
-		break;
-	case 'edit':
-		formWorks(1);
-		break;
-	case 'save':
-		saveWorks();
-		break;
-	case 'saveedited':
-		saveWorks(1);
-		break;
-	case 'delete':
-		deleteWorks();
-		break;
-	case 'public':
-		publicWorks(1);
-		break;
-	case 'nopublic':
-		publicWorks();
-		break;
-	case 'mark':
-		markWorks(1);
-		break;
-	case 'nomark';
-		markWorks(0);
-		break;
+switch ($action) {
+    case 'new':
+        formWorks();
+        break;
+    case 'edit':
+        formWorks(1);
+        break;
+    case 'save':
+        saveWorks();
+        break;
+    case 'saveedited':
+        saveWorks(1);
+        break;
+    case 'delete':
+        deleteWorks();
+        break;
+    case 'public':
+        publicWorks(1);
+        break;
+    case 'nopublic':
+        publicWorks();
+        break;
+    case 'mark':
+        markWorks(1);
+        break;
+    case 'nomark':
+        markWorks(0);
+        break;
     case 'savemeta':
         works_save_meta();
         break;
@@ -859,7 +864,6 @@ switch($action){
     case 'delete-video':
         works_delete_video();
         break;
-	default:
-		showWorks();
+    default:
+        showWorks();
 }
-?>

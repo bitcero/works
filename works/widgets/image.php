@@ -7,19 +7,18 @@
 // License: GPL 2.0
 // --------------------------------------------------------------
 
-$id = RMHttpRequest::request( 'id', 'integer', 0 );
+$id = RMHttpRequest::request('id', 'integer', 0);
 
-$work = new Works_Work( $id );
+$work = new Works_Work($id);
 
 $util = new RMUtilities();
 
-if ( isset($work) && is_a( $work, 'Works_Work' ) ){
-
-    if ($work->isNew())
+if (isset($work) && is_a($work, 'Works_Work')) {
+    if ($work->isNew()) {
         $params = '';
-    else
-        $params = $work->getVar('image','e');
-
+    } else {
+        $params = $work->getVar('image', 'e');
+    }
 } else {
     $params = '';
 }
