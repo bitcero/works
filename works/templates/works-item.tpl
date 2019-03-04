@@ -9,13 +9,8 @@
 
     <div class="work-images">
         <{foreach item=image from=$work.images}>
-            <a href="<{$image.url}>" class="work-image-item image-item" title="<{$image.title}>" style="background-image: url('<{resize file=$image.url h=150 w=150}>">
+            <a href="<{$image.url}>" class="work-image-item" title="<{$image.title}>" style="background-image: url('<{$xoops_url}>/modules/rmcommon/include/resizer.php?src=<{$image.url}>&amp;h=150&amp;w=150');">
                 <span><span class="fa fa-search"></span></span>
-            </a>
-        <{/foreach}>
-        <{foreach item=image from=$work.videos}>
-            <a href="<{$image.url}>" class="work-image-item video-item" title="<{$image.title}>" data-type="<{$image.type}>" style="background-image: url('<{resize file=$image.image h=150 w=150}>">
-                <span><span class="fa fa-play"></span></span>
             </a>
         <{/foreach}>
     </div>
@@ -107,5 +102,5 @@
 <a name="comments"></a>
 <h4><{$lang_comments}></h4>
 <{include file="db:rmc-comments-display.html"}>
-<{$comments_form}>
+<{include file="db:rmc-comments-form.html"}>
 <!-- /End comments -->

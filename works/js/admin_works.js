@@ -1,24 +1,14 @@
-(function($){
-
-    this.PWorks = function(){
-        this.identifier = "Professional Works";
-    }
-
-
-
-    $(document).ready(function(){
-
-        $("#bulk-top").change(function(){
-            $("#bulk-bottom").val($(this).val());
-        });
-
-        $("#bulk-bottom").change(function(){
-            $("#bulk-top").val($(this).val());
-        });
-
+$(document).ready(function(){
+    
+    $("#bulk-top").change(function(){
+        $("#bulk-bottom").val($(this).val());
     });
-
-}(jQuery));
+    
+    $("#bulk-bottom").change(function(){
+        $("#bulk-top").val($(this).val());
+    });
+    
+});
 
 function before_submit(id){
 

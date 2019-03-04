@@ -14,13 +14,6 @@ var workLang = {
     done        : '<?php _e('Data saved successfully', 'works'); ?>',
     delete_works: '<?php _e('Do you really want to delete selected works?','works'); ?>',
     select_work : '<?php _e('You must select some work before to execute this action!','works'); ?>',
-    addnew      : '<span class="fa fa-plus"></span> <?php _e('Add New', 'works'); ?>',
-    noVideoUrl  : '<?php _e('You must provide a video URL in order to add a new video!', 'works'); ?>',
-    noVideoTitle  : '<?php _e('You must provide a <strong>video title</strong> in order to add a new video!', 'works'); ?>',
-    edit : '<?php _e('Edit', 'works'); ?>',
-    delete : '<?php _e('Delete', 'works'); ?>',
-    update : '<span class="fa fa-check"></span> <?php _e('Save Changes', 'works'); ?>',
-    addVideo : '<span class="cu-icon"><span class="fa fa-plus"></span></span> <?php _e('Add Video', 'works'); ?>',
-    confirmDelete : '<?php _e('Do you really want to delete selected video?', 'works'); ?>',
+    addnew      : '<span class="fa fa-plus"></span> <?php _e('Add New', 'works'); ?>'
 
 };

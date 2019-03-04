@@ -5,7 +5,7 @@
             <li class="media">
                 <{if $work.image!=''}>
                     <a href="<{$work.link}>" class="pull-left">
-                        <img alt="<{$work.title}>" class="media-object" src="<{$work.image}>">
+                        <img alt="<{$work.title}>" class="media-object" src="<{$xoops_url}>/modules/rmcommon/include/resizer.php?src=<{$work.image}>&amp;w=<{$block.options.width}>&amp;h=<{$block.options.height}>">
                     </a>
                 <{/if}>
                 <div class="media-body">
@@ -31,7 +31,7 @@
                 <div class="thumbnail">
                     <{if $work.image != ''}>
                         <a href="<{$work.link}>">
-                            <img src="<{$work.image}>" alt="<{$work.title}>">
+                            <img src="<{$xoops_url}>/modules/rmcommon/include/resizer.php?src=<{$work.image}>&amp;w=<{$block.options.width}>&amp;h=<{$block.options.height}>" alt="<{$work.title}>">
                         </a>
                         <div class="caption">
                             <h5><a href="<{$work.link}>"><{$work.title}></a></h5>
