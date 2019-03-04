@@ -8,12 +8,12 @@
 // License: GPL 2.0
 // --------------------------------------------------------------
 
-include '../../header.php';
-$mc =& $xoopsModuleConfig;
+require  dirname(dirname(__DIR__)) . '/header.php';
+$mc = &$xoopsModuleConfig;
 $xmh = '';
 
-define('PW_URL', XOOPS_URL.($xoopsModuleConfig['permalinks'] ? rtrim($xoopsModuleConfig['htbase'], '/') : '/modules/works'));
-define('PW_ROOT', XOOPS_ROOT_PATH.'/modules/works');
+define('PW_URL', XOOPS_URL . ($xoopsModuleConfig['permalinks'] ? rtrim($xoopsModuleConfig['htbase'], '/') : '/modules/works'));
+define('PW_ROOT', XOOPS_ROOT_PATH . '/modules/works');
 
 $tpl = $xoopsTpl;
 $db = XoopsDatabaseFactory::getDatabaseConnection();

@@ -15,11 +15,11 @@ function works_block_details_show($options)
     global $id, $xoopsModule, $xoopsOption;
 
     /* This block only works in "works" module and in "details" page */
-    if (!$xoopsModule || $xoopsModule->getVar('dirname') != 'works') {
+    if (!$xoopsModule || 'works' != $xoopsModule->getVar('dirname')) {
         return;
     }
 
-    if ($xoopsOption['module_subpage'] != 'work') {
+    if ('work' != $xoopsOption['module_subpage']) {
         return;
     }
 
@@ -30,47 +30,45 @@ function works_block_details_show($options)
 
     $tf = new RMTimeFormatter(0, __('%d% %M% %Y%', 'works'));
 
-    $block = array(
-        'title'         => $work->title,
-        'description'   => $options['description'] ? TextCleaner::getInstance()->truncate($work->description, $options['len']) : '',
-        'image'         => RMImage::get()->load_from_params($work->image),
-        'customer'      => isset($options['details']['customer']) ? $work->customer : '',
-        'web'           => isset($options['details']['web']) ? $work->web : '',
-        'url'           => isset($options['details']['web']) ? $work->url : '',
-        'views'         => isset($options['details']['hits']) ? sprintf(__('%u times', 'works'), $work->views) : '',
-        'comments'      => $work->comments,
-        'categories'    => isset($options['details']['cats']) ? $work->categories('objects') : array(),
-        'created'       => isset($options['details']['created']) ? $tf->format($work->created) : '',
-        'modified'      => isset($options['details']['updated']) ? $tf->format($work->modified) : '',
-        'lang'          => array(
-
-            'categories'    => __('Categories', 'works'),
-            'customer'      => __('Customer', 'works'),
-            'website'       => __('Website', 'works'),
-            'hits'          => __('Hits', 'works'),
-            'created'       => __('Created', 'works'),
-            'updated'       => __('Last update', 'works')
-
-        )
-    );
+    $block = [
+        'title' => $work->title,
+        'description' => $options['description'] ? TextCleaner::getInstance()->truncate($work->description, $options['len']) : '',
+        'image' => RMImage::get()->load_from_params($work->image),
+        'customer' => isset($options['details']['customer']) ? $work->customer : '',
+        'web' => isset($options['details']['web']) ? $work->web : '',
+        'url' => isset($options['details']['web']) ? $work->url : '',
+        'views' => isset($options['details']['hits']) ? sprintf(__('%u times', 'works'), $work->views) : '',
+        'comments' => $work->comments,
+        'categories' => isset($options['details']['cats']) ? $work->categories('objects') : [],
+        'created' => isset($options['details']['created']) ? $tf->format($work->created) : '',
+        'modified' => isset($options['details']['updated']) ? $tf->format($work->modified) : '',
+        'lang' => [
+            'categories' => __('Categories', 'works'),
+            'customer' => __('Customer', 'works'),
+            'website' => __('Website', 'works'),
+            'hits' => __('Hits', 'works'),
+            'created' => __('Created', 'works'),
+            'updated' => __('Last update', 'works'),
+        ],
+    ];
 
     if ($options['custom']) {
-        $meta = array();
+        $meta = [];
 
         foreach ($options['fields']['names'] as $key => $name) {
             $value = $work->get_meta($name);
-            if ($value === false) {
+            if (false === $value) {
                 continue;
             }
 
-            $meta[] = array(
-                'caption'   => $options['fields']['titles'][$key],
-                'value'     => $work->get_meta($name)
-            );
+            $meta[] = [
+                'caption' => $options['fields']['titles'][$key],
+                'value' => $work->get_meta($name),
+            ];
         }
 
         if (!empty($meta)) {
-            $block = array_merge($block, array('meta' => $meta));
+            $block = array_merge($block, ['meta' => $meta]);
         }
     }
 

@@ -4,7 +4,7 @@
         <?php foreach ($categories as $category): ?>
         <div class="checkbox">
             <label>
-                <input type="checkbox" name="cats[]" value="<?php echo $category['id']; ?>"<?php echo in_array($category['id'], $existing) ? ' checked' : ''; ?>>
+                <input type="checkbox" name="cats[]" value="<?php echo $category['id']; ?>"<?php echo in_array($category['id'], $existing, true) ? ' checked' : ''; ?>>
                 <?php echo str_repeat('&#151;', $category['level']); ?>
                 <?php echo $category['name']; ?>
             </label>

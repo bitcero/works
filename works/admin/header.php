@@ -26,15 +26,14 @@
  * @url          http://www.redmexico.com.mx
  * @url          http://www.eduardocortes.mx
  */
+require dirname(__DIR__) . '/../../include/cp_header.php';
 
-require '../../../include/cp_header.php';
-
-define('PW_PATH', XOOPS_ROOT_PATH.'/modules/'.$xoopsModule->dirname());
+define('PW_PATH', XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname());
 define('PW_URL', XOOPS_URL . '/modules/works');
-define('PW_PUBLIC_URL', $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . trim($xoopsModuleConfig['htbase'], '/') :  XOOPS_URL.'/modules/works');
+define('PW_PUBLIC_URL', $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . trim($xoopsModuleConfig['htbase'], '/') : XOOPS_URL . '/modules/works');
 
 # Definimos el motor de plantillas si no existe
-$mc =& $xoopsModuleConfig;
+$mc = &$xoopsModuleConfig;
 $myts = MyTextSanitizer::getInstance();
 
 $tpl = RMTemplate::get();
@@ -45,11 +44,11 @@ $tpl->assign('pw_url', PW_URL);
 $tpl->assign('pw_path', PW_PATH);
 
 // Directorios
-if (!file_exists(XOOPS_UPLOAD_PATH.'/works')) {
-    mkdir(XOOPS_UPLOAD_PATH.'/works');
+if (!file_exists(XOOPS_UPLOAD_PATH . '/works')) {
+    mkdir(XOOPS_UPLOAD_PATH . '/works');
 }
-if (!file_exists(XOOPS_UPLOAD_PATH.'/works/ths')) {
-    mkdir(XOOPS_UPLOAD_PATH.'/works/ths');
+if (!file_exists(XOOPS_UPLOAD_PATH . '/works/ths')) {
+    mkdir(XOOPS_UPLOAD_PATH . '/works/ths');
 }
 
 RMTemplate::getInstance()->add_script('admin-works.js', 'works', ['id' => 'works-js', 'footer' => 1]);

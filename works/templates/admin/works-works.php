@@ -45,31 +45,31 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="worksMenu">
-                    <li<?php if (!isset($show) || $show==''): ?> class="active"<?php endif; ?>>
+                    <li<?php if (!isset($show) || '' == $show): ?> class="active"<?php endif; ?>>
                         <a href="works.php?page=<?php echo $page; ?>">
                             <?php echo $cuIcons->getIcon('svg-rmcommon-list'); ?>
                             <?php _e('Show all', 'works'); ?>
                         </a>
                     </li>
-                    <li<?php if (isset($show) && $show=='public'): ?> class="active"<?php endif; ?>>
+                    <li<?php if (isset($show) && 'public' == $show): ?> class="active"<?php endif; ?>>
                         <a href="works.php?page=<?php echo $page; ?>&amp;show=public">
                             <?php echo $cuIcons->getIcon('svg-rmcommon-send'); ?>
                             <?php _e('Public', 'works'); ?>
                         </a>
                     </li>
-                    <li<?php if (isset($show) && $show=='draft'): ?> class="active"<?php endif; ?>>
+                    <li<?php if (isset($show) && 'draft' == $show): ?> class="active"<?php endif; ?>>
                         <a href="works.php?page=<?php echo $page; ?>&amp;show=draft">
                             <?php echo $cuIcons->getIcon('svg-rmcommon-document'); ?>
                             <?php _e('Drafts', 'works'); ?>
                         </a>
                     </li>
-                    <li<?php if (isset($show) && $show=='private'): ?> class="active"<?php endif; ?>>
+                    <li<?php if (isset($show) && 'private' == $show): ?> class="active"<?php endif; ?>>
                         <a href="works.php?page=<?php echo $page; ?>&amp;show=private">
                             <?php echo $cuIcons->getIcon('svg-rmcommon-eye-slash'); ?>
                             <?php _e('Privates', 'works'); ?>
                         </a>
                     </li>
-                    <li<?php if (isset($show) && $show=='scheduled'): ?> class="active"<?php endif; ?>>
+                    <li<?php if (isset($show) && 'scheduled' == $show): ?> class="active"<?php endif; ?>>
                         <a href="works.php?page=<?php echo $page; ?>&amp;show=scheduled">
                             <?php echo $cuIcons->getIcon('svg-rmcommon-calendar'); ?>
                             <?php _e('Scheduled', 'works'); ?>
@@ -96,7 +96,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th width="20" class="text-center"><input type="checkbox" id="checkall" onclick='$("#frm-works").toggleCheckboxes(":not(#checkall)");' /></th>
+                    <th width="20" class="text-center"><input type="checkbox" id="checkall" onclick='$("#frm-works").toggleCheckboxes(":not(#checkall)");'></th>
                     <th width="30" class="text-center"><?php _e('ID', 'works'); ?></th>
                     <th><?php _e('Name', 'works'); ?></th>
                     <th class="text-center"><?php _e('Customer', 'works'); ?></th>
@@ -108,7 +108,7 @@
                 </thead>
                 <tfoot>
                 <tr>
-                    <th width="20" class="text-center"><input type="checkbox" id="checkall" onclick='$("#frm-works").toggleCheckboxes(":not(#checkall)");' /></th>
+                    <th width="20" class="text-center"><input type="checkbox" id="checkall" onclick='$("#frm-works").toggleCheckboxes(":not(#checkall)");'></th>
                     <th width="30" class="text-center"><?php _e('ID', 'works'); ?></th>
                     <th><?php _e('Name', 'works'); ?></th>
                     <th class="text-center"><?php _e('Customer', 'works'); ?></th>
@@ -126,7 +126,7 @@
                 <?php endif; ?>
                 <?php foreach ($works as $work): ?>
                     <tr>
-                        <td class="text-center"><input type="checkbox" name="ids[]" value="<?php echo $work['id']; ?>" id="item-<?php echo $work['id']; ?>" /></td>
+                        <td class="text-center"><input type="checkbox" name="ids[]" value="<?php echo $work['id']; ?>" id="item-<?php echo $work['id']; ?>"></td>
                         <td class="text-center"><strong><?php echo $work['id']; ?></strong></td>
                         <td>
                             <?php switch ($work['status']) {
@@ -142,14 +142,13 @@
                                 case 'scheduled':
                                     echo '<span class="fa fa-calendar"></span>';
                                     break;
-
                             } ?>
                             <?php echo $work['title']; ?>
 
                             <span class="cu-item-options">
             <a href="works.php?action=edit&amp;id=<?php echo $work['id']; ?>&amp;page=<?php echo $page; ?>"><?php _e('Edit', 'admin_mywords'); ?></a>
             <a href="#" onclick="select_option(<?php echo $work['id']; ?>,'delete','frm-works'); return false;"><?php echo _e('Delete', 'works'); ?></a>
-                                <?php if ($work['status'] == 'scheduled' || $work['status'] == 'draft'): ?>
+                                <?php if ('scheduled' == $work['status'] || 'draft' == $work['status']): ?>
                                     <a href="<?php echo $work['url']; ?>" target="_blank"><?php _e('Preview', 'works'); ?></a>
                                 <?php else: ?>
                                     <a href="<?php echo $work['url']; ?>" target="_blank"><?php _e('View', 'works'); ?></a>
@@ -167,7 +166,7 @@
                         </td>
                         <td class="text-center"><small><?php echo $work['modified']; ?></small></td>
                         <td class="text-center">
-                            <?php if ($work['featured']): ?><img src="<?php echo XOOPS_URL; ?>/modules/works/images/ok.png" /><?php else: ?><img src="<?php echo XOOPS_URL; ?>/modules/works/images/no.png" /><?php endif; ?>
+                            <?php if ($work['featured']): ?><img src="<?php echo XOOPS_URL; ?>/modules/works/images/ok.png"><?php else: ?><img src="<?php echo XOOPS_URL; ?>/modules/works/images/no.png"><?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -203,7 +202,7 @@
 
 
 </div>
-<input type="hidden" name="pag" value="<?php echo $page ?>" />
-<input type="hidden" name="show" value="<?php echo $show ?>" />
+<input type="hidden" name="pag" value="<?php echo $page ?>">
+<input type="hidden" name="show" value="<?php echo $show ?>">
 <?php echo $xoopsSecurity->getTokenHTML(); ?>
 </form>

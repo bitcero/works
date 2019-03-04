@@ -14,10 +14,10 @@ function works_block_categories_show($options)
 {
     global $xoopsModule, $xoopsModuleConfig;
 
-    $categories = array();
+    $categories = [];
     Works_Functions::categories_tree($categories);
-    
+
     $block['categories'] = $categories;
-    
+
     return $block;
 }

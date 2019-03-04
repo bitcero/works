@@ -15,19 +15,17 @@ $mc = $xoopsModuleConfig;
 
 $work = new Works_Work($id);
 
-$categories = array();
+$categories = [];
 Works_Functions::categories_tree($categories);
 
 ob_start();
 include RMTemplate::get()->get_template('widgets/works-widget-categories.php', 'module', 'works');
 $content = ob_get_clean();
 
-$widget = array(
-
-    'title'     => __('Categories', 'works'),
-    'content'   => $content,
-    'icon'      => 'fa fa-folder'
-
-);
+$widget = [
+    'title' => __('Categories', 'works'),
+    'content' => $content,
+    'icon' => 'fa fa-folder',
+];
 
 return $widget;

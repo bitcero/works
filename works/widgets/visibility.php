@@ -15,12 +15,10 @@ ob_start();
 include RMTemplate::get()->get_template('widgets/works-widget-visibility.php', 'module', 'works');
 $content = ob_get_clean();
 
-$widget = array(
-
-    'title'     => __('Visibility', 'works'),
-    'content'   => $content,
-    'icon'      => 'fa fa-eye'
-
-);
+$widget = [
+    'title' => __('Visibility', 'works'),
+    'content' => $content,
+    'icon' => 'fa fa-eye',
+];
 
 return $widget;

@@ -17,29 +17,27 @@ function works_block_testimonials_show($options)
     $db = XoopsDatabaseFactory::getDatabaseConnection();
     $mc = RMSettings::module_settings('works');
 
-
-    $sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE status='public' AND `comment` != '' ORDER BY ".($options['type'] ? " created DESC " : " RAND() ");
-    $sql.= " LIMIT 0,".$options['limit'];
+    $sql = 'SELECT * FROM ' . $db->prefix('mod_works_works') . " WHERE status='public' AND `comment` != '' ORDER BY " . ($options['type'] ? ' created DESC ' : ' RAND() ');
+    $sql .= ' LIMIT 0,' . $options['limit'];
     $result = $db->query($sql);
-    $clients = array();
-    while ($row = $db->fetchArray($result)) {
+    $clients = [];
+    while (false !== ($row = $db->fetchArray($result))) {
         $work = new Works_Work();
         $work->assignVars($row);
-        
-        $rtn = array();
+
+        $rtn = [];
         $rtn['customer'] = $work->customer;
         $rtn['comment'] = $work->comment;
         $rtn['url'] = $work->url;
         $rtn['web'] = $work->web;
 
         $rtn['lang_cite'] = sprintf(__('%s from %s', 'works'), $work->customer, '<cite><a href="' . $work->url . '">' . $work->web . '</a>');
-    
+
         $block['works'][] = $rtn;
     }
-    
+
     return $block;
 }
-
 
 function works_block_testimonials_edit($options)
 {

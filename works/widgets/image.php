@@ -24,15 +24,13 @@ if (isset($work) && is_a($work, 'Works_Work')) {
 }
 
 $content = '<form name="frmDefimage" id="frm-defimage" method="post">';
-$content .= $util->image_manager('image', 'image', $params, array('accept' => 'thumbnail', 'multiple' => 'no'));
+$content .= $util->image_manager('image', 'image', $params, ['accept' => 'thumbnail', 'multiple' => 'no']);
 $content .= '</form>';
 
-$widget = array(
-
-    'title'     => __('Featured Image', 'works'),
-    'content'   => $content,
-    'icon'      => 'fa fa-eye'
-
-);
+$widget = [
+    'title' => __('Featured Image', 'works'),
+    'content' => $content,
+    'icon' => 'fa fa-eye',
+];
 
 return $widget;

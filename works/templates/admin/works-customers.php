@@ -7,14 +7,14 @@
         <option value=""><?php _e('Bulk actions...', 'works'); ?></option>
         <option value="delete"><?php _e('Delete', 'works'); ?></option>
     </select>
-    <input type="button" id="the-op-top" value="<?php _e('Apply', 'works'); ?>" onclick="before_submit('frm-customers');" />
+    <input type="button" id="the-op-top" value="<?php _e('Apply', 'works'); ?>" onclick="before_submit('frm-customers');">
 </div>
 
 
 <table width="100%" cellspacing="0" class="outer">
 	<tr>	
 		<th width="20">
-            <input type="checkbox" name="checkAll" onclick="xoopsCheckAll('frmClients','checkAll')" />
+            <input type="checkbox" name="checkAll" onclick="xoopsCheckAll('frmClients','checkAll')">
         </th>
 		<th width="30"><?php _e('ID', 'works'); ?></th>
 		<th align="left"><?php _e('Name', 'works'); ?></th>
@@ -29,7 +29,7 @@
     <?php endif; ?>
 	<?php foreach ($customers as $client): ?>
 	<tr class="<?php echo tpl_cycle('even,odd'); ?>" align="center" valign="top">
-		<td><input type="checkbox" name="ids[]" value="<?php echo $client['id']; ?>" id="item-<?php echo $client['id']; ?>" /></td>
+		<td><input type="checkbox" name="ids[]" value="<?php echo $client['id']; ?>" id="item-<?php echo $client['id']; ?>"></td>
 		<td><strong><?php echo $client['id']; ?></strong></td>
 		<td align="left">
             <strong><?php echo $client['name']; ?></strong>
@@ -50,9 +50,9 @@
         <option value=""><?php _e('Bulk actions...', 'works'); ?></option>
         <option value="delete"><?php _e('Delete', 'works'); ?></option>
     </select>
-    <input type="button" id="the-op-bottom" value="<?php _e('Apply', 'works'); ?>" />
+    <input type="button" id="the-op-bottom" value="<?php _e('Apply', 'works'); ?>">
 </div>
-<input type="hidden" name="page" value="<?php echo $page; ?>" />
-<input type="hidden" name="limit" value="<?php echo $limit; ?>" />
+<input type="hidden" name="page" value="<?php echo $page; ?>">
+<input type="hidden" name="limit" value="<?php echo $limit; ?>">
 <?php echo $xoopsSecurity->getTokenHTML(); ?>
 </form>

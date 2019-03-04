@@ -15,64 +15,63 @@ function works_block_items_show($options)
     global $xoopsModule, $xoopsModuleConfig;
 
     $db = XoopsDatabaseFactory::getDatabaseConnection();
-    
+
     $mc = RMSettings::module_settings('works');
 
     if ($options['category'] > 0) {
-        $sql = "SELECT w.* FROM " . $db->prefix("mod_works_works") . " as w, " . $db->prefix("mod_works_categories_rel") . " as r
-                WHERE r.category = " . $options['category'] . " AND w.id_work = r.work AND w.status = 'public' ";
+        $sql = 'SELECT w.* FROM ' . $db->prefix('mod_works_works') . ' as w, ' . $db->prefix('mod_works_categories_rel') . ' as r
+                WHERE r.category = ' . $options['category'] . " AND w.id_work = r.work AND w.status = 'public' ";
     } else {
-        $sql = "SELECT w.* FROM " . $db->prefix("mod_works_works") . " as w WHERE w.status = 'public' ";
+        $sql = 'SELECT w.* FROM ' . $db->prefix('mod_works_works') . " as w WHERE w.status = 'public' ";
     }
 
     switch ($options['type']) {
         case 'recent':
-            $sql .= "ORDER BY w.created DESC";
+            $sql .= 'ORDER BY w.created DESC';
             break;
         case 'featured':
-            $sql .= "AND featured = 1 ORDER BY RAND()";
+            $sql .= 'AND featured = 1 ORDER BY RAND()';
             break;
         case 'random':
         default:
-            $sql .= "ORDER BY RAND()";
+            $sql .= 'ORDER BY RAND()';
             break;
     }
 
-    $sql .= " LIMIT 0, " . ($options['limit'] > 0 ? $options['limit'] : 3);
+    $sql .= ' LIMIT 0, ' . ($options['limit'] > 0 ? $options['limit'] : 3);
 
     $result = $db->query($sql);
-    $block = array();
+    $block = [];
 
-    while ($row = $db->fetchArray($result)) {
+    while (false !== ($row = $db->fetchArray($result))) {
         $work = new Works_Work();
         $work->assignVars($row);
 
         $tf = new RMTimeFormatter(0, $options['format']);
 
-        $image_params = array(
-            'width'     => $options['width'],
-            'height'    => $options['height']
-        );
+        $image_params = [
+            'width' => $options['width'],
+            'height' => $options['height'],
+        ];
 
         $workData = Works_Functions::render_data($work, $options['len']);
-        $workData['image'] = $options['image'] ? RMImageResizer::resize($workData['image'], $image_params)->url  : '';
+        $workData['image'] = $options['image'] ? RMImageResizer::resize($workData['image'], $image_params)->url : '';
         $workData['description'] = $options['description'] ? $workData['description'] : '';
         $workData['created'] = sprintf(__('Created on %s', 'works'), $tf->format($work->created));
 
         $block['works'][] = $workData;
     }
 
-    $block['options'] = array(
-        'display'   => $options['display'],
-        'grid'      => $options['grid'],
-        'col'       => 12 / $options['grid']
-    );
+    $block['options'] = [
+        'display' => $options['display'],
+        'grid' => $options['grid'],
+        'col' => 12 / $options['grid'],
+    ];
 
     RMTemplate::getInstance()->add_style('blocks.css', 'works');
 
     return $block;
 }
-
 
 function works_block_items_edit($options)
 {
@@ -83,9 +82,9 @@ function works_block_items_edit($options)
     <div class="form-group">
         <label for="works-type"><?php _e('Works type:', 'works'); ?></label>
         <select class="form-control" name="options[type]" id="works-type">
-            <option value="random"<?php echo $options['type']=='random' ? ' selected' : ''; ?>><?php _e('Random works', 'works'); ?></option>
-            <option value="featured"<?php echo $options['type']=='featured' ? ' selected' : ''; ?>><?php _e('Featured works', 'works'); ?></option>
-            <option value="recent"<?php echo $options['type']=='recent' ? ' selected' : ''; ?>><?php _e('Recent works', 'works'); ?></option>
+            <option value="random"<?php echo 'random' == $options['type'] ? ' selected' : ''; ?>><?php _e('Random works', 'works'); ?></option>
+            <option value="featured"<?php echo 'featured' == $options['type'] ? ' selected' : ''; ?>><?php _e('Featured works', 'works'); ?></option>
+            <option value="recent"<?php echo 'recent' == $options['type'] ? ' selected' : ''; ?>><?php _e('Recent works', 'works'); ?></option>
         </select>
     </div>
 
@@ -94,12 +93,12 @@ function works_block_items_edit($options)
         <select name="options[category]" id="works-category" class="form-control">
             <option value="0"<?php echo $options['category'] <= 0 ? ' selected' : ''; ?>><?php _e('All categories', 'works'); ?></option>
             <?php
-            $result = $db->query("SELECT * FROM ".$db->prefix('mod_works_categories')." WHERE status='active'");
-    while ($row = $db->fetchArray($result)) {
+            $result = $db->query('SELECT * FROM ' . $db->prefix('mod_works_categories') . " WHERE status='active'");
+    while (false !== ($row = $db->fetchArray($result))) {
         $cat = new Works_Category();
         $cat->assignVars($row);
 
-        echo '<option value="'.$cat->id().'"'.($options['category'] == $cat->id() ? ' selected' : '').'>'. $cat->name .'</option>';
+        echo '<option value="' . $cat->id() . '"' . ($options['category'] == $cat->id() ? ' selected' : '') . '>' . $cat->name . '</option>';
     } ?>
         </select>
     </div>
@@ -155,25 +154,25 @@ function works_block_items_edit($options)
     <div class="form-group">
         <label for="works-display"><?php _e('Content layout:', 'works'); ?></label>
         <select name="options[display]" id="works-display" class="form-control">
-            <option value="list"<?php echo $options['display'] != 'grid' ? ' selected' : ''; ?>><?php _e('Show as list', 'works'); ?></option>
-            <option value="grid"<?php echo $options['display'] == 'grid' ? ' selected' : ''; ?>><?php _e('Show as grid', 'works'); ?></option>
+            <option value="list"<?php echo 'grid' != $options['display'] ? ' selected' : ''; ?>><?php _e('Show as list', 'works'); ?></option>
+            <option value="grid"<?php echo 'grid' == $options['display'] ? ' selected' : ''; ?>><?php _e('Show as grid', 'works'); ?></option>
         </select>
     </div>
 
     <div class="form-group">
         <label for="works-grid"><?php _e('Grid columns:', 'works'); ?></label>
         <select name="options[grid]" id="works-grid" class="form-control">
-            <option value="1"<?php echo $options['grid'] == 1 ? ' selected' : ''; ?>><?php _e('One', 'works'); ?></option>
-            <option value="2"<?php echo $options['grid'] == 2 ? ' selected' : ''; ?>><?php _e('Two', 'works'); ?></option>
-            <option value="3"<?php echo $options['grid'] == 3 ? ' selected' : ''; ?>><?php _e('Three', 'works'); ?></option>
-            <option value="4"<?php echo $options['grid'] == 4 ? ' selected' : ''; ?>><?php _e('Four', 'works'); ?></option>
-            <option value="6"<?php echo $options['grid'] == 6 ? ' selected' : ''; ?>><?php _e('Six', 'works'); ?></option>
+            <option value="1"<?php echo 1 == $options['grid'] ? ' selected' : ''; ?>><?php _e('One', 'works'); ?></option>
+            <option value="2"<?php echo 2 == $options['grid'] ? ' selected' : ''; ?>><?php _e('Two', 'works'); ?></option>
+            <option value="3"<?php echo 3 == $options['grid'] ? ' selected' : ''; ?>><?php _e('Three', 'works'); ?></option>
+            <option value="4"<?php echo 4 == $options['grid'] ? ' selected' : ''; ?>><?php _e('Four', 'works'); ?></option>
+            <option value="6"<?php echo 6 == $options['grid'] ? ' selected' : ''; ?>><?php _e('Six', 'works'); ?></option>
         </select>
     </div>
 
     <div class="form-group">
         <label for="works-format"><?php _e('Dates format:', 'works'); ?></label>
-        <input type="text" class="form-control" name="options[format]" id="works-format" value="<?php echo $options['format'] != '' ? $options['format'] : "%d% %T% %Y%"; ?>">
+        <input type="text" class="form-control" name="options[format]" id="works-format" value="<?php echo '' != $options['format'] ? $options['format'] : '%d% %T% %Y%'; ?>">
     </div>
 
 

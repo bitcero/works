@@ -47,100 +47,98 @@
  * 13. Settings
  * 14. Module subpages
  */
+require_once __DIR__ . '/include/xv-header.php';
 
-include_once 'include/xv-header.php';
-
-if (function_exists("load_mod_locale")) {
+if (function_exists('load_mod_locale')) {
     load_mod_locale('works');
 }
 
-$modversion = array(
-
+$modversion = [
     // 1. General
-    'name'          => 'Professional Works',
-    'description'   => __('A module to create portfolios in XOOPS', 'works'),
-    'version'       => 2.2,
-    'license'       => 'GPL 2',
-    'dirname'       => 'works',
-    'official'      => 0,
+    'name' => 'Professional Works',
+    'description' => __('A module to create portfolios in XOOPS', 'works'),
+    'version' => 2.2,
+    'license' => 'GPL 2',
+    'dirname' => 'works',
+    'official' => 0,
 
     // 2. Common Utilities
-    'rmnative'      => 1,
-    'url'           => 'https://github.com/bitcero/works',
-    'rmversion'     => array(
-        'major'     => 2,
-        'minor'     => 2,
-        'revision'  => 24,
-        'stage'     => -1,
-        'name'      => 'Professional Works'
-    ),
-    'rewrite'       => 0,
-    'updateurl'     => "http://www.xoopsmexico.net/modules/vcontrol/",
-    'help'          => 'docs/readme.html',
+    'rmnative' => 1,
+    'url' => 'https://github.com/bitcero/works',
+    'rmversion' => [
+        'major' => 2,
+        'minor' => 2,
+        'revision' => 24,
+        'stage' => -1,
+        'name' => 'Professional Works',
+    ],
+    'rewrite' => 0,
+    'updateurl' => 'http://www.xoopsmexico.net/modules/vcontrol/',
+    'help' => 'docs/readme.html',
 
     // 3. Author information
-    'author'        => "Eduardo Cortes",
-    'authormail'    => "i.bitcero@gmail.com",
-    'authorweb'     => "Eduardo Cortes",
-    'authorurl'     => "http://eduardocortes.mx",
-    'credits'       => "Eduardo Cortes",
+    'author' => 'Eduardo Cortes',
+    'authormail' => 'i.bitcero@gmail.com',
+    'authorweb' => 'Eduardo Cortes',
+    'authorurl' => 'http://eduardocortes.mx',
+    'credits' => 'Eduardo Cortes',
 
     // 4. Logo and icons
-    'image'         => "images/logo.png",
-    'icon'          => "fa fa-briefcase text-brown",
+    'image' => 'images/logo.png',
+    'icon' => 'fa fa-briefcase text-brown',
 
     // 5. Social
-    'social'        => array(
-        array(
+    'social' => [
+        [
             'title' => 'Twitter',
-            'type'  => 'twitter-square',
-            'url'   => 'http://www.twitter.com/bitcero/'
-        ),
-        array(
+            'type' => 'twitter-square',
+            'url' => 'http://www.twitter.com/bitcero/',
+        ],
+        [
             'title' => 'Facebook',
-            'type'  => 'facebook-square',
-            'url'   => 'http://www.facebook.com/eduardo.cortes.hervis/'
-        ),
-        array(
+            'type' => 'facebook-square',
+            'url' => 'http://www.facebook.com/eduardo.cortes.hervis/',
+        ],
+        [
             'title' => 'Instagram',
-            'type'  => 'instagram',
-            'url'   => 'http://www.instagram.com/eduardocortesh/'
-        ),
-        array(
+            'type' => 'instagram',
+            'url' => 'http://www.instagram.com/eduardocortesh/',
+        ],
+        [
             'title' => 'LinkedIn',
-            'type'  => 'linkedin-square',
-            'url'   => 'http://www.linkedin.com/in/bitcero/'
-        ),
-        array(
+            'type' => 'linkedin-square',
+            'url' => 'http://www.linkedin.com/in/bitcero/',
+        ],
+        [
             'title' => 'GitHub',
-            'type'  => 'github',
-            'url'   => 'http://www.github.com/bitcero/'
-        ),
-        array(
+            'type' => 'github',
+            'url' => 'http://www.github.com/bitcero/',
+        ],
+        [
             'title' => 'Google+',
-            'type'  => 'google-plus-square',
-            'url'   => 'https://plus.google.com/100655708852776329288'
-        ),
-        array(
+            'type' => 'google-plus-square',
+            'url' => 'https://plus.google.com/100655708852776329288',
+        ],
+        [
             'title' => __('My Blog', 'works'),
-            'type'  => 'quote-left',
-            'url'   => 'http://eduardocortes.mx'
-        ),
-    ),
+            'type' => 'quote-left',
+            'url' => 'http://eduardocortes.mx',
+        ],
+    ],
 
     // 6. Backend
-    'hasAdmin'      => 1,
-    'adminindex'    => "admin/index.php",
-    'adminmenu'     => "admin/menu.php",
+    'hasAdmin' => 1,
+    'adminindex' => 'admin/index.php',
+    'adminmenu' => 'admin/menu.php',
 
     // 7. Front End
-    'hasMain'       => 1,
+    'hasMain' => 1,
 
     // 8. SQL file
-    'sqlfile'       => array( 'mysql' => "sql/mysql.sql" ),
+    'sqlfile' => [ 'mysql' => 'sql/mysql.sql' ],
 
     // 9. Database tables
-    'tables'        => array(
+    'tables' => [
         'mod_works_categories',
         'mod_works_categories_rel',
         'mod_works_works',
@@ -148,212 +146,207 @@ $modversion = array(
         'mod_works_clients',
         'mod_works_types',
         'mod_works_meta',
-        'mod_works_videos'
-    ),
+        'mod_works_videos',
+    ],
 
     // 10. Search
-    'hasSearch'     => 1,
-    'search'        => array(
-        'file'      => 'include/search.functions.php',
-        'func'      => 'works_search'
-    ),
+    'hasSearch' => 1,
+    'search' => [
+        'file' => 'include/search.functions.php',
+        'func' => 'works_search',
+    ],
 
     // 11. Smarty templates
-    'templates'     => array(
-        array(
-            'file'          => 'works-header.tpl',
-            'description'   => __('Contains the header for every single template', 'works')
-        ),
-        array(
-            'file'          => 'works-index.tpl',
-            'description'   => __('Home page for module', 'works')
-        ),
-        array(
-            'file'          => 'works-recent.tpl',
-            'description'   => __('Display the recent works', 'works')
-        ),
-        array(
-            'file'          => 'works-featured.tpl',
-            'description'   => __('Display the featured works', 'works')
-        ),
-        array(
-            'file'          => 'works-category.tpl',
-            'description'   => __('Displays the works that belong to a specific category', 'works')
-        ),
-        array(
-            'file'          => 'works-item.tpl',
-            'description'   => __('Display all the information for a specific item', 'works')
-        ),
-        array(
-            'file'          => 'works-loop-item.tpl',
-            'description'   => __('Display the work data for insertion in lists', 'works')
-        )
-    ),
+    'templates' => [
+        [
+            'file' => 'works-header.tpl',
+            'description' => __('Contains the header for every single template', 'works'),
+        ],
+        [
+            'file' => 'works-index.tpl',
+            'description' => __('Home page for module', 'works'),
+        ],
+        [
+            'file' => 'works-recent.tpl',
+            'description' => __('Display the recent works', 'works'),
+        ],
+        [
+            'file' => 'works-featured.tpl',
+            'description' => __('Display the featured works', 'works'),
+        ],
+        [
+            'file' => 'works-category.tpl',
+            'description' => __('Displays the works that belong to a specific category', 'works'),
+        ],
+        [
+            'file' => 'works-item.tpl',
+            'description' => __('Display all the information for a specific item', 'works'),
+        ],
+        [
+            'file' => 'works-loop-item.tpl',
+            'description' => __('Display the work data for insertion in lists', 'works'),
+        ],
+    ],
 
     // 12. Blocks
-    'blocks'        => array(
+    'blocks' => [
         #··· Works
-        array(
-            'file'          => 'works-block-items.php',
-            'name'          => __('Works', 'works'),
-            'description'   => __('Display a block with works', 'works'),
-            'show_func'     => 'works_block_items_show',
-            'edit_func'     => 'works_block_items_edit',
-            'template'      => 'works-block-items.tpl',
-            'options'       => array(0,0,0,1,1,1,0)
-        ),
+        [
+            'file' => 'works-block-items.php',
+            'name' => __('Works', 'works'),
+            'description' => __('Display a block with works', 'works'),
+            'show_func' => 'works_block_items_show',
+            'edit_func' => 'works_block_items_edit',
+            'template' => 'works-block-items.tpl',
+            'options' => [0, 0, 0, 1, 1, 1, 0],
+        ],
         #··· Testimonials
-        array(
-            'file'          => 'works-block-testimonials.php',
-            'name'          => __('Testimonials', 'works'),
-            'description'   => __('Display a block with customers testimonials', 'works'),
-            'show_func'     => 'works_block_testimonials_show',
-            'edit_func'     => 'works_block_testimonials_edit',
-            'template'      => 'works-block-testimonials.tpl',
-            'options'       => array(3,0)
-        ),
+        [
+            'file' => 'works-block-testimonials.php',
+            'name' => __('Testimonials', 'works'),
+            'description' => __('Display a block with customers testimonials', 'works'),
+            'show_func' => 'works_block_testimonials_show',
+            'edit_func' => 'works_block_testimonials_edit',
+            'template' => 'works-block-testimonials.tpl',
+            'options' => [3, 0],
+        ],
         #··· Categories
-        array(
-            'file'          => 'works-block-categories.php',
-            'name'          => __('Categories', 'works'),
-            'description'   => __('Display a block with works categories', 'works'),
-            'show_func'     => 'works_block_categories_show',
-            'edit_func'     => '',
-            'template'      => 'works-block-categories.tpl',
-            'options'       => array(1)
-        ),
+        [
+            'file' => 'works-block-categories.php',
+            'name' => __('Categories', 'works'),
+            'description' => __('Display a block with works categories', 'works'),
+            'show_func' => 'works_block_categories_show',
+            'edit_func' => '',
+            'template' => 'works-block-categories.tpl',
+            'options' => [1],
+        ],
 
         #··· Work details
-        array(
-            'file'          => 'works-block-details.php',
-            'name'          => __('Work item details', 'works'),
-            'description'   => __('Shows details for selected work. This block only works in work page.', 'works'),
-            'show_func'     => 'works_block_details_show',
-            'edit_func'     => 'works_block_details_edit',
-            'template'      => 'works-block-details.tpl',
-            'options'       => array('description' => 0, 'len' => 80)
-        )
-    ),
+        [
+            'file' => 'works-block-details.php',
+            'name' => __('Work item details', 'works'),
+            'description' => __('Shows details for selected work. This block only works in work page.', 'works'),
+            'show_func' => 'works_block_details_show',
+            'edit_func' => 'works_block_details_edit',
+            'template' => 'works-block-details.tpl',
+            'options' => ['description' => 0, 'len' => 80],
+        ],
+    ],
 
     // 13. Settings
-    'config'        => array(
-
+    'config' => [
         #··· Permalinks
-        array(
-            'name'          => 'permalinks',
-            'title'         => __('Enable permalinks', 'works'),
-            'description'   => __('This option activate/deactivate friendly URLs for module', 'works'),
-            'formtype'      => 'yesno',
-            'valuetype'     => 'int',
-            'default'       => 0
-        ),
+        [
+            'name' => 'permalinks',
+            'title' => __('Enable permalinks', 'works'),
+            'description' => __('This option activate/deactivate friendly URLs for module', 'works'),
+            'formtype' => 'yesno',
+            'valuetype' => 'int',
+            'default' => 0,
+        ],
 
         #··· Base path for permalinks
-        array(
-            'name'          => 'htbase',
-            'title'         => __('Base path for permalinks', 'works'),
-            'description'   => __('Sets the base path to use in friendly URLs.', 'works'),
-            'formtype'      => 'textbox',
-            'valuetype'     => 'text',
-            'default'       => '/portfolio'
-        ),
+        [
+            'name' => 'htbase',
+            'title' => __('Base path for permalinks', 'works'),
+            'description' => __('Sets the base path to use in friendly URLs.', 'works'),
+            'formtype' => 'textbox',
+            'valuetype' => 'text',
+            'default' => '/portfolio',
+        ],
 
         #··· Header title
-        array(
-            'name'          => 'title',
-            'title'         => __('Header title', 'works'),
-            'description'   => __('This title will be show as header of module.', 'works'),
-            'formtype'      => 'textbox',
-            'valuetype'     => 'text',
-            'default'       => 'Professional Works'
-        ),
+        [
+            'name' => 'title',
+            'title' => __('Header title', 'works'),
+            'description' => __('This title will be show as header of module.', 'works'),
+            'formtype' => 'textbox',
+            'valuetype' => 'text',
+            'default' => 'Professional Works',
+        ],
 
         #··· Description length for lists
-        array(
-            'name'          => 'desclen',
-            'title'         => __('Description length in works lists', 'works'),
-            'description'   => __('This value will limit the length of descriptions in works lists, such as home, categories, recent, etc.', 'works'),
-            'formtype'      => 'textbox',
-            'valuetype'     => 'int',
-            'default'       => '100'
-        ),
+        [
+            'name' => 'desclen',
+            'title' => __('Description length in works lists', 'works'),
+            'description' => __('This value will limit the length of descriptions in works lists, such as home, categories, recent, etc.', 'works'),
+            'formtype' => 'textbox',
+            'valuetype' => 'int',
+            'default' => '100',
+        ],
 
         #··· Number of recent works
-        array(
-            'name'          => 'num_recent',
-            'title'         => __('Number of recent works', 'works'),
-            'description'   => __('The number of recent works that will be shown in the home page.', 'works'),
-            'formtype'      => 'textbox',
-            'valuetype'     => 'int',
-            'default'       => 5
-        ),
+        [
+            'name' => 'num_recent',
+            'title' => __('Number of recent works', 'works'),
+            'description' => __('The number of recent works that will be shown in the home page.', 'works'),
+            'formtype' => 'textbox',
+            'valuetype' => 'int',
+            'default' => 5,
+        ],
 
         #··· Number of featured works
-        array(
-            'name'          => 'num_featured',
-            'title'         => __('Number of featured works', 'works'),
-            'description'   => __('The number of featured works that will be shown in the home page.', 'works'),
-            'formtype'      => 'textbox',
-            'valuetype'     => 'int',
-            'default'       => 5
-        ),
+        [
+            'name' => 'num_featured',
+            'title' => __('Number of featured works', 'works'),
+            'description' => __('The number of featured works that will be shown in the home page.', 'works'),
+            'formtype' => 'textbox',
+            'valuetype' => 'int',
+            'default' => 5,
+        ],
 
         #··· Related works
-        array(
-            'name'          => 'other_works',
-            'title'         => __('Related works', 'works'),
-            'description'   => __('Show or not related works box in details page.', 'works'),
-            'formtype'      => 'select',
-            'valuetype'     => 'int',
-            'default'       => 0,
-            'options'       => array(
-                'Not to show'       => 0,
-                'Same category'     => 1,
-                'Featured works'    => 2
-            )
-        ),
+        [
+            'name' => 'other_works',
+            'title' => __('Related works', 'works'),
+            'description' => __('Show or not related works box in details page.', 'works'),
+            'formtype' => 'select',
+            'valuetype' => 'int',
+            'default' => 0,
+            'options' => [
+                'Not to show' => 0,
+                'Same category' => 1,
+                'Featured works' => 2,
+            ],
+        ],
 
         #··· Number of related works
-        array(
-            'name'          => 'num_otherworks',
-            'title'         => __('Number of related works', 'works'),
-            'description'   => __('The number of related works that will be shown in the details page.', 'works'),
-            'formtype'      => 'textbox',
-            'valuetype'     => 'int',
-            'default'       => 5
-        ),
+        [
+            'name' => 'num_otherworks',
+            'title' => __('Number of related works', 'works'),
+            'description' => __('The number of related works that will be shown in the details page.', 'works'),
+            'formtype' => 'textbox',
+            'valuetype' => 'int',
+            'default' => 5,
+        ],
 
         #··· Customer information
-        array(
-            'name'          => 'show_customer',
-            'title'         => __('Show customer information', 'works'),
-            'description'   => __('When this option is enabled you will see the option to provide customer name and customer testimonial in works form.', 'works'),
-            'formtype'      => 'yesno',
-            'valuetype'     => 'int',
-            'default'       => 0
-        ),
+        [
+            'name' => 'show_customer',
+            'title' => __('Show customer information', 'works'),
+            'description' => __('When this option is enabled you will see the option to provide customer name and customer testimonial in works form.', 'works'),
+            'formtype' => 'yesno',
+            'valuetype' => 'int',
+            'default' => 0,
+        ],
 
         #··· Web site
-        array(
-            'name'          => 'show_web',
-            'title'         => __('Show website information', 'works'),
-            'description'   => __('When this option is enabled you will see the option to provide the website in works form.', 'works'),
-            'formtype'      => 'yesno',
-            'valuetype'     => 'int',
-            'default'       => 0
-        ),
-
-    ),
+        [
+            'name' => 'show_web',
+            'title' => __('Show website information', 'works'),
+            'description' => __('When this option is enabled you will see the option to provide the website in works form.', 'works'),
+            'formtype' => 'yesno',
+            'valuetype' => 'int',
+            'default' => 0,
+        ],
+    ],
 
     // 14. Module Pages
-    'subpages'      => array(
-
-        'index'     => __('Homepage', 'works'),
-        'recent'    => __('Recent works', 'works'),
-        'featured'  => __('Featured works', 'works'),
-        'work'      => __('Work details', 'works'),
-        'category'  => __('Category content', 'works')
-
-    )
-    
-);
+    'subpages' => [
+        'index' => __('Homepage', 'works'),
+        'recent' => __('Recent works', 'works'),
+        'featured' => __('Featured works', 'works'),
+        'work' => __('Work details', 'works'),
+        'category' => __('Category content', 'works'),
+    ],
+];

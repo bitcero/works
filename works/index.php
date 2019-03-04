@@ -26,72 +26,71 @@
  * @url          http://www.redmexico.com.mx
  * @url          http://www.eduardocortes.mx
  */
-
-include '../../mainfile.php';
+require  dirname(dirname(__DIR__)) . '/mainfile.php';
 load_mod_locale('works');
 
-if ($xoopsModuleConfig['permalinks']<=0) {
+if ($xoopsModuleConfig['permalinks'] <= 0) {
     // PHP Default URLs mode
     $p = RMHttpRequest::request('p', 'string', 'home');
     $id = RMHttpRequest::request('id', 'string', '');
 
     switch ($p) {
         case 'category':
-            include 'category.php';
+            require __DIR__ . '/category.php';
             break;
         case 'work':
-            include 'work.php';
+            require __DIR__ . '/work.php';
             break;
         default:
-            include $p.'.php';
+            include $p . '.php';
             break;
     }
-    
-    if (trim($p)!='') {
+
+    if ('' != trim($p)) {
         exit();
     }
 }
 
 $request = str_replace(XOOPS_URL, '', RMUris::current_url());
-$request = str_replace("/modules/works/", '', $request);
+$request = str_replace('/modules/works/', '', $request);
 
-if ($xoopsModuleConfig['permalinks']>0 && $xoopsModuleConfig['htbase']!='/' && $request!='') {
-    $request = str_replace(rtrim($xoopsModuleConfig['htbase'], '/').'/', '', rtrim($request, '/').'/');
+if ($xoopsModuleConfig['permalinks'] > 0 && '/' != $xoopsModuleConfig['htbase'] && '' != $request) {
+    $request = str_replace(rtrim($xoopsModuleConfig['htbase'], '/') . '/', '', rtrim($request, '/') . '/');
 }
 $yesquery = false;
 
 // Allow to plugins to manage requests to module
 $request = RMEvents::get()->run_event('works.parse.request', $request);
 
-if (substr($request, 0, 1)=='?') {
-    $request = substr($request, 1);
-    $yesquery=true;
+if ('?' == mb_substr($request, 0, 1)) {
+    $request = mb_substr($request, 1);
+    $yesquery = true;
 }
-if ($request=='' || $request=='index.php') {
-    require 'home.php';
+if ('' == $request || 'index.php' == $request) {
+    require __DIR__ . '/home.php';
     die();
 }
 
-$vars = array();
+$vars = [];
 parse_str($request, $vars);
 
 if (isset($vars['work'])) {
     $post = $vars['work'];
-    require 'work.php';
+    require __DIR__ . '/work.php';
     die();
 }
 if (isset($vars['cat'])) {
     $category = $vars['cat'];
-    require 'category.php';
+    require __DIR__ . '/category.php';
     die();
 }
 
 $vars = explode('/', rtrim($request, '/'));
 
 foreach ($vars as $i => $v) {
-    if ($v=='page') {
-        $page = $vars[$i+1];
-        unset($vars[$i], $vars[$i+1]);
+    if ('page' == $v) {
+        $page = $vars[$i + 1];
+        unset($vars[$i], $vars[$i + 1]);
         break;
     }
 }
@@ -99,41 +98,41 @@ foreach ($vars as $i => $v) {
  * Si el primer valor es category entonces se realiza la búsqueda por
  * categoría
  */
-if ($vars[0]=='category') {
+if ('category' == $vars[0]) {
     array_shift($vars);
-    $id = implode("/", $vars);
-    require 'category.php';
+    $id = implode('/', $vars);
+    require __DIR__ . '/category.php';
     die();
 }
 
-if ($vars[0]=='recent') {
+if ('recent' == $vars[0]) {
     $categotype = 1;
-    require 'recent.php';
+    require __DIR__ . '/recent.php';
     die();
 }
 
-if ($vars[0]=='featured') {
-    require 'featured.php';
+if ('featured' == $vars[0]) {
+    require __DIR__ . '/featured.php';
     die();
 }
 
-if ($vars[0]=='page') {
+if ('page' == $vars[0]) {
     $page = $vars[1];
-    require 'home.php';
+    require __DIR__ . '/home.php';
     exit();
 }
 
 /**
-* Work
-*/
+ * Work
+ */
 if (!empty($vars[0])) {
     $id = $vars[0];
-    require 'work.php';
+    require __DIR__ . '/work.php';
     exit();
 }
 
 if ($yesquery) {
-    require 'home.php';
+    require __DIR__ . '/home.php';
     exit();
 }
 

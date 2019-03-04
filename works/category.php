@@ -8,15 +8,15 @@
 // License: GPL 2.0
 // --------------------------------------------------------------
 
-$xoopsOption['template_main'] = 'works-category.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'works-category.tpl';
 $xoopsOption['module_subpage'] = 'category';
-include 'header.php';
+require __DIR__ . '/header.php';
 
 Works_Functions::makeHeader();
 
-$mc =& $xoopsModuleConfig;
-if ($id=='') {
-    header('location: '.PW_URL);
+$mc = &$xoopsModuleConfig;
+if ('' == $id) {
+    header('location: ' . PW_URL);
     die();
 }
 
@@ -33,47 +33,47 @@ if ($cat->isNew()) {
 RMEvents::get()->run_event('works.starting.categories', $cat);
 
 // Category
-$tpl->assign('category', array( 'id'=>$cat->id(),'name'=>$cat->name,'nameid'=>$cat->nameid,'description'=>$cat->desc ));
+$tpl->assign('category', [ 'id' => $cat->id(), 'name' => $cat->name, 'nameid' => $cat->nameid, 'description' => $cat->desc ]);
 
 //Barra de Navegación
-$sql = "SELECT COUNT(*) FROM ".$db->prefix('mod_works_works')." as w, ".$db->prefix('mod_works_categories_rel')." as r
-        WHERE r.category = ". $cat->id() . " AND w.id_work = r.work AND w.status = 'public'";
+$sql = 'SELECT COUNT(*) FROM ' . $db->prefix('mod_works_works') . ' as w, ' . $db->prefix('mod_works_categories_rel') . ' as r
+        WHERE r.category = ' . $cat->id() . " AND w.id_work = r.work AND w.status = 'public'";
 
-list($num)=$db->fetchRow($db->query($sql));
+list($num) = $db->fetchRow($db->query($sql));
 
 $limit = $mc['num_recent'];
-$limit = $limit<=0 ? 10 : $limit;
+$limit = $limit <= 0 ? 10 : $limit;
 if (!isset($page)) {
     $page = RMHttpRequest::get('page', 'integer', 1);
 }
 
-$tpages = ceil($num/$limit);
+$tpages = ceil($num / $limit);
 $page = $page > $tpages ? $tpages : $page;
-$start = $num<=0 ? 0 : ($page - 1) * $limit;
-$start = $start<0 ? 0 : $start;
+$start = $num <= 0 ? 0 : ($page - 1) * $limit;
+$start = $start < 0 ? 0 : $start;
 
 $nav = new RMPageNav($num, $limit, $page, 5);
-$url = $cat->permalink().($mc['permalinks'] ? 'page/{PAGE_NUM}' : '&page={PAGE_NUM}');
+$url = $cat->permalink() . ($mc['permalinks'] ? 'page/{PAGE_NUM}' : '&page={PAGE_NUM}');
 $nav->target_url($url);
 $tpl->assign('navpage', $nav->render(false));
 
-$sql = str_replace("COUNT(*)", 'w.*', $sql);
-$sql.= " ORDER BY w.created DESC LIMIT $start,$limit";
+$sql = str_replace('COUNT(*)', 'w.*', $sql);
+$sql .= " ORDER BY w.created DESC LIMIT $start,$limit";
 $result = $db->query($sql);
 
 // Numero de resultados en esta página
 $t = $db->getRowsNum($result);
 $tpl->assign('page_total', $t);
-$tpl->assign('per_col', ceil($t/2));
+$tpl->assign('per_col', ceil($t / 2));
 
-while ($row = $db->fetchArray($result)) {
+while (false !== ($row = $db->fetchArray($result))) {
     $work = new Works_Work();
     $work->assignVars($row);
 
     $tpl->append('works', Works_Functions::render_data($work, $mc['desclen']));
 }
 $tpl->assign('lang_works', sprintf(__('Works in "%s"', 'works'), $cat->name));
-$tpl->assign('xoops_pagetitle', sprintf(__('Works in "%s"', 'works'), $cat->name)." &raquo; ".$mc['title']);
+$tpl->assign('xoops_pagetitle', sprintf(__('Works in "%s"', 'works'), $cat->name) . ' &raquo; ' . $mc['title']);
 $tpl->assign('lang_catego', __('Category:', 'works'));
 $tpl->assign('lang_date', __('Date:', 'works'));
 $tpl->assign('lang_client', __('Customer:', 'works'));
@@ -86,4 +86,4 @@ RMBreadCrumb::get()->add_crumb($cat->getVar('name'), PW_URL);
 // Body class
 RMTemplate::get()->add_body_class('works-list categories-list');
 
-include 'footer.php';
+require __DIR__ . '/footer.php';
