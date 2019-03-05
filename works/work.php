@@ -127,7 +127,7 @@ if ($mc['other_works'] > 0) {
             'web' => $wk->web,
             'url' => $wk->url,
             'link' => $wk->permalink(),
-            'created' => formatTimeStamp($wk->created, 's'),
+            'created' => formatTimestamp($wk->created, 's'),
             'image' => RMImage::get()->load_from_params($wk->image),
             'views' => $wk->views,
             'metas' => $wk->get_meta(),
@@ -166,7 +166,7 @@ $xoopsTpl->assign('comments_form', $common->comments()->form([
     'object' => 'works',
     'type' => 'module',
     'identifier' => 'work=' . $work->id(),
-    'file' => MW_PATH . '/class/workscontroller.php',
+    'file' => PW_PATH . '/class/workscontroller.php',
 ]));
 
 // Basic SEO

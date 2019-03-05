@@ -267,8 +267,9 @@ class Works_Work extends RMObject
         // Save meta
         $this->db->queryF('DELETE FROM ' . $this->db->prefix('mod_works_meta') . ' WHERE work = ' . $this->id());
         $sql = '';
+        $myts = MyTextSanitizer::getInstance();
         foreach ($this->meta as $name => $value) {
-            $sql .= "('" . MyTextSanitizer::addSlashes($name) . "','" . MyTextSanitizer::addSlashes($value) . "'," . $this->id() . '),';
+            $sql .= "('" . $myts->addSlashes($name) . "','" . $myts->addSlashes($value) . "'," . $this->id() . '),';
         }
 
         if ('' != $sql) {

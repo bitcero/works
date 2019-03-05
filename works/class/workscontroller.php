@@ -8,13 +8,13 @@
 // License: GPL 2.0
 // --------------------------------------------------------------
 
-class workscontroller implements iCommentsController
+class WorksController implements iCommentsController
 {
     public function increment_comments_number($comment)
     {
         $db = XoopsDatabaseFactory::getDatabaseConnection();
         $params = urldecode($comment->getVar('params'));
-        parse_str($params);
+        parse_str($params, $output);
 
         if (!isset($work) || $work <= 0) {
             return;
@@ -28,7 +28,7 @@ class workscontroller implements iCommentsController
     {
         $db = XoopsDatabaseFactory::getDatabaseConnection();
         $params = urldecode($comment->getVar('params'));
-        parse_str($params);
+        parse_str($params, $output);
 
         if (!isset($work) || $work <= 0) {
             return;
@@ -43,7 +43,7 @@ class workscontroller implements iCommentsController
         static $works;
 
         $params = urldecode($params);
-        parse_str($params);
+        parse_str($params, $output);
         if (!isset($work) || $work <= 0) {
             return __('Not found', 'works');
         }
@@ -70,7 +70,7 @@ class workscontroller implements iCommentsController
         static $works;
 
         $params = urldecode($params);
-        parse_str($params);
+        parse_str($params, $output);
         if (!isset($work) || $work <= 0) {
             return '';
         }
@@ -101,5 +101,14 @@ class workscontroller implements iCommentsController
         }
 
         return XOOPS_URL . '/modules/works';
+    }
+
+    public static function getInstance()
+    {
+        static $instance;
+        if (!isset($instance)) {
+            $instance = new self();
+        }
+        return $instance;
     }
 }

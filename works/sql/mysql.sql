@@ -6,6 +6,7 @@ CREATE TABLE `mod_works_categories` (
   `status` varchar(10) NOT NULL DEFAULT 'active',
   `nameid` varchar(150) NOT NULL,
   `created` int(10) NOT NULL DEFAULT '0',
+  `parent` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_cat`),
   KEY `status` (`status`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -65,7 +66,7 @@ CREATE TABLE `mod_works_works` (
   `modified` datetime NOT NULL,
   `status` varchar(10) NOT NULL DEFAULT 'public',
   `groups` text NOT NULL,
-  `schedule` datetime NOT NULL,
+  `schedule` datetime NULL,
   `rating` int(11) NOT NULL DEFAULT '0',
   `views` int(11) NOT NULL DEFAULT '0',
   `comms` int(11) NOT NULL DEFAULT '0',
@@ -75,3 +76,14 @@ CREATE TABLE `mod_works_works` (
   PRIMARY KEY (`id_work`),
   KEY `titleid` (`titleid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `mod_works_videos` (
+`video_id` int(11) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `work` int(11) NOT NULL,
+  PRIMARY KEY (`video_id`),
+  KEY `work` (`work`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
