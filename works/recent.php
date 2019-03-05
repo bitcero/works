@@ -9,7 +9,7 @@
 // --------------------------------------------------------------
 
 $GLOBALS['xoopsOption']['template_main'] = 'works-recent.tpl';
-$xoopsOption['module_subpage'] = 'recent';
+$xoopsOption['module_subpage']           = 'recent';
 require __DIR__ . '/header.php';
 
 Works_Functions::makeHeader();
@@ -26,17 +26,17 @@ if (!isset($page)) {
 }
 
 $tpages = ceil($num / $limit);
-$page = $page > $tpages ? $tpages : $page;
-$start = $num <= 0 ? 0 : ($page - 1) * $limit;
-$start = $start < 0 ? 0 : $start;
+$page   = $page > $tpages ? $tpages : $page;
+$start  = $num <= 0 ? 0 : ($page - 1) * $limit;
+$start  = $start < 0 ? 0 : $start;
 
 $nav = new RMPageNav($num, $limit, $page, 5);
 $url = $xoopsModuleConfig['permalinks'] ? XOOPS_URL . rtrim($xoopsModuleConfig['htbase'], '/') . '/recent/page/{PAGE_NUM}/' : XOOPS_URL . '/modules/works/recent.php?page={PAGE_NUM}';
 $nav->target_url($url);
 $tpl->assign('navpage', $nav->render(false));
 
-$sql = 'SELECT * FROM ' . $db->prefix('mod_works_works') . " WHERE status='public' ORDER BY created DESC";
-$sql .= " LIMIT $start, $limit";
+$sql    = 'SELECT * FROM ' . $db->prefix('mod_works_works') . " WHERE status='public' ORDER BY created DESC";
+$sql    .= " LIMIT $start, $limit";
 $result = $db->query($sql);
 
 while (false !== ($row = $db->fetchArray($result))) {

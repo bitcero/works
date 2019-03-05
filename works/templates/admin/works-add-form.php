@@ -44,23 +44,23 @@
                 <?php
                 $images = $work->images();
                 foreach ($images as $idi => $image): ?>
-                <span data-id="existing-<?php echo $idi; ?>" style="background-image: url('<?php echo RMImageResizer::getInstance()->resize($image['url'], ['width' => 110, 'height' => 110])->url; ?>');">
+                    <span data-id="existing-<?php echo $idi; ?>" style="background-image: url('<?php echo RMImageResizer::getInstance()->resize($image['url'], ['width' => 110, 'height' => 110])->url; ?>');">
                     <a href="#"><span class="fa fa-times"></span></a>
                 </span>
-                <input type="hidden" name="images[]" id="image-existing-<?php echo $idi; ?>" value="<?php echo $image['url']; ?>|<?php echo $image['title']; ?>">
+                    <input type="hidden" name="images[]" id="image-existing-<?php echo $idi; ?>" value="<?php echo $image['url']; ?>|<?php echo $image['title']; ?>">
                 <?php endforeach; ?>
             </div>
             <div class="form-group control-buttons">
                 <button
-                    type="button"
-                    class="btn btn-success"
-                    id="add-images"
-                    onclick="launch_image_manager($(this));"
-                    data-id="work-images-container"
-                    data-type="external"
-                    data-target="work_add_images"
-                    data-title="<?php _e('Select work images', 'works'); ?>"
-                    data-multiple="1"><span class="fa fa-image"></span> <?php _e('Add Image', 'works'); ?></button>
+                        type="button"
+                        class="btn btn-success"
+                        id="add-images"
+                        onclick="launch_image_manager($(this));"
+                        data-id="work-images-container"
+                        data-type="external"
+                        data-target="work_add_images"
+                        data-title="<?php _e('Select work images', 'works'); ?>"
+                        data-multiple="1"><span class="fa fa-image"></span> <?php _e('Add Image', 'works'); ?></button>
             </div>
 
         </div>
@@ -76,22 +76,22 @@
             </h3>
         </div>
         <div class="box-content">
-            
+
             <div class="work-videos-container">
                 <ul>
-                <?php
-                $videos = $work->videos();
-                foreach ($videos as $idi => $video): ?>
-                    <li data-id="<?php echo $video['id']; ?>">
-                        <a target="_blank" title="<?php echo $video['title']; ?>" href="<?php echo $video['url']; ?>" style="background-image: url(<?php echo RMImageResizer::getInstance()->resize($video['image'], ['width' => 300, 'height' => 180])->url; ?>);">
-                            <span><?php echo $cuIcons->getIcon('svg-rmcommon-video'); ?></span>
-                        </a>
-                        <div class="controls">
-                            <a href="#" class="edit-video"><?php _e('Edit', 'works'); ?></a>
-                            <a href="#" class="delete-video"><?php _e('Delete', 'works'); ?></a>
-                        </div>
-                    </li>
-                <?php endforeach; ?>
+                    <?php
+                    $videos = $work->videos();
+                    foreach ($videos as $idi => $video): ?>
+                        <li data-id="<?php echo $video['id']; ?>">
+                            <a target="_blank" title="<?php echo $video['title']; ?>" href="<?php echo $video['url']; ?>" style="background-image: url(<?php echo RMImageResizer::getInstance()->resize($video['image'], ['width' => 300, 'height' => 180])->url; ?>);">
+                                <span><?php echo $cuIcons->getIcon('svg-rmcommon-video'); ?></span>
+                            </a>
+                            <div class="controls">
+                                <a href="#" class="edit-video"><?php _e('Edit', 'works'); ?></a>
+                                <a href="#" class="delete-video"><?php _e('Delete', 'works'); ?></a>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
 
@@ -114,16 +114,16 @@
                     <?php
                     if ($common->plugins()->isInstalled('advform') || $common->plugins()->isInstalled('advform-pro')) {
                         $imgUrl = new RMFormImageUrl([
-                            'caption' => '',
-                            'name' => 'video_image',
-                            'data-id' => 'video-image',
-                            'placeholder' => 'Video image (optional)',
-                        ]);
+                                                         'caption'     => '',
+                                                         'name'        => 'video_image',
+                                                         'data-id'     => 'video-image',
+                                                         'placeholder' => 'Video image (optional)',
+                                                     ]);
                         echo $imgUrl->render();
                     } else {
                         ?>
                         <input type="text" class="form-control" name="video_image" data-id="video-image" placeholder="<?php _e('Video image URL (optional)', 'works'); ?>" maxlength="255">
-                    <?php
+                        <?php
                     } ?>
                 </div>
 
@@ -141,7 +141,7 @@
                 </div>
 
             </div>
-            
+
         </div>
         <div class="box-footer">
             <?php _e('<strong>Professional Works</strong> supports only videos from Youtube, Vimeo and Dailymotion', 'works'); ?>
@@ -166,7 +166,7 @@
                         <label for="work-customer-name"><?php _e('Customer name', 'works'); ?></label>
                         <div class="input-group">
                             <input type="text" name="customer_name" id="work-customer-name" class="form-control" value="<?php echo $edit ? $work->customer : ''; ?>">
-                        <span class="input-group-btn">
+                            <span class="input-group-btn">
                             <button type="button" class="btn btn-info"><span class="fa fa-user"></span></button>
                         </span>
                         </div>
@@ -271,7 +271,9 @@
 
             <div class="row">
                 <div class="col-md-4">&nbsp;</div>
-                <div class="col-md-8"><button type="button" id="add-field" class="btn btn-success"><?php _e('Add Field', 'qpages'); ?></button></div>
+                <div class="col-md-8">
+                    <button type="button" id="add-field" class="btn btn-success"><?php _e('Add Field', 'qpages'); ?></button>
+                </div>
             </div>
             <hr>
 
@@ -286,7 +288,7 @@
                         <strong><?php _e('Field value', 'qpages'); ?></strong>
                     </div>
                 </div>
-                
+
                 <?php foreach ($work_metas as $meta => $value): ?>
                     <div class="row">
                         <div class="col-sm-4">

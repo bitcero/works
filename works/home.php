@@ -11,7 +11,7 @@
 define('PW_LOCATION', 'index');
 
 $GLOBALS['xoopsOption']['template_main'] = 'works-index.tpl';
-$xoopsOption['module_subpage'] = 'index';
+$xoopsOption['module_subpage']           = 'index';
 require __DIR__ . '/header.php';
 
 Works_Functions::makeHeader();
@@ -30,9 +30,9 @@ if (!isset($page)) {
 }
 
 $tpages = ceil($num / $limit);
-$page = $page > $tpages ? $tpages : $page;
-$start = $num <= 0 ? 0 : ($page - 1) * $limit;
-$start = $start < 0 ? 0 : $start;
+$page   = $page > $tpages ? $tpages : $page;
+$start  = $num <= 0 ? 0 : ($page - 1) * $limit;
+$start  = $start < 0 ? 0 : $start;
 
 $nav = new RMPageNav($num, $limit, $page, 5);
 $url = $xoopsModuleConfig['permalinks'] ? XOOPS_URL . rtrim($xoopsModuleConfig['htbase'], '/') . '/page/{PAGE_NUM}/' : XOOPS_URL . '/modules/works/?page={PAGE_NUM}';
@@ -42,7 +42,7 @@ $tpl->assign('navpage', $nav->render(false));
 //Fin de barra de navegación
 
 //Obtenemos los trabajos recientes
-$sql = 'SELECT * FROM ' . $db->prefix('mod_works_works') . " WHERE status='public' ORDER BY created DESC LIMIT $start,$limit";
+$sql    = 'SELECT * FROM ' . $db->prefix('mod_works_works') . " WHERE status='public' ORDER BY created DESC LIMIT $start,$limit";
 $result = $db->query($sql);
 
 // Numero de resultados en esta página

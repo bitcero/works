@@ -26,12 +26,12 @@
  * @url          http://www.redmexico.com.mx
  * @url          http://www.eduardocortes.mx
  */
-require  dirname(dirname(__DIR__)) . '/mainfile.php';
+require dirname(dirname(__DIR__)) . '/mainfile.php';
 load_mod_locale('works');
 
 if ($xoopsModuleConfig['permalinks'] <= 0) {
     // PHP Default URLs mode
-    $p = RMHttpRequest::request('p', 'string', 'home');
+    $p  = RMHttpRequest::request('p', 'string', 'home');
     $id = RMHttpRequest::request('id', 'string', '');
 
     switch ($p) {
@@ -63,7 +63,7 @@ $yesquery = false;
 $request = RMEvents::get()->run_event('works.parse.request', $request);
 
 if ('?' == mb_substr($request, 0, 1)) {
-    $request = mb_substr($request, 1);
+    $request  = mb_substr($request, 1);
     $yesquery = true;
 }
 if ('' == $request || 'index.php' == $request) {

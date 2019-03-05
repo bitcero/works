@@ -41,7 +41,7 @@ function works_block_items_show($options)
     $sql .= ' LIMIT 0, ' . ($options['limit'] > 0 ? $options['limit'] : 3);
 
     $result = $db->query($sql);
-    $block = [];
+    $block  = [];
 
     while (false !== ($row = $db->fetchArray($result))) {
         $work = new Works_Work();
@@ -50,22 +50,22 @@ function works_block_items_show($options)
         $tf = new RMTimeFormatter(0, $options['format']);
 
         $image_params = [
-            'width' => $options['width'],
+            'width'  => $options['width'],
             'height' => $options['height'],
         ];
 
-        $workData = Works_Functions::render_data($work, $options['len']);
-        $workData['image'] = $options['image'] ? RMImageResizer::resize($workData['image'], $image_params)->url : '';
+        $workData                = Works_Functions::render_data($work, $options['len']);
+        $workData['image']       = $options['image'] ? RMImageResizer::resize($workData['image'], $image_params)->url : '';
         $workData['description'] = $options['description'] ? $workData['description'] : '';
-        $workData['created'] = sprintf(__('Created on %s', 'works'), $tf->format($work->created));
+        $workData['created']     = sprintf(__('Created on %s', 'works'), $tf->format($work->created));
 
         $block['works'][] = $workData;
     }
 
     $block['options'] = [
         'display' => $options['display'],
-        'grid' => $options['grid'],
-        'col' => 12 / $options['grid'],
+        'grid'    => $options['grid'],
+        'col'     => 12 / $options['grid'],
     ];
 
     RMTemplate::getInstance()->add_style('blocks.css', 'works');
@@ -94,12 +94,12 @@ function works_block_items_edit($options)
             <option value="0"<?php echo $options['category'] <= 0 ? ' selected' : ''; ?>><?php _e('All categories', 'works'); ?></option>
             <?php
             $result = $db->query('SELECT * FROM ' . $db->prefix('mod_works_categories') . " WHERE status='active'");
-    while (false !== ($row = $db->fetchArray($result))) {
-        $cat = new Works_Category();
-        $cat->assignVars($row);
+            while (false !== ($row = $db->fetchArray($result))) {
+                $cat = new Works_Category();
+                $cat->assignVars($row);
 
-        echo '<option value="' . $cat->id() . '"' . ($options['category'] == $cat->id() ? ' selected' : '') . '>' . $cat->name . '</option>';
-    } ?>
+                echo '<option value="' . $cat->id() . '"' . ($options['category'] == $cat->id() ? ' selected' : '') . '>' . $cat->name . '</option>';
+            } ?>
         </select>
     </div>
 

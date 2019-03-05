@@ -9,7 +9,7 @@
 // --------------------------------------------------------------
 
 $GLOBALS['xoopsOption']['template_main'] = 'works-featured.tpl';
-$xoopsOption['module_subpage'] = 'featured';
+$xoopsOption['module_subpage']           = 'featured';
 require __DIR__ . '/header.php';
 
 Works_Functions::makeHeader();
@@ -26,18 +26,18 @@ if (!isset($page)) {
 }
 
 $tpages = ceil($num / $limit);
-$page = $page > $tpages ? $tpages : $page;
-$start = $num <= 0 ? 0 : ($page - 1) * $limit;
-$start = $start < 0 ? 0 : $start;
+$page   = $page > $tpages ? $tpages : $page;
+$start  = $num <= 0 ? 0 : ($page - 1) * $limit;
+$start  = $start < 0 ? 0 : $start;
 
 $nav = new RMPageNav($num, $limit, $page, 5);
 $url = $xoopsModuleConfig['permalinks'] ? XOOPS_URL . rtrim($xoopsModuleConfig['htbase'], '/') . '/featured/page/{PAGE_NUM}/' : XOOPS_URL . '/modules/works/featured.php?page={PAGE_NUM}';
 $nav->target_url($url);
 $tpl->assign('navpage', $nav->render(false));
 
-$sql = 'SELECT * FROM ' . $db->prefix('mod_works_works') . " WHERE status='public' AND featured=1";
-$sql .= " LIMIT $start,$limit";
-$result = $db->query($sql);
+$sql     = 'SELECT * FROM ' . $db->prefix('mod_works_works') . " WHERE status='public' AND featured=1";
+$sql     .= " LIMIT $start,$limit";
+$result  = $db->query($sql);
 $categos = [];
 $clients = [];
 while (false !== ($row = $db->fetchArray($result))) {

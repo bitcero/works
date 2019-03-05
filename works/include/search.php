@@ -25,7 +25,7 @@ function pwSearch($queryarray, $andor, $limit, $offset, $userid)
     $mc = RMSettings::module_settings('works');
     $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-    $sql = 'SELECT a.* FROM ' . $db->prefix('mod_works_works') . ' a INNER JOIN ' . $db->prefix('mod_works_clients') . ' b ON (a.public=1 AND a.client=b.id_client AND (';
+    $sql  = 'SELECT a.* FROM ' . $db->prefix('mod_works_works') . ' a INNER JOIN ' . $db->prefix('mod_works_clients') . ' b ON (a.public=1 AND a.client=b.id_client AND (';
     $sql1 = '';
 
     if (is_array($queryarray)) {
@@ -36,7 +36,7 @@ function pwSearch($queryarray, $andor, $limit, $offset, $userid)
 
     $sql1 .= '))';
 
-    $sql1 .= " GROUP BY a.id_work ORDER BY a.created DESC LIMIT $offset, $limit";
+    $sql1   .= " GROUP BY a.id_work ORDER BY a.created DESC LIMIT $offset, $limit";
     $result = $db->queryF($sql . $sql1);
 
     $ret = [];
@@ -44,15 +44,15 @@ function pwSearch($queryarray, $andor, $limit, $offset, $userid)
         $work = new Works_Work();
         $work->assignVars($row);
 
-        $rtn = [];
+        $rtn          = [];
         $rtn['image'] = 'images/works.png';
 
         $rtn['title'] = $work->title();
-        $rtn['time'] = $work->created();
-        $rtn['uid'] = '';
-        $rtn['desc'] = $work->descShort();
-        $rtn['link'] = $work->link();
-        $ret[] = $rtn;
+        $rtn['time']  = $work->created();
+        $rtn['uid']   = '';
+        $rtn['desc']  = $work->descShort();
+        $rtn['link']  = $work->link();
+        $ret[]        = $rtn;
     }
 
     return $ret;

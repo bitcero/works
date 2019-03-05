@@ -31,18 +31,14 @@ if (!defined('XOOPS_ROOT_PATH')) {
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'works-item.tpl';
-$xoopsOption['module_subpage'] = 'work';
+$xoopsOption['module_subpage']           = 'work';
 
 require __DIR__ . '/header.php';
 
 $mc = &$xoopsModuleConfig;
 
 if ('' == $id) {
-    RMUris::redirect_with_message(
-        __('No project has been specified', 'works'),
-        PW_URL,
-        RMMSG_WARN
-    );
+    RMUris::redirect_with_message(__('No project has been specified', 'works'), PW_URL, RMMSG_WARN);
 }
 
 //Verificamos si el trabajo existe
@@ -71,25 +67,25 @@ if ('draft' == $work->status) {
 $image = new RMImage();
 
 $work_data = [
-    'id' => $work->id(),
-    'title' => $work->title,
+    'id'          => $work->id(),
+    'title'       => $work->title,
     'description' => $work->description,
-    'customer' => $work->customer,
-    'web' => $work->web,
-    'url' => $work->url,
-    'created' => $work->created,
-    'featured' => $work->featured,
-    'image' => $image->load_from_params($work->image),
-    'thumb' => $image->get_by_size(300),
-    'comment' => $work->comment,
-    'rating' => $work->rating,
-    'views' => $work->views,
-    'metas' => $work->get_meta(),
-    'link' => $work->permalink(),
-    'images' => $work->images(),
-    'categories' => $work->categories('objects'),
-    'status' => $work->status,
-    'videos' => $work->videos(),
+    'customer'    => $work->customer,
+    'web'         => $work->web,
+    'url'         => $work->url,
+    'created'     => $work->created,
+    'featured'    => $work->featured,
+    'image'       => $image->load_from_params($work->image),
+    'thumb'       => $image->get_by_size(300),
+    'comment'     => $work->comment,
+    'rating'      => $work->rating,
+    'views'       => $work->views,
+    'metas'       => $work->get_meta(),
+    'link'        => $work->permalink(),
+    'images'      => $work->images(),
+    'categories'  => $work->categories('objects'),
+    'status'      => $work->status,
+    'videos'      => $work->videos(),
 ];
 
 $work_data = RMEvents::get()->trigger('works.render.data', $work_data, $work);
@@ -109,9 +105,8 @@ if ($mc['other_works'] > 0) {
         $sql = 'SELECT * FROM ' . $db->prefix('mod_works_works') . " WHERE status='public' AND featured = 1 AND id_work != '" . $work->id() . "' ORDER BY RAND() LIMIT 0," . $mc['num_otherworks'];
     } elseif (1 == $mc['other_works']) { //Misma categoría
         $cats = $work->categories('id');
-        $sql = 'SELECT w.* FROM ' . $db->prefix('mod_works_works') . ' as w LEFT JOIN
-                ' . $db->prefix('mod_works_categories_rel') . ' as c ON (c.work = w.id_work) WHERE c.category IN (' . implode(',', $cats) . ') AND c.work != ' . $work->id() .
-                " AND w.status = 'public' ORDER BY RAND() LIMIT 0, $mc[num_otherworks]";
+        $sql  = 'SELECT w.* FROM ' . $db->prefix('mod_works_works') . ' as w LEFT JOIN
+                ' . $db->prefix('mod_works_categories_rel') . ' as c ON (c.work = w.id_work) WHERE c.category IN (' . implode(',', $cats) . ') AND c.work != ' . $work->id() . " AND w.status = 'public' ORDER BY RAND() LIMIT 0, $mc[num_otherworks]";
         //$sql = "SELECT * FROM ".$db->prefix('mod_works_works')." WHERE status='public' AND catego=".$work->category()." AND id_work<>'".$work->id()."' ORDER BY RAND() LIMIT 0,".$mc['num_otherworks'];
     }
     $result = $db->query($sql);
@@ -120,17 +115,17 @@ if ($mc['other_works'] > 0) {
         $wk = new Works_Work();
         $wk->assignVars($row);
         $tpl->append('other_works', [
-            'id' => $wk->id(),
-            'title' => $wk->title,
+            'id'          => $wk->id(),
+            'title'       => $wk->title,
             'description' => TextCleaner::getInstance()->truncate($wk->description, 40, '...'),
-            'customer' => $wk->customer,
-            'web' => $wk->web,
-            'url' => $wk->url,
-            'link' => $wk->permalink(),
-            'created' => formatTimestamp($wk->created, 's'),
-            'image' => RMImage::get()->load_from_params($wk->image),
-            'views' => $wk->views,
-            'metas' => $wk->get_meta(),
+            'customer'    => $wk->customer,
+            'web'         => $wk->web,
+            'url'         => $wk->url,
+            'link'        => $wk->permalink(),
+            'created'     => formatTimestamp($wk->created, 's'),
+            'image'       => RMImage::get()->load_from_params($wk->image),
+            'views'       => $wk->views,
+            'metas'       => $wk->get_meta(),
         ]);
     }
 
@@ -153,26 +148,26 @@ $tpl->assign('works_location', 'work-details');
 Works_Functions::makeHeader();
 
 $common->comments()->load([
-    'url' => XOOPS_ROOT_PATH . '/modules/works/work.php',
-    'identifier' => 'work=' . $work->id(),
-    'object' => 'works',
-    'type' => 'module',
-    'assign' => true,
-]);
+                              'url'        => XOOPS_ROOT_PATH . '/modules/works/work.php',
+                              'identifier' => 'work=' . $work->id(),
+                              'object'     => 'works',
+                              'type'       => 'module',
+                              'assign'     => true,
+                          ]);
 
 // Comments form
 $xoopsTpl->assign('comments_form', $common->comments()->form([
-    'url' => XOOPS_ROOT_PATH . '/modules/works/work.php',
-    'object' => 'works',
-    'type' => 'module',
-    'identifier' => 'work=' . $work->id(),
-    'file' => PW_PATH . '/class/workscontroller.php',
-]));
+                                                                 'url'        => XOOPS_ROOT_PATH . '/modules/works/work.php',
+                                                                 'object'     => 'works',
+                                                                 'type'       => 'module',
+                                                                 'identifier' => 'work=' . $work->id(),
+                                                                 'file'       => PW_PATH . '/class/workscontroller.php',
+                                                             ]));
 
 // Basic SEO
-$rmf = RMFunctions::get();
+$rmf         = RMFunctions::get();
 $description = $work->getVar('seo_description', 'e');
-$keywords = $work->getVar('seo_keywords', 'e');
+$keywords    = $work->getVar('seo_keywords', 'e');
 $rmf->add_keywords_description('' != $description ? $description : '', '' != $keywords ? $keywords : '');
 
 // Professional Works uses LightBox plugin to show

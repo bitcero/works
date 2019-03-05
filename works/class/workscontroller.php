@@ -12,7 +12,7 @@ class WorksController implements iCommentsController
 {
     public function increment_comments_number($comment)
     {
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
+        $db     = XoopsDatabaseFactory::getDatabaseConnection();
         $params = urldecode($comment->getVar('params'));
         parse_str($params, $output);
 
@@ -26,7 +26,7 @@ class WorksController implements iCommentsController
 
     public function reduce_comments_number($comment)
     {
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
+        $db     = XoopsDatabaseFactory::getDatabaseConnection();
         $params = urldecode($comment->getVar('params'));
         parse_str($params, $output);
 
@@ -59,7 +59,7 @@ class WorksController implements iCommentsController
             return __('Unknow', 'works');
         }
 
-        $ret = $item->title;
+        $ret          = $item->title;
         $works[$work] = $item;
 
         return $ret;
@@ -86,7 +86,7 @@ class WorksController implements iCommentsController
             return '';
         }
 
-        $ret = $item->link . '#comment-' . $com->id();
+        $ret          = $item->link . '#comment-' . $com->id();
         $works[$work] = $item;
 
         return $ret;

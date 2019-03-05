@@ -88,15 +88,15 @@
         </div>
     </div>
 
-<div class="cu-bulk-actions">
-	<select name="actionb" id="bulk-bottom" class="form-control">
-		<option value=""><?php _e('Bulk actions...', 'works'); ?></option>
-		<option value="update"><?php _e('Save changes', 'works'); ?></option>
-		<option value="delete"><?php _e('Delete', 'works'); ?></option>
-		<option value="active"><?php _e('Enable categories', 'works'); ?></option>
-		<option value="desactive"><?php _e('Disable categories', 'works'); ?></option>
-	</select>
-	<button type="button" id="the-op-bottom" onclick="before_submit('frm-categos');" class="btn btn-default"><?php _e('Apply', 'works'); ?></button>
-</div>
-<?php echo $xoopsSecurity->getTokenHTML(); ?>
+    <div class="cu-bulk-actions">
+        <select name="actionb" id="bulk-bottom" class="form-control">
+            <option value=""><?php _e('Bulk actions...', 'works'); ?></option>
+            <option value="update"><?php _e('Save changes', 'works'); ?></option>
+            <option value="delete"><?php _e('Delete', 'works'); ?></option>
+            <option value="active"><?php _e('Enable categories', 'works'); ?></option>
+            <option value="desactive"><?php _e('Disable categories', 'works'); ?></option>
+        </select>
+        <button type="button" id="the-op-bottom" onclick="before_submit('frm-categos');" class="btn btn-default"><?php _e('Apply', 'works'); ?></button>
+    </div>
+    <?php echo $xoopsSecurity->getTokenHTML(); ?>
 </form>

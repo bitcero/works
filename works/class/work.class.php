@@ -50,10 +50,16 @@ class Works_Work extends RMObject
     {
         // Prevent to be translated
         $this->noTranslate = [
-            'titleid', 'customer', 'web', 'url', 'image', 'status', 'groups',
+            'titleid',
+            'customer',
+            'web',
+            'url',
+            'image',
+            'status',
+            'groups',
         ];
 
-        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db       = XoopsDatabaseFactory::getDatabaseConnection();
         $this->_dbtable = $this->db->prefix('mod_works_works');
         $this->setNew();
         $this->initVarsFromTable();
@@ -92,7 +98,7 @@ class Works_Work extends RMObject
     /**
      * Get categories for this work.
      * @param string $type <p>Can be 'id', 'name', 'objects' or 'all'. 'id' returns array with ids from categories. 'name' returns an array with [id] => [name] pairs.
-     * 'all' returns array with all data from categories, such as is stored in database table.</p>
+     *                     'all' returns array with all data from categories, such as is stored in database table.</p>
      * @return array
      */
     public function categories($type = 'id')
@@ -171,17 +177,17 @@ class Works_Work extends RMObject
     /**
      * Set multiple images for current work
      * @param array $images <p>Pair/value array containing all specified images for work.
-     * All these images must be taked from RMCommon Images Manager.</p>
+     *                      All these images must be taked from RMCommon Images Manager.</p>
      */
     public function set_images($images)
     {
         $this->images = [];
 
         foreach ($images as $image) {
-            $temp = explode('|', $image, 2);
+            $temp           = explode('|', $image, 2);
             $this->images[] = [
                 'title' => $temp[1],
-                'url' => $temp[0],
+                'url'   => $temp[0],
             ];
         }
     }
@@ -210,7 +216,7 @@ class Works_Work extends RMObject
 
     /**
      * Set custom data for work
-     * @param array $names All meta names
+     * @param array $names  All meta names
      * @param array $values All meta values
      */
     public function set_meta($names, $values)
@@ -256,7 +262,7 @@ class Works_Work extends RMObject
         }
 
         if ('' != $sql) {
-            $sql = $sql = 'INSERT INTO ' . $this->db->prefix('mod_works_images') . ' (title,image,work) VALUES ' . rtrim($sql, ',');
+            $sql    = $sql = 'INSERT INTO ' . $this->db->prefix('mod_works_images') . ' (title,image,work) VALUES ' . rtrim($sql, ',');
             $return = $this->db->queryF($sql);
 
             if (!$return) {
@@ -266,14 +272,14 @@ class Works_Work extends RMObject
 
         // Save meta
         $this->db->queryF('DELETE FROM ' . $this->db->prefix('mod_works_meta') . ' WHERE work = ' . $this->id());
-        $sql = '';
+        $sql  = '';
         $myts = MyTextSanitizer::getInstance();
         foreach ($this->meta as $name => $value) {
             $sql .= "('" . $myts->addSlashes($name) . "','" . $myts->addSlashes($value) . "'," . $this->id() . '),';
         }
 
         if ('' != $sql) {
-            $sql = 'INSERT INTO ' . $this->db->prefix('mod_works_meta') . ' (`name`,`value`,`work`) VALUES ' . rtrim($sql, ',');
+            $sql    = 'INSERT INTO ' . $this->db->prefix('mod_works_meta') . ' (`name`,`value`,`work`) VALUES ' . rtrim($sql, ',');
             $return = $this->db->queryF($sql);
 
             if (!$return) {

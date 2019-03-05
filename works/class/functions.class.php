@@ -21,7 +21,7 @@ class Works_Functions
         $xoopsTpl->assign('lang_recentsall', __('Recent works', 'works'));
         $xoopsTpl->assign('lang_featuredall', __('Featured works', 'works'));
 
-        $recent = $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . trim($xoopsModuleConfig['htbase'], '/') . '/recent/' : XOOPS_URL . '/modules/works/index.php?page=recent';
+        $recent   = $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . trim($xoopsModuleConfig['htbase'], '/') . '/recent/' : XOOPS_URL . '/modules/works/index.php?page=recent';
         $featured = $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . trim($xoopsModuleConfig['htbase'], '/') . '/featured/' : XOOPS_URL . '/modules/works/index.php?page=featured';
 
         $xoopsTpl->assign('url_recent', $recent);
@@ -42,7 +42,7 @@ class Works_Functions
         }
 
         $docroot = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
-        $path = str_replace($docroot, '', XOOPS_ROOT_PATH . '/modules/works/');
+        $path    = str_replace($docroot, '', XOOPS_ROOT_PATH . '/modules/works/');
         if ('/' != mb_substr($path, 0, 1)) {
             $path = '/' . $path;
         }
@@ -62,7 +62,9 @@ class Works_Functions
 
         //Si acceso es por id numérico
         if ($xoopsModuleConfig['urlmode']) {
-            $contenido = "RewriteEngine On\nRewriteBase " . str_replace($docroot, '', PW_PATH . '/') . "\nRewriteCond %{REQUEST_URI} !/[A-Z]+-\nRewriteRule ^pag/(.*)/?$ index.php?pag=$1 [L]\nRewriteRule ^recent/(.*)/?$ recent.php$1 [L]\nRewriteRule ^featured/(.*)/?$ featured.php$1 [L]\nRewriteRule ^work/(.*)/?$ work.php?id=$1 [L]\nRewriteRule ^cat/(.*)/?$ catego.php?id=$1 [L]";
+            $contenido = "RewriteEngine On\nRewriteBase "
+                         . str_replace($docroot, '', PW_PATH . '/')
+                         . "\nRewriteCond %{REQUEST_URI} !/[A-Z]+-\nRewriteRule ^pag/(.*)/?$ index.php?pag=$1 [L]\nRewriteRule ^recent/(.*)/?$ recent.php$1 [L]\nRewriteRule ^featured/(.*)/?$ featured.php$1 [L]\nRewriteRule ^work/(.*)/?$ work.php?id=$1 [L]\nRewriteRule ^cat/(.*)/?$ catego.php?id=$1 [L]";
             //Compara contenido de htaccess
             $pos = mb_stripos(file_get_contents($file), $contenido);
 
@@ -81,12 +83,12 @@ class Works_Functions
 
     /**
      * Get works based on given parameters
-     * @param int $limit Limit of results to get
-     * @param int $category Id of category of works
-     * @param string $status Status of works. Can be <em>public</em>, <em>scheduled</em> or <em>draft</em>
-     * @param bool $object Return or not objects
-     * @param string $order Sort order
-     * @param mixed $len
+     * @param int    $limit    Limit of results to get
+     * @param int    $category Id of category of works
+     * @param string $status   Status of works. Can be <em>public</em>, <em>scheduled</em> or <em>draft</em>
+     * @param bool   $object   Return or not objects
+     * @param string $order    Sort order
+     * @param mixed  $len
      * @return array
      */
     public static function get_works($limit, $category = null, $status = 'public', $object = true, $order = 'created DESC', $len = 100)
@@ -95,7 +97,7 @@ class Works_Functions
 
         $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-        $order = '' == $order ? 'created DESC' : $order;
+        $order  = '' == $order ? 'created DESC' : $order;
         $status = '' == $status ? 'public' : $status;
 
         if (null === $category || $category <= 0) {
@@ -108,7 +110,7 @@ class Works_Functions
         }
 
         $result = $db->query($sql);
-        $works = [];
+        $works  = [];
 
         while (false !== ($row = $db->fetchArray($result))) {
             $work = new Works_Work();
@@ -138,10 +140,10 @@ class Works_Functions
             return;
         }
 
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
-        $sql = 'SELECT * FROM ' . $db->prefix('mod_works_meta') . " WHERE work='$work'";
+        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $sql    = 'SELECT * FROM ' . $db->prefix('mod_works_meta') . " WHERE work='$work'";
         $result = $db->query($sql);
-        $metas = [];
+        $metas  = [];
         while (false !== ($row = $db->fetchArray($result))) {
             $metas[$row['name']] = $row['value'];
         }
@@ -160,14 +162,14 @@ class Works_Functions
             return false;
         }
 
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
-        $sql = 'SELECT * FROM ' . $db->prefix('mod_works_images') . " WHERE work = $id";
+        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $sql    = 'SELECT * FROM ' . $db->prefix('mod_works_images') . " WHERE work = $id";
         $result = $db->query($sql);
         $images = [];
         while (false !== ($row = $db->fetchArray($result))) {
             $images[] = [
                 'title' => $row['title'],
-                'url' => $row['image'],
+                'url'   => $row['image'],
             ];
         }
 
@@ -185,19 +187,19 @@ class Works_Functions
             return false;
         }
 
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
-        $sql = 'SELECT * FROM ' . $db->prefix('mod_works_videos') . " WHERE work = $id";
+        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $sql    = 'SELECT * FROM ' . $db->prefix('mod_works_videos') . " WHERE work = $id";
         $result = $db->query($sql);
         $videos = [];
 
         while (false !== ($row = $db->fetchArray($result))) {
             $videos[] = [
-                'id' => $row['video_id'],
-                'title' => $row['title'],
-                'url' => $row['url'],
-                'image' => $row['image'],
+                'id'          => $row['video_id'],
+                'title'       => $row['title'],
+                'url'         => $row['url'],
+                'image'       => $row['image'],
                 'description' => $row['description'],
-                'type' => $row['type'],
+                'type'        => $row['type'],
             ];
         }
 
@@ -210,16 +212,13 @@ class Works_Functions
      */
     public static function send_404_status()
     {
-        RMFunctions::error_404(
-            __('Document not found!', 'works'),
-            'works'
-        );
+        RMFunctions::error_404(__('Document not found!', 'works'), 'works');
     }
 
     /**
      * Checks if a specific user have access rights for a project
      * @param Works_Work $work
-     * @param null $user <p>Can be a XoopsUser object or null</p>
+     * @param null       $user <p>Can be a XoopsUser object or null</p>
      * @return bool
      */
     public static function is_allowed(Works_Work $work, $user = null)
@@ -245,7 +244,7 @@ class Works_Functions
             return false;
         }
 
-        $groups = $user->getGroups();
+        $groups    = $user->getGroups();
         $intersect = array_intersect($groups, $work->groups);
 
         if ('private' == $work->status && empty($intersect)) {
@@ -264,23 +263,23 @@ class Works_Functions
         $tf = new RMTimeFormatter(0, '%d%/%T%/%Y%');
 
         $ret = [
-            'id' => $work->id(),
-            'title' => $work->title,
+            'id'          => $work->id(),
+            'title'       => $work->title,
             'description' => $desclen > 0 ? TextCleaner::getInstance()->truncate($work->description, $desclen) : '',
-            'customer' => $work->customer,
-            'web' => $work->web,
-            'url' => $work->url,
-            'created' => $tf->format($work->created),
-            'featured' => $work->featured,
-            'image' => RMImage::get()->load_from_params($work->image),
-            'comment' => $work->comment,
-            'rating' => $work->rating,
-            'views' => $work->views,
-            'metas' => $work->get_meta(),
-            'link' => $work->permalink(),
-            'images' => $work->images(),
-            'categories' => $work->categories('objects'),
-            'status' => $work->status,
+            'customer'    => $work->customer,
+            'web'         => $work->web,
+            'url'         => $work->url,
+            'created'     => $tf->format($work->created),
+            'featured'    => $work->featured,
+            'image'       => RMImage::get()->load_from_params($work->image),
+            'comment'     => $work->comment,
+            'rating'      => $work->rating,
+            'views'       => $work->views,
+            'metas'       => $work->get_meta(),
+            'link'        => $work->permalink(),
+            'images'      => $work->images(),
+            'categories'  => $work->categories('objects'),
+            'status'      => $work->status,
         ];
 
         /**
@@ -318,54 +317,54 @@ class Works_Functions
      *     'exclude' => 3,
      *     'expected' => 'raw'
      * ));</pre>
-     * @param array $tree Referenced array to fill with data
+     * @param array $tree       Referenced array to fill with data
      * @param array $parameters Parameters to perform search
      */
     public static function categories_tree(&$tree, $parameters = [])
     {
         extract($parameters);
-        $parent = isset($parent) ? $parent : 0;
-        $level = isset($level) ? $level : 0;
-        $status = isset($status) ? $status : '';
-        $exclude = isset($exclude) ? $exclude : 0;
+        $parent   = isset($parent) ? $parent : 0;
+        $level    = isset($level) ? $level : 0;
+        $status   = isset($status) ? $status : '';
+        $exclude  = isset($exclude) ? $exclude : 0;
         $expected = isset($expected) ? $expected : 'format';
-        $links = isset($links) ? $links : true;
+        $links    = isset($links) ? $links : true;
 
         $db = XoopsDatabaseFactory::getDatabaseConnection();
         if ('active' != $status && 'inactive' != $status) {
             $status = '';
         }
 
-        $sql = 'SELECT * FROM ' . $db->prefix('mod_works_categories') . " WHERE parent=$parent";
-        $sql .= trim('' == $status) ? '' : " AND status = '" . $status . "'";
-        $sql .= $exclude > 0 ? " AND id_cat != $exclude" : '';
-        $sql .= ' ORDER BY `position`,status';
+        $sql    = 'SELECT * FROM ' . $db->prefix('mod_works_categories') . " WHERE parent=$parent";
+        $sql    .= trim('' == $status) ? '' : " AND status = '" . $status . "'";
+        $sql    .= $exclude > 0 ? " AND id_cat != $exclude" : '';
+        $sql    .= ' ORDER BY `position`,status';
         $result = $db->query($sql);
 
         while (false !== ($row = $db->fetchArray($result))) {
             if ('raw' == $expected) {
-                $row['level'] = $level;
+                $row['level']         = $level;
                 $tree[$row['id_cat']] = $row;
             } else {
                 $category = new Works_Category();
                 $category->assignVars($row);
 
                 $tree[$category->id()] = [
-                    'id' => $category->id(),
-                    'name' => $category->name,
+                    'id'          => $category->id(),
+                    'name'        => $category->name,
                     'description' => $category->description,
-                    'status' => $category->status,
-                    'parent' => $category->parent,
-                    'level' => $level,
-                    'link' => $links ? $category->permalink() : '',
+                    'status'      => $category->status,
+                    'parent'      => $category->parent,
+                    'level'       => $level,
+                    'link'        => $links ? $category->permalink() : '',
                 ];
             }
 
             self::categories_tree($tree, [
-                'parent' => $row['id_cat'],
-                'level' => $level + 1,
-                'status' => $status,
-                'exclude' => $exclude,
+                'parent'   => $row['id_cat'],
+                'level'    => $level + 1,
+                'status'   => $status,
+                'exclude'  => $exclude,
                 'expected' => $expected,
             ]);
         }

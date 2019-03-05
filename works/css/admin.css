@@ -1,34 +1,34 @@
 #works-right-table{
-	float: right;
-	width: 65%;
+    float: right;
+    width: 65%;
 }
 #works-left-form{
-	float: left;
-	width: 32%;
+    float: left;
+    width: 32%;
 }
 #works-left-form h3{
-	font-size: 1.4em;
-	font-weight: bold;
-	margin: 0 0 10px 0;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0 0 10px 0;
 }
 #works-left-form label{
-	display: block;
-	padding: 0 0 3px 0;
+    display: block;
+    padding: 0 0 3px 0;
     cursor: pointer;
 }
 #works-left-form input[type='text']{
-	width: 90%;
-	display: block;
-	margin: 0 0 5px 0;
+    width: 90%;
+    display: block;
+    margin: 0 0 5px 0;
 }
 #works-left-form input[type='file']{
-	width: 90%;
-	display: block;
-	margin: 0 0 5px 0;
+    width: 90%;
+    display: block;
+    margin: 0 0 5px 0;
 }
 #works-left-form textarea{
-	width: 90%;
-	margin: 0 0 5px 0;
+    width: 90%;
+    margin: 0 0 5px 0;
 }
 div.rmc_pages_navigation_container{
     float: right;

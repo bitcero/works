@@ -35,12 +35,12 @@
     <div class="form-group text-center">
         <button type="button" id="work-submit-forms" class="btn btn-primary">
             <?php if ('draft' == $work->status): ?>
-                <?php _e('Save as draft', 'works'); ?></button>
-            <?php elseif ('public' == $work->status || 'private' == $work->status): ?>
-                <?php _e('Save and publish', 'works'); ?></button>
-            <?php else: ?>
-                <?php _e('Save scheduled', 'works'); ?></button>
-            <?php endif; ?>
+            <?php _e('Save as draft', 'works'); ?></button>
+        <?php elseif ('public' == $work->status || 'private' == $work->status): ?>
+            <?php _e('Save and publish', 'works'); ?></button>
+        <?php else: ?>
+            <?php _e('Save scheduled', 'works'); ?></button>
+        <?php endif; ?>
     </div>
 
 </form>

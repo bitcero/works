@@ -36,20 +36,20 @@ function showCategories()
     define('RMCSUBLOCATION', 'catlist');
 
     $items = [];
-    Works_Functions::categories_tree($items, [ 'expected' => 'raw' ]);
+    Works_Functions::categories_tree($items, ['expected' => 'raw']);
     foreach ($items as $item) {
         $cat = new Works_Category();
         $cat->assignVars($item);
         $categories[] = [
-            'id' => $cat->id(),
-            'link' => $cat->permalink(),
-            'name' => $cat->name,
-            'active' => 'active' == $cat->status ? 1 : 0,
-            'position' => $cat->position,
-            'nameid' => $cat->nameid,
+            'id'          => $cat->id(),
+            'link'        => $cat->permalink(),
+            'name'        => $cat->name,
+            'active'      => 'active' == $cat->status ? 1 : 0,
+            'position'    => $cat->position,
+            'nameid'      => $cat->nameid,
             'description' => $cat->description,
-            'parent' => $cat->parent,
-            'level' => $item['level'],
+            'parent'      => $cat->parent,
+            'level'       => $item['level'],
         ];
     }
 
@@ -115,7 +115,7 @@ function formCategory($edit = 0)
     Works_Functions::categories_tree($categories, [
         'exclude' => $edit ? $cat->id() : 0,
     ]);
-    $parents = new RMFormSelect(__('Parent category', 'works'), 'parent', 0, $edit ? [ $cat->parent ] : []);
+    $parents = new RMFormSelect(__('Parent category', 'works'), 'parent', 0, $edit ? [$cat->parent] : []);
     $parents->addOption(0, __('Select category...', 'works'));
     foreach ($categories as $id => $category) {
         $parents->addOption($id, str_repeat('&#151;', $category['level']) . ' ' . $category['name']);
@@ -147,15 +147,15 @@ function saveCategory($edit = 0)
 {
     global $db, $mc, $xoopsSecurity;
 
-    $id = RMHttpRequest::post('id', 'integer', 0);
-    $parent = RMHttpRequest::post('parent', 'integer', 0);
-    $position = RMHttpRequest::post('position', 'integer', 0);
-    $name = RMHttpRequest::post('name', 'string', '');
-    $nameid = RMHttpRequest::post('nameid', 'string', '');
+    $id          = RMHttpRequest::post('id', 'integer', 0);
+    $parent      = RMHttpRequest::post('parent', 'integer', 0);
+    $position    = RMHttpRequest::post('position', 'integer', 0);
+    $name        = RMHttpRequest::post('name', 'string', '');
+    $nameid      = RMHttpRequest::post('nameid', 'string', '');
     $description = RMHttpRequest::post('description', 'string', '');
-    $return = RMHttpRequest::post('return', 'string', '');
-    $status = RMHttpRequest::post('status', 'integer', 1);
-    $status = 1 == $status ? 'active' : 'inactive';
+    $return      = RMHttpRequest::post('return', 'string', '');
+    $status      = RMHttpRequest::post('status', 'integer', 1);
+    $status      = 1 == $status ? 'active' : 'inactive';
 
     if (!$xoopsSecurity->check()) {
         RMUris::redirect_with_message(__('Session token expired!', 'works'), 'categories.php?action=' . ($edit ? 'edit&id=' . $id : 'new'), RMMSG_ERROR);
@@ -193,11 +193,11 @@ function saveCategory($edit = 0)
 
     //Genera el nombre identificador
     $found = false;
-    $i = 0;
+    $i     = 0;
     if ($name != $cat->name || empty($nameid)) {
         do {
             $nameid = TextCleaner::sweetstring($name) . ($found ? $i : '');
-            $sql = 'SELECT COUNT(*) FROM ' . $db->prefix('mod_:works_categories') . " WHERE nameid = '$nameid'";
+            $sql    = 'SELECT COUNT(*) FROM ' . $db->prefix('mod_:works_categories') . " WHERE nameid = '$nameid'";
             list($num) = $db->fetchRow($db->queryF($sql));
             if ($num > 0) {
                 $found = true;
@@ -235,19 +235,11 @@ function deleteCategory()
     $ids = RMHttpRequest::post('ids', 'array', []);
 
     if (!is_array($ids) || empty($ids)) {
-        RMUris::redirect_with_message(
-            __('You must specify a ID from at least one category', 'works'),
-            'categories.php',
-            RMMSG_WARN
-        );
+        RMUris::redirect_with_message(__('You must specify a ID from at least one category', 'works'), 'categories.php', RMMSG_WARN);
     }
 
     if (!$xoopsSecurity->check()) {
-        RMUris::redirect_with_message(
-            __('Session token expired', 'works'),
-            'categories.php',
-            RMMSG_ERROR
-        );
+        RMUris::redirect_with_message(__('Session token expired', 'works'), 'categories.php', RMMSG_ERROR);
     }
 
     $errors = '';
@@ -273,17 +265,9 @@ function deleteCategory()
     }
 
     if ('' != $errors) {
-        RMUris::redirect_with_message(
-            __('Errors occurs while trying to delete categories') . '<br>' . $errors,
-            'categories.php',
-            RMMSG_ERROR
-        );
+        RMUris::redirect_with_message(__('Errors occurs while trying to delete categories') . '<br>' . $errors, 'categories.php', RMMSG_ERROR);
     } else {
-        RMUris::redirect_with_message(
-            __('Database updated successfully!', 'works'),
-            'categories.php',
-            RMMSG_SUCCESS
-        );
+        RMUris::redirect_with_message(__('Database updated successfully!', 'works'), 'categories.php', RMMSG_SUCCESS);
     }
 }
 
@@ -297,19 +281,11 @@ function updateCategory()
     $orders = RMHttpRequest::post('order', 'array', []);
 
     if (!is_array($orders) || empty($orders)) {
-        RMUris::redirect_with_message(
-            __('You must select at least one category to update.', 'works'),
-            'categories.php',
-            RMMSG_WARN
-        );
+        RMUris::redirect_with_message(__('You must select at least one category to update.', 'works'), 'categories.php', RMMSG_WARN);
     }
 
     if (!$xoopsSecurity->check()) {
-        RMUris::redirect_with_message(
-            __('Session token expired!', 'works'),
-            'categories.php',
-            RMMSG_WARN
-        );
+        RMUris::redirect_with_message(__('Session token expired!', 'works'), 'categories.php', RMMSG_WARN);
     }
 
     $errors = '';
@@ -342,17 +318,9 @@ function updateCategory()
     }
 
     if ('' != $errors) {
-        RMUris::redirect_with_message(
-            __('Errors occurred while trying to update database!', 'works') . '<br>' . $errors,
-            'categories.php',
-            RMMSG_ERROR
-        );
+        RMUris::redirect_with_message(__('Errors occurred while trying to update database!', 'works') . '<br>' . $errors, 'categories.php', RMMSG_ERROR);
     } else {
-        RMUris::redirect_with_message(
-            __('Database updated successfully!', 'works'),
-            'categories.php',
-            RMMSG_SUCCESS
-        );
+        RMUris::redirect_with_message(__('Database updated successfully!', 'works'), 'categories.php', RMMSG_SUCCESS);
     }
 }
 
@@ -367,19 +335,11 @@ function activeCategory($act = 'active')
     $ids = RMHttpRequest::post('ids', 'array', []);
 
     if (!$xoopsSecurity->check()) {
-        RMUris::redirect_with_message(
-            __('Session token expired!', 'works'),
-            'categories.php',
-            RMMSG_WARN
-        );
+        RMUris::redirect_with_message(__('Session token expired!', 'works'), 'categories.php', RMMSG_WARN);
     }
 
     if (!is_array($ids) || empty($ids)) {
-        RMUris::redirect_with_message(
-            __('You must select at least one category to update.', 'works'),
-            'categories.php',
-            RMMSG_WARN
-        );
+        RMUris::redirect_with_message(__('You must select at least one category to update.', 'works'), 'categories.php', RMMSG_WARN);
     }
 
     $errors = '';
@@ -407,17 +367,9 @@ function activeCategory($act = 'active')
     }
 
     if ('' != $errors) {
-        RMUris::redirect_with_message(
-            __('Errors occurred while trying to update database!', 'works') . '<br>' . $errors,
-            'categories.php',
-            RMMSG_ERROR
-        );
+        RMUris::redirect_with_message(__('Errors occurred while trying to update database!', 'works') . '<br>' . $errors, 'categories.php', RMMSG_ERROR);
     } else {
-        RMUris::redirect_with_message(
-            __('Database updated successfully!', 'works'),
-            'categories.php',
-            RMMSG_SUCCESS
-        );
+        RMUris::redirect_with_message(__('Database updated successfully!', 'works'), 'categories.php', RMMSG_SUCCESS);
     }
 }
 

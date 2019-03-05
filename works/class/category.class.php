@@ -12,7 +12,7 @@ class Works_Category extends RMObject
 {
     public function __construct($id = null)
     {
-        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db       = XoopsDatabaseFactory::getDatabaseConnection();
         $this->_dbtable = $this->db->prefix('mod_works_categories');
         $this->setNew();
         $this->initVarsFromTable();

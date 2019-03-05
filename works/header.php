@@ -8,14 +8,14 @@
 // License: GPL 2.0
 // --------------------------------------------------------------
 
-require  dirname(dirname(__DIR__)) . '/header.php';
-$mc = &$xoopsModuleConfig;
+require dirname(dirname(__DIR__)) . '/header.php';
+$mc  = &$xoopsModuleConfig;
 $xmh = '';
 
 define('PW_URL', XOOPS_URL . ($xoopsModuleConfig['permalinks'] ? rtrim($xoopsModuleConfig['htbase'], '/') : '/modules/works'));
 define('PW_PATH', XOOPS_ROOT_PATH . '/modules/works');
 
 $tpl = $xoopsTpl;
-$db = XoopsDatabaseFactory::getDatabaseConnection();
+$db  = XoopsDatabaseFactory::getDatabaseConnection();
 
 RMTemplate::get()->add_style('main.min.css', 'works');

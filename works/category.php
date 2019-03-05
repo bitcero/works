@@ -9,7 +9,7 @@
 // --------------------------------------------------------------
 
 $GLOBALS['xoopsOption']['template_main'] = 'works-category.tpl';
-$xoopsOption['module_subpage'] = 'category';
+$xoopsOption['module_subpage']           = 'category';
 require __DIR__ . '/header.php';
 
 Works_Functions::makeHeader();
@@ -23,17 +23,13 @@ if ('' == $id) {
 //Verificamos si la categoría existe
 $cat = new Works_Category($id);
 if ($cat->isNew()) {
-    RMUris::redirect_with_message(
-        __('Specified category does not exists!', 'works'),
-        PW_URL,
-        RMMSG_WARN
-    );
+    RMUris::redirect_with_message(__('Specified category does not exists!', 'works'), PW_URL, RMMSG_WARN);
 }
 
 RMEvents::get()->run_event('works.starting.categories', $cat);
 
 // Category
-$tpl->assign('category', [ 'id' => $cat->id(), 'name' => $cat->name, 'nameid' => $cat->nameid, 'description' => $cat->desc ]);
+$tpl->assign('category', ['id' => $cat->id(), 'name' => $cat->name, 'nameid' => $cat->nameid, 'description' => $cat->desc]);
 
 //Barra de Navegación
 $sql = 'SELECT COUNT(*) FROM ' . $db->prefix('mod_works_works') . ' as w, ' . $db->prefix('mod_works_categories_rel') . ' as r
@@ -48,17 +44,17 @@ if (!isset($page)) {
 }
 
 $tpages = ceil($num / $limit);
-$page = $page > $tpages ? $tpages : $page;
-$start = $num <= 0 ? 0 : ($page - 1) * $limit;
-$start = $start < 0 ? 0 : $start;
+$page   = $page > $tpages ? $tpages : $page;
+$start  = $num <= 0 ? 0 : ($page - 1) * $limit;
+$start  = $start < 0 ? 0 : $start;
 
 $nav = new RMPageNav($num, $limit, $page, 5);
 $url = $cat->permalink() . ($mc['permalinks'] ? 'page/{PAGE_NUM}' : '&page={PAGE_NUM}');
 $nav->target_url($url);
 $tpl->assign('navpage', $nav->render(false));
 
-$sql = str_replace('COUNT(*)', 'w.*', $sql);
-$sql .= " ORDER BY w.created DESC LIMIT $start,$limit";
+$sql    = str_replace('COUNT(*)', 'w.*', $sql);
+$sql    .= " ORDER BY w.created DESC LIMIT $start,$limit";
 $result = $db->query($sql);
 
 // Numero de resultados en esta página

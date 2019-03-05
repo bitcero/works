@@ -28,9 +28,9 @@ $content .= $util->image_manager('image', 'image', $params, ['accept' => 'thumbn
 $content .= '</form>';
 
 $widget = [
-    'title' => __('Featured Image', 'works'),
+    'title'   => __('Featured Image', 'works'),
     'content' => $content,
-    'icon' => 'fa fa-eye',
+    'icon'    => 'fa fa-eye',
 ];
 
 return $widget;

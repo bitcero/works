@@ -44,19 +44,19 @@ function showClients()
 
     list($num) = $db->fetchRow($db->query($sql));
 
-    $page = rmc_server_var($_GET, 'page', 1);
-    $limit = 15;
+    $page   = rmc_server_var($_GET, 'page', 1);
+    $limit  = 15;
     $tpages = ceil($num / $limit);
-    $page = $page > $tpages ? $tpages : $page;
+    $page   = $page > $tpages ? $tpages : $page;
 
     $start = $num <= 0 ? 0 : ($page - 1) * $limit;
 
     $nav = new RMPageNav($num, $limit, $page, 5);
     $nav->target_url('clients.php?page={PAGE_NUM}');
 
-    $sql = 'SELECT * FROM ' . $db->prefix('mod_works_clients') . ' ORDER BY id_client';
-    $sql .= " LIMIT $start,$limit";
-    $result = $db->query($sql);
+    $sql       = 'SELECT * FROM ' . $db->prefix('mod_works_clients') . ' ORDER BY id_client';
+    $sql       .= " LIMIT $start,$limit";
+    $result    = $db->query($sql);
     $customers = [];
     while (false !== ($rows = $db->fetchArray($result))) {
         $client = new PWClient();
@@ -65,10 +65,10 @@ function showClients()
         $type = new PWType($client->type());
 
         $customers[] = [
-            'id' => $client->id(),
-            'name' => $client->name(),
-            'business' => $client->businessName(),
-            'type' => $type->type(),
+            'id'          => $client->id(),
+            'name'        => $client->name(),
+            'business'    => $client->businessName(),
+            'type'        => $type->type(),
             'description' => $client->desc(),
         ];
     }
@@ -99,8 +99,8 @@ function formClients($edit = 0)
 
     define('RMCSUBLOCATION', 'newcustomer');
 
-    $id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
-    $page = isset($_REQUEST['pag']) ? $_REQUEST['pag'] : '';
+    $id    = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+    $page  = isset($_REQUEST['pag']) ? $_REQUEST['pag'] : '';
     $limit = isset($_REQUEST['limit']) ? intval($_REQUEST['limit']) : 15;
 
     $ruta = "pag=$page&limit=$limit";
@@ -221,8 +221,8 @@ function deleteClients()
 {
     global $xoopsSecurity, $xoopsModule;
 
-    $ids = rmc_server_var($_POST, 'ids', []);
-    $page = rmc_server_var($_POST, 'page', 1);
+    $ids   = rmc_server_var($_POST, 'ids', []);
+    $page  = rmc_server_var($_POST, 'page', 1);
     $limit = rmc_server_var($_POST, 'limit', 15);
 
     $ruta = "page=$page&limit=$limit";

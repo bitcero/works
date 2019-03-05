@@ -53,20 +53,20 @@ function showImages()
 
     list($num) = $db->fetchRow($db->query($sql));
 
-    $page = rmc_server_var($_REQUEST, 'page', 1);
-    $page = $page <= 0 ? 1 : $page;
+    $page  = rmc_server_var($_REQUEST, 'page', 1);
+    $page  = $page <= 0 ? 1 : $page;
     $limit = 10;
 
     $tpages = ceil($num / $limit);
-    $page = $page > $tpages ? $tpages : $page;
+    $page   = $page > $tpages ? $tpages : $page;
 
     $start = $num <= 0 ? 0 : ($page - 1) * $limit;
 
     $nav = new RMPageNav($num, $limit, $page, 5);
     $nav->target_url('images.php?page={PAGE_NUM}&amp;work=' . $work->id());
 
-    $sql = 'SELECT * FROM ' . $db->prefix('pw_images') . " WHERE work='" . $work->id() . "'";
-    $sql .= " LIMIT $start,$limit";
+    $sql    = 'SELECT * FROM ' . $db->prefix('pw_images') . " WHERE work='" . $work->id() . "'";
+    $sql    .= " LIMIT $start,$limit";
     $result = $db->query($sql);
     $images = [];
     while (false !== ($row = $db->fetchArray($result))) {
@@ -74,15 +74,15 @@ function showImages()
         $img->assignVars($row);
 
         $images[] = [
-            'id' => $img->id(),
+            'id'    => $img->id(),
             'title' => $img->title(),
             'image' => $img->image(),
-            'work' => $img->work(),
-            'desc' => $img->desc(),
+            'work'  => $img->work(),
+            'desc'  => $img->desc(),
         ];
     }
 
-    $images = RMEvents::get()->run_event('works.list.images', $images, $work);
+    $images      = RMEvents::get()->run_event('works.list.images', $images, $work);
     $form_fields = '';
     $form_fields = RMEvents::get()->run_event('works.images.form.fields', $form_fields, $work);
 
@@ -108,7 +108,7 @@ function formImages($edit = 0)
 {
     global $xoopsModule, $xoopsModuleConfig;
 
-    $id = rmc_server_var($_REQUEST, 'id', 0);
+    $id   = rmc_server_var($_REQUEST, 'id', 0);
     $work = rmc_server_var($_REQUEST, 'work', 0);
     $page = rmc_server_var($_REQUEST, 'page', 0);
 
@@ -229,17 +229,17 @@ function saveImages($edit = 0)
 
     //Imagen
     require_once RMCPATH . '/class/uploader.php';
-    $folder = XOOPS_UPLOAD_PATH . '/works';
+    $folder    = XOOPS_UPLOAD_PATH . '/works';
     $folderths = XOOPS_UPLOAD_PATH . '/works/ths';
     if ($edit) {
-        $image = $img->image();
+        $image    = $img->image();
         $filename = $img->image();
     } else {
         $filename = '';
     }
 
     //Obtenemos el tamaño de la imagen
-    $thSize = $xoopsModuleConfig['image_ths'];
+    $thSize  = $xoopsModuleConfig['image_ths'];
     $imgSize = $xoopsModuleConfig['image'];
 
     $up = new RMFileUploader($folder, $xoopsModuleConfig['size_image'] * 1024, ['jpg', 'png', 'gif']);
@@ -306,7 +306,7 @@ function deleteImages()
 {
     global $xoopsSecurity, $xoopsModule;
 
-    $ids = rmc_server_var($_REQUEST, 'ids', 0);
+    $ids  = rmc_server_var($_REQUEST, 'ids', 0);
     $work = rmc_server_var($_REQUEST, 'work', 0);
     $page = rmc_server_var($_REQUEST, 'page', 0);
 

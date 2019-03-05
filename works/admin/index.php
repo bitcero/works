@@ -34,8 +34,8 @@ define('WORKS_LOCATION', 'dashboard');
 // URL rewriting
 $mc = RMSettings::module_settings('works');
 if ($mc->permalinks) {
-    $rule = 'RewriteRule ^' . trim($mc->htbase, '/') . '/?(.*)$ modules/works/index.php [L]';
-    $ht = new RMHtaccess('works');
+    $rule     = 'RewriteRule ^' . trim($mc->htbase, '/') . '/?(.*)$ modules/works/index.php [L]';
+    $ht       = new RMHtaccess('works');
     $htResult = $ht->write($rule);
     if (true !== $htResult) {
         $errmsg = __('You have set the URL redirection in the server, but .htaccess file could not be written! Please verify that you have writing permissions. If not, please add next lines to your htaccess file:', 'works');
@@ -46,9 +46,9 @@ if ($mc->permalinks) {
 
 // Widgets
 $widgets_right = [];
-$widgets_left = [];
+$widgets_left  = [];
 $widgets_right = RMEvents::get()->run_event('works.dashboard.right.widgets', $widgets_right);
-$widgets_left = RMEvents::get()->run_event('works.dashboard.left.widgets', $widgets_left);
+$widgets_left  = RMEvents::get()->run_event('works.dashboard.left.widgets', $widgets_left);
 
 //Categorías
 $sql = 'SELECT COUNT(*) FROM ' . $db->prefix('mod_works_categories');
@@ -71,17 +71,17 @@ $sql = 'SELECT COUNT(*) FROM ' . $db->prefix('pw_images');
 list($images) = $db->fetchRow($db->query($sql));
 
 // Works not published
-$sql = 'SELECT * FROM ' . $db->prefix('mod_works_works') . ' WHERE public=0 ORDER BY id_work DESC LIMIT 0,5';
-$result = $db->query($sql);
+$sql           = 'SELECT * FROM ' . $db->prefix('mod_works_works') . ' WHERE public=0 ORDER BY id_work DESC LIMIT 0,5';
+$result        = $db->query($sql);
 $works_pending = [];
 while (false !== ($row = $db->fetchArray($result))) {
     $work = new Works_Work();
     $work->assignVars($row);
     $works_pending[] = [
-        'id' => $work->id(),
+        'id'    => $work->id(),
         'title' => $work->title(),
-        'desc' => $work->descShort(),
-        'date' => formatTimestamp($work->created(), 'c'),
+        'desc'  => $work->descShort(),
+        'date'  => formatTimestamp($work->created(), 'c'),
     ];
 }
 

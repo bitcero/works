@@ -23,9 +23,9 @@ include RMTemplate::get()->get_template('widgets/works-widget-categories.php', '
 $content = ob_get_clean();
 
 $widget = [
-    'title' => __('Categories', 'works'),
+    'title'   => __('Categories', 'works'),
     'content' => $content,
-    'icon' => 'fa fa-folder',
+    'icon'    => 'fa fa-folder',
 ];
 
 return $widget;

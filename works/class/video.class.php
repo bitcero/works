@@ -33,10 +33,11 @@ class Works_Video extends RMObject
     {
         // Prevent to be translated
         $this->noTranslate = [
-            'url', 'image',
+            'url',
+            'image',
         ];
 
-        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db       = XoopsDatabaseFactory::getDatabaseConnection();
         $this->_dbtable = $this->db->prefix('mod_works_videos');
         $this->setNew();
         $this->initVarsFromTable();

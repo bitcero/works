@@ -56,10 +56,10 @@ function showWorks()
 
     $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-    $page = RMHttpRequest::request('page', 'integer', 1);
-    $page = $page <= 0 ? 1 : $page;
+    $page  = RMHttpRequest::request('page', 'integer', 1);
+    $page  = $page <= 0 ? 1 : $page;
     $limit = 15;
-    $show = RMHttpRequest::request('show', 'string', '');
+    $show  = RMHttpRequest::request('show', 'string', '');
 
     //Barra de Navegación
     $sql = 'SELECT COUNT(*) FROM ' . $db->prefix('mod_works_works');
@@ -70,38 +70,38 @@ function showWorks()
     list($num) = $db->fetchRow($db->query($sql));
 
     $tpages = ceil($num / $limit);
-    $page = $page > $tpages ? $tpages : $page;
+    $page   = $page > $tpages ? $tpages : $page;
 
     $start = $num <= 0 ? 0 : ($page - 1) * $limit;
 
     $nav = new RMPageNav($num, $limit, $page, 5);
     $nav->target_url('works.php?page={PAGE_NUM}');
 
-    $sql = str_replace('COUNT(*)', '*', $sql);
-    $sql .= " ORDER BY id_work DESC LIMIT $start, $limit";
+    $sql    = str_replace('COUNT(*)', '*', $sql);
+    $sql    .= " ORDER BY id_work DESC LIMIT $start, $limit";
     $result = $db->query($sql);
-    $works = []; //Container
-    $tf = new RMTimeFormatter(0, '%T% %d%, %Y% at %h%:%i%');
+    $works  = []; //Container
+    $tf     = new RMTimeFormatter(0, '%T% %d%, %Y% at %h%:%i%');
 
     while (false !== ($row = $db->fetchArray($result))) {
         $work = new Works_Work();
         $work->assignVars($row);
 
         $works[] = [
-            'id' => $work->id(),
-            'title' => $work->title,
-            'featured' => $work->featured,
-            'status' => $work->status,
-            'url' => $work->permalink(),
+            'id'         => $work->id(),
+            'title'      => $work->title,
+            'featured'   => $work->featured,
+            'status'     => $work->status,
+            'url'        => $work->permalink(),
             'categories' => $work->categories('name'),
-            'created' => $tf->format($work->created),
-            'modified' => $tf->format($work->modified),
-            'customer' => $work->customer,
+            'created'    => $tf->format($work->created),
+            'modified'   => $tf->format($work->modified),
+            'customer'   => $work->customer,
         ];
     }
 
     RMTemplate::getInstance()->add_style('admin.css', 'works');
-    RMTemplate::getInstance()->add_script('jquery.checkboxes.js', 'rmcommon', [ 'directory' => 'include' ]);
+    RMTemplate::getInstance()->add_script('jquery.checkboxes.js', 'rmcommon', ['directory' => 'include']);
     RMTemplate::getInstance()->add_script('admin-works.js', 'works', ['id' => 'works-js', 'footer' => 1]);
 
     $bc = RMBreadCrumb::get();
@@ -126,7 +126,7 @@ function formWorks($edit = 0)
 
     define('RMCSUBLOCATION', 'new-work');
 
-    $page = RMHttpRequest::request('page', 'integer', 1);
+    $page  = RMHttpRequest::request('page', 'integer', 1);
     $query = "page=$page";
 
     $bc = RMBreadCrumb::get();
@@ -138,21 +138,13 @@ function formWorks($edit = 0)
     if ($edit) {
         //Verificamos que el trabajo sea válido
         if ($id <= 0) {
-            RMUris::redirect_with_message(
-                __('Provided Work ID is not valid!', 'works'),
-                'works.php?' . $query,
-                RMMSG_ERROR
-            );
+            RMUris::redirect_with_message(__('Provided Work ID is not valid!', 'works'), 'works.php?' . $query, RMMSG_ERROR);
         }
 
         //Verificamos que el trabajo exista
         $work = new Works_Work($id);
         if ($work->isNew()) {
-            RMUris::redirect_with_message(
-                __('Specified work does not exists!', 'works'),
-                'works.php?' . $query,
-                RMMSG_ERROR
-            );
+            RMUris::redirect_with_message(__('Specified work does not exists!', 'works'), 'works.php?' . $query, RMMSG_ERROR);
         }
     } else {
         $work = new Works_Work();
@@ -172,7 +164,7 @@ function formWorks($edit = 0)
 
     RMTemplate::getInstance()->header();
 
-    $form = new RMForm('', '', '');
+    $form   = new RMForm('', '', '');
     $editor = new RMFormEditor(__('Description', 'works'), 'description', '100%', '300px', $edit ? $work->getVar('description', 'e') : '');
 
     /**
@@ -195,13 +187,13 @@ function formWorks($edit = 0)
      * title, permalink, editor, images, customer, seo, meta
      */
     $additional_fields = [
-        'title' => [],
+        'title'     => [],
         'permalink' => [],
-        'editor' => [],
-        'images' => [],
-        'customer' => [],
-        'seo' => [],
-        'meta' => [],
+        'editor'    => [],
+        'images'    => [],
+        'customer'  => [],
+        'seo'       => [],
+        'meta'      => [],
     ];
     $additional_fields = RMEvents::get()->run_event('works.form.fields', $additional_fields, $work);
 
@@ -219,37 +211,37 @@ function saveWorks($edit = 0)
     global $xoopsSecurity, $xoopsModuleConfig, $xoopsLogger;
 
     $xoopsLogger->renderingEnabled = false;
-    $xoopsLogger->activated = false;
+    $xoopsLogger->activated        = false;
 
-    $id = RMHttpRequest::post('id', 'integer', 0);
+    $id       = RMHttpRequest::post('id', 'integer', 0);
     $featured = RMHttpRequest::post('featured', 'integer', 0);
 
     // General section
-    $title = RMHttpRequest::post('title', 'string', '');
-    $title_id = RMHttpRequest::post('titleid', 'string', '');
-    $description = RMHttpRequest::post('description', 'string', '');
-    $seo_title = RMHttpRequest::post('seo_title', 'string', '');
+    $title           = RMHttpRequest::post('title', 'string', '');
+    $title_id        = RMHttpRequest::post('titleid', 'string', '');
+    $description     = RMHttpRequest::post('description', 'string', '');
+    $seo_title       = RMHttpRequest::post('seo_title', 'string', '');
     $seo_description = RMHttpRequest::post('seo_description', 'string', '');
-    $seo_keywords = RMHttpRequest::post('seo_keywords', 'string', '');
+    $seo_keywords    = RMHttpRequest::post('seo_keywords', 'string', '');
 
     // Customer section
     $customer_name = RMHttpRequest::post('customer_name', 'string', '');
-    $web = RMHttpRequest::post('web', 'string', '');
-    $url = formatURL(RMHttpRequest::post('url', 'string', ''));
-    $comment = RMHttpRequest::post('customer_comment', 'string', '');
+    $web           = RMHttpRequest::post('web', 'string', '');
+    $url           = formatURL(RMHttpRequest::post('url', 'string', ''));
+    $comment       = RMHttpRequest::post('customer_comment', 'string', '');
 
     // Images
     $images = RMHttpRequest::post('images', 'array', []);
-    $image = RMHttpRequest::post('image', 'string', '');
+    $image  = RMHttpRequest::post('image', 'string', '');
 
     // Custom data
-    $meta['names'] = RMHttpRequest::post('meta_name', 'array', []);
+    $meta['names']  = RMHttpRequest::post('meta_name', 'array', []);
     $meta['values'] = RMHttpRequest::post('meta_value', 'array', []);
 
     // Status
-    $status = RMHttpRequest::post('status', 'string', 'public');
-    $schedule = RMHttpRequest::post('schedule', 'string', '');
-    $image = RMHttpRequest::post('image', 'string', '');
+    $status     = RMHttpRequest::post('status', 'string', 'public');
+    $schedule   = RMHttpRequest::post('schedule', 'string', '');
+    $image      = RMHttpRequest::post('image', 'string', '');
     $categories = RMHttpRequest::post('cats', 'array', []);
 
     /*if ( !$xoopsSecurity->check() )
@@ -364,16 +356,16 @@ function saveWorks($edit = 0)
     $sql = rtrim($sql, ',');
 
     $data = [
-        'id' => $work->id(),
-        'title' => $title,
+        'id'       => $work->id(),
+        'title'    => $title,
         'title_id' => $title_id,
-        'url' => $work->permalink(),
+        'url'      => $work->permalink(),
     ];
 
     if (!$db->queryF($sql)) {
         works_json_reponse(1, 1, [
             'message' => __('This work has been saved, however the categories relations could not be saved!', 'works') . '<br>' . $db->error(),
-            'work' => $data,
+            'work'    => $data,
         ]);
     }
 
@@ -384,7 +376,7 @@ function saveWorks($edit = 0)
 
     works_json_reponse(1, 0, [
         'message' => __('Item saved successfully!', 'works'),
-        'data' => $data,
+        'data'    => $data,
     ]);
 }
 
@@ -395,7 +387,7 @@ function deleteWorks()
 {
     global $xoopsSecurity, $xoopsModule;
 
-    $ids = rmc_server_var($_POST, 'ids', 0);
+    $ids  = rmc_server_var($_POST, 'ids', 0);
     $page = rmc_server_var($_POST, 'page', 1);
     $show = rmc_server_var($_POST, 'show', 1);
 
@@ -448,7 +440,7 @@ function publicWorks($pub = 0)
 {
     global $xoopsSecurity;
 
-    $ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
+    $ids  = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
     $page = isset($_REQUEST['pag']) ? $_REQUEST['pag'] : '';
     $show = rmc_server_var($_POST, 'show', 1);
 
@@ -502,7 +494,7 @@ function markWorks($mark = 0)
 {
     global $xoopsSecurity;
 
-    $ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
+    $ids  = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
     $page = isset($_REQUEST['pag']) ? $_REQUEST['pag'] : '';
     $show = rmc_server_var($_POST, 'show', 1);
 
@@ -570,7 +562,7 @@ function works_save_meta()
         die();
     }
 
-    $name = rmc_server_var($_POST, 'name', '');
+    $name  = rmc_server_var($_POST, 'name', '');
     $value = rmc_server_var($_POST, 'value', '');
 
     if ('' == $name || '' == $value) {
@@ -580,7 +572,7 @@ function works_save_meta()
 
     $name = TextCleaner::sweetstring($name);
 
-    $db = XoopsDatabaseFactory::getDatabaseConnection();
+    $db  = XoopsDatabaseFactory::getDatabaseConnection();
     $sql = 'SELECT COUNT(*) FROM ' . $db->prefix('pw_meta') . " WHERE name='$name' AND work='$id'";
     list($num) = $db->fetchRow($db->query($sql));
 
@@ -627,7 +619,7 @@ function works_delete_meta()
         die();
     }
 
-    $db = XoopsDatabaseFactory::getDatabaseConnection();
+    $db  = XoopsDatabaseFactory::getDatabaseConnection();
     $sql = 'DELETE FROM ' . $db->prefix('pw_meta') . ' WHERE id_meta IN(' . implode(',', $ids) . ')';
 
     if ($db->queryF($sql)) {
@@ -648,14 +640,14 @@ function works_add_video($edit = 0)
     $common->ajax()->prepare();
     $common->checkToken();
 
-    $id = $common->httpRequest()->post('id', 'integer', 0);
-    $url = $common->httpRequest()->post('url', 'string', '');
-    $title = $common->httpRequest()->post('title', 'string', '');
+    $id          = $common->httpRequest()->post('id', 'integer', 0);
+    $url         = $common->httpRequest()->post('url', 'string', '');
+    $title       = $common->httpRequest()->post('title', 'string', '');
     $description = $common->httpRequest()->post('description', 'string', '');
-    $image = $common->httpRequest()->post('image', 'string', '');
-    $type = $common->httpRequest()->post('type', 'string', '');
-    $full = $common->httpRequest()->post('fullScreen', 'integer', 1);
-    $videoId = $common->httpRequest()->post('video', 'integer', 0);
+    $image       = $common->httpRequest()->post('image', 'string', '');
+    $type        = $common->httpRequest()->post('type', 'string', '');
+    $full        = $common->httpRequest()->post('fullScreen', 'integer', 1);
+    $videoId     = $common->httpRequest()->post('video', 'integer', 0);
 
     if ($id <= 0) {
         $common->ajax()->notifyError(__('Project must exists in order to add videos!', 'works'));
@@ -683,14 +675,14 @@ function works_add_video($edit = 0)
         $video = new Works_Video();
     }
 
-    $video->url = $url;
-    $video->title = $title;
+    $video->url         = $url;
+    $video->title       = $title;
     $video->description = $description;
-    $video->image = $image;
-    $video->work = $id;
+    $video->image       = $image;
+    $video->work        = $id;
 
     if (0 == $edit) {
-        $video->type = $type;
+        $video->type       = $type;
         $video->fullscreen = $full;
     }
 
@@ -701,24 +693,19 @@ function works_add_video($edit = 0)
     $video->image = $image;
 
     if ($video->save()) {
-        $common->ajax()->response(
-            $edit ? __('Video updated successfully!', 'works') : __('Video added successfully!', 'works'),
-            0,
-            1,
-            [
-                'notify' => [
-                    'type' => 'alert-success',
-                    'icon' => 'svg-rmcommon-video',
-                ],
-                'video' => [
-                    'id' => $video->id(),
-                    'url' => $url,
-                    'title' => $title,
-                    'description' => $description,
-                    'image' => RMImageResizer::getInstance()->resize($image, ['width' => 300, 'height' => 180])->url,
-                ],
-            ]
-        );
+        $common->ajax()->response($edit ? __('Video updated successfully!', 'works') : __('Video added successfully!', 'works'), 0, 1, [
+                                                                                                                                   'notify' => [
+                                                                                                                                       'type' => 'alert-success',
+                                                                                                                                       'icon' => 'svg-rmcommon-video',
+                                                                                                                                   ],
+                                                                                                                                   'video'  => [
+                                                                                                                                       'id'          => $video->id(),
+                                                                                                                                       'url'         => $url,
+                                                                                                                                       'title'       => $title,
+                                                                                                                                       'description' => $description,
+                                                                                                                                       'image'       => RMImageResizer::getInstance()->resize($image, ['width' => 300, 'height' => 180])->url,
+                                                                                                                                   ],
+                                                                                                                               ]);
     }
 }
 
@@ -729,7 +716,7 @@ function works_edit_video()
     $common->ajax()->prepare();
     $common->checkToken();
 
-    $workId = $common->httpRequest()->get('work', 'integer', 0);
+    $workId  = $common->httpRequest()->get('work', 'integer', 0);
     $videoId = $common->httpRequest()->get('id', 'integer', 0);
 
     if ($workId <= 0 || $videoId <= 0) {
@@ -747,23 +734,18 @@ function works_edit_video()
         $common->ajax()->notifyError(__('Specified video does not exists!', 'works'));
     }
 
-    $common->ajax()->response(
-        __('Video data', 'works'),
-        0,
-        1,
-        [
-            'video' => [
-                'id' => $video->id(),
-                'title' => $video->title,
-                'description' => $video->description,
-                'url' => $video->url,
-                'image' => $video->image,
-                'type' => $video->type,
-                'fullscreen' => $video->fullscreen,
-                'work' => $workId,
-            ],
-        ]
-    );
+    $common->ajax()->response(__('Video data', 'works'), 0, 1, [
+                                                           'video' => [
+                                                               'id'          => $video->id(),
+                                                               'title'       => $video->title,
+                                                               'description' => $video->description,
+                                                               'url'         => $video->url,
+                                                               'image'       => $video->image,
+                                                               'type'        => $video->type,
+                                                               'fullscreen'  => $video->fullscreen,
+                                                               'work'        => $workId,
+                                                           ],
+                                                       ]);
 }
 
 /**
@@ -778,7 +760,7 @@ function works_delete_video()
     $common->checkToken();
 
     $workId = $common->httpRequest()->post('work', 'integer', 0);
-    $id = $common->httpRequest()->post('id', 'integer', 0);
+    $id     = $common->httpRequest()->post('id', 'integer', 0);
 
     if ($workId <= 0 || $id <= 0) {
         $common->ajax()->notifyError(__('You must provide a valid video ID and a project ID!', 'works'));
@@ -795,18 +777,13 @@ function works_delete_video()
     }
 
     if ($video->delete()) {
-        $common->ajax()->response(
-            sprintf(__('Video <strong>%s</strong> deleted successfully!', 'works'), $video->title),
-            0,
-            1,
-            [
-                'id' => $id,
-                'notify' => [
-                    'type' => 'alert-success',
-                    'icon' => 'svg-rmcommon-ok-circle',
-                ],
-            ]
-        );
+        $common->ajax()->response(sprintf(__('Video <strong>%s</strong> deleted successfully!', 'works'), $video->title), 0, 1, [
+                                                                                                                            'id'     => $id,
+                                                                                                                            'notify' => [
+                                                                                                                                'type' => 'alert-success',
+                                                                                                                                'icon' => 'svg-rmcommon-ok-circle',
+                                                                                                                            ],
+                                                                                                                        ]);
     }
 
     $common->ajax()->notifyError(sprintf(__('Video <strong>%s</strong> could not be deleted:', 'works'), $video->title) . $video->errors());

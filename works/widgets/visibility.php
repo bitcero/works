@@ -16,9 +16,9 @@ include RMTemplate::get()->get_template('widgets/works-widget-visibility.php', '
 $content = ob_get_clean();
 
 $widget = [
-    'title' => __('Visibility', 'works'),
+    'title'   => __('Visibility', 'works'),
     'content' => $content,
-    'icon' => 'fa fa-eye',
+    'icon'    => 'fa fa-eye',
 ];
 
 return $widget;

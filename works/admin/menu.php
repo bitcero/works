@@ -28,28 +28,28 @@
  */
 load_mod_locale('works');
 
-$i = 0;
-$adminmenu[$i]['title'] = __('Dashboard', 'works');
-$adminmenu[$i]['link'] = 'admin/index.php';
-$adminmenu[$i]['icon'] = 'svg-rmcommon-dashboard text-midnight';
+$i                         = 0;
+$adminmenu[$i]['title']    = __('Dashboard', 'works');
+$adminmenu[$i]['link']     = 'admin/index.php';
+$adminmenu[$i]['icon']     = 'svg-rmcommon-dashboard text-midnight';
 $adminmenu[$i]['location'] = 'dashboard';
 
 $i++;
-$adminmenu[$i]['title'] = __('Categories', 'works');
-$adminmenu[$i]['link'] = 'admin/categories.php';
-$adminmenu[$i]['icon'] = 'svg-rmcommon-folder text-orange';
+$adminmenu[$i]['title']    = __('Categories', 'works');
+$adminmenu[$i]['link']     = 'admin/categories.php';
+$adminmenu[$i]['icon']     = 'svg-rmcommon-folder text-orange';
 $adminmenu[$i]['location'] = 'categories';
-$adminmenu[$i]['options'] = [
+$adminmenu[$i]['options']  = [
     ['title' => __('List all', 'works'), 'link' => 'admin/categories.php', 'selected' => 'categories', 'icon' => 'fa fa-list'],
     ['title' => __('Add Category', 'works'), 'link' => 'admin/categories.php?action=new', 'selected' => 'newcategory', 'icon' => 'fa fa-plus'],
 ];
 
 $i++;
-$adminmenu[$i]['title'] = __('Works', 'works');
-$adminmenu[$i]['link'] = 'admin/works.php';
-$adminmenu[$i]['icon'] = 'svg-rmcommon-briefcase text-brown';
+$adminmenu[$i]['title']    = __('Works', 'works');
+$adminmenu[$i]['link']     = 'admin/works.php';
+$adminmenu[$i]['icon']     = 'svg-rmcommon-briefcase text-brown';
 $adminmenu[$i]['location'] = 'works';
-$adminmenu[$i]['options'] = [
+$adminmenu[$i]['options']  = [
     ['title' => __('List', 'works'), 'link' => 'admin/works.php', 'selected' => 'works', 'icon' => 'fa fa-list'],
     ['title' => __('Add Work', 'works'), 'link' => 'admin/works.php?action=new', 'selected' => 'newwork', 'icon' => 'fa fa-plus'],
 ];
