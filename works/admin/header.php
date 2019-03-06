@@ -45,10 +45,14 @@ $tpl->assign('pw_path', PW_PATH);
 
 // Directorios
 if (!file_exists(XOOPS_UPLOAD_PATH . '/works')) {
-    mkdir(XOOPS_UPLOAD_PATH . '/works');
+    if (!mkdir($concurrentDirectory = XOOPS_UPLOAD_PATH . '/works') && !is_dir($concurrentDirectory)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+    }
 }
 if (!file_exists(XOOPS_UPLOAD_PATH . '/works/ths')) {
-    mkdir(XOOPS_UPLOAD_PATH . '/works/ths');
+    if (!mkdir($concurrentDirectory = XOOPS_UPLOAD_PATH . '/works/ths') && !is_dir($concurrentDirectory)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+    }
 }
 
 RMTemplate::getInstance()->add_script('admin-works.js', 'works', ['id' => 'works-js', 'footer' => 1]);

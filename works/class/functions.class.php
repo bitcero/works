@@ -375,7 +375,9 @@ class Works_Functions
         // Check if videos thumbnails directory exists
         $path = XOOPS_UPLOAD_PATH . '/works/videos/';
         if (!is_dir($path)) {
-            mkdir($path, 511, true);
+            if (!mkdir($path, 511, true) && !is_dir($path)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
+            }
         }
 
         if (false !== mb_strpos($source, 'vimeo.com/')) {
