@@ -82,9 +82,9 @@ function works_block_items_edit($options)
     <div class="form-group">
         <label for="works-type"><?php _e('Works type:', 'works'); ?></label>
         <select class="form-control" name="options[type]" id="works-type">
-            <option value="random"<?php echo 'random' == $options['type'] ? ' selected' : ''; ?>><?php _e('Random works', 'works'); ?></option>
-            <option value="featured"<?php echo 'featured' == $options['type'] ? ' selected' : ''; ?>><?php _e('Featured works', 'works'); ?></option>
-            <option value="recent"<?php echo 'recent' == $options['type'] ? ' selected' : ''; ?>><?php _e('Recent works', 'works'); ?></option>
+            <option value="random"<?php echo 'random' === $options['type'] ? ' selected' : ''; ?>><?php _e('Random works', 'works'); ?></option>
+            <option value="featured"<?php echo 'featured' === $options['type'] ? ' selected' : ''; ?>><?php _e('Featured works', 'works'); ?></option>
+            <option value="recent"<?php echo 'recent' === $options['type'] ? ' selected' : ''; ?>><?php _e('Recent works', 'works'); ?></option>
         </select>
     </div>
 
@@ -154,8 +154,8 @@ function works_block_items_edit($options)
     <div class="form-group">
         <label for="works-display"><?php _e('Content layout:', 'works'); ?></label>
         <select name="options[display]" id="works-display" class="form-control">
-            <option value="list"<?php echo 'grid' != $options['display'] ? ' selected' : ''; ?>><?php _e('Show as list', 'works'); ?></option>
-            <option value="grid"<?php echo 'grid' == $options['display'] ? ' selected' : ''; ?>><?php _e('Show as grid', 'works'); ?></option>
+            <option value="list"<?php echo 'grid' !== $options['display'] ? ' selected' : ''; ?>><?php _e('Show as list', 'works'); ?></option>
+            <option value="grid"<?php echo 'grid' === $options['display'] ? ' selected' : ''; ?>><?php _e('Show as grid', 'works'); ?></option>
         </select>
     </div>
 

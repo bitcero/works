@@ -56,11 +56,11 @@ if (!Works_Functions::is_allowed($work)) {
     die();
 }
 
-if ('draft' == $work->status) {
+if ('draft' === $work->status) {
     $xoopsTpl->assign('lang_preview', __('You are in preview mode! This work is hidden for all other users.', 'works'));
-} elseif ('scheduled' == $work->status) {
+} elseif ('scheduled' === $work->status) {
     $xoopsTpl->assign('lang_preview', __('You are in preview mode! This work is a scheduled work and is hidden for all other users.', 'works'));
-} elseif ('private' == $work->status) {
+} elseif ('private' === $work->status) {
     $xoopsTpl->assign('lang_preview', __('This is a private work. Only you and users that belong to authorized groups, can view this.', 'works'));
 }
 

@@ -13,11 +13,11 @@ class WorksRmcommonPreload
     {
         global $xoopsModule;
 
-        if (!isset($xoopsModule) || 'works' != $xoopsModule->getVar('dirname')) {
+        if (!isset($xoopsModule) || 'works' !== $xoopsModule->getVar('dirname')) {
             return $widgets;
         }
 
-        if (defined('RMCSUBLOCATION') && RMCSUBLOCATION == 'new-work') {
+        if (defined('RMCSUBLOCATION') && RMCSUBLOCATION === 'new-work') {
             $widgets[] = include PW_PATH . '/widgets/visibility.php';
             $widgets[] = include PW_PATH . '/widgets/categories.php';
             $widgets[] = include PW_PATH . '/widgets/image.php';

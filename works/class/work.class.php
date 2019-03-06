@@ -113,7 +113,7 @@ class Works_Work extends RMObject
             }
         }
 
-        if ('id' == $type) {
+        if ('id' === $type) {
             $ret = [];
             foreach ($this->categories as $cat) {
                 $ret[] = $cat['id_cat'];
@@ -122,7 +122,7 @@ class Works_Work extends RMObject
             return $ret;
         }
 
-        if ('name' == $type) {
+        if ('name' === $type) {
             $ret = [];
             foreach ($this->categories as $id => $cat) {
                 $ret[$id] = $cat['name'];
@@ -131,7 +131,7 @@ class Works_Work extends RMObject
             return $ret;
         }
 
-        if ('objects' == $type) {
+        if ('objects' === $type) {
             $ret = [];
             foreach ($this->categories as $id => $cat) {
                 $tmp = new Works_Category();

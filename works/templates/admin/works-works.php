@@ -51,25 +51,25 @@
                                 <?php _e('Show all', 'works'); ?>
                             </a>
                         </li>
-                        <li<?php if (isset($show) && 'public' == $show): ?> class="active"<?php endif; ?>>
+                        <li<?php if (isset($show) && 'public' === $show): ?> class="active"<?php endif; ?>>
                             <a href="works.php?page=<?php echo $page; ?>&amp;show=public">
                                 <?php echo $cuIcons->getIcon('svg-rmcommon-send'); ?>
                                 <?php _e('Public', 'works'); ?>
                             </a>
                         </li>
-                        <li<?php if (isset($show) && 'draft' == $show): ?> class="active"<?php endif; ?>>
+                        <li<?php if (isset($show) && 'draft' === $show): ?> class="active"<?php endif; ?>>
                             <a href="works.php?page=<?php echo $page; ?>&amp;show=draft">
                                 <?php echo $cuIcons->getIcon('svg-rmcommon-document'); ?>
                                 <?php _e('Drafts', 'works'); ?>
                             </a>
                         </li>
-                        <li<?php if (isset($show) && 'private' == $show): ?> class="active"<?php endif; ?>>
+                        <li<?php if (isset($show) && 'private' === $show): ?> class="active"<?php endif; ?>>
                             <a href="works.php?page=<?php echo $page; ?>&amp;show=private">
                                 <?php echo $cuIcons->getIcon('svg-rmcommon-eye-slash'); ?>
                                 <?php _e('Privates', 'works'); ?>
                             </a>
                         </li>
-                        <li<?php if (isset($show) && 'scheduled' == $show): ?> class="active"<?php endif; ?>>
+                        <li<?php if (isset($show) && 'scheduled' === $show): ?> class="active"<?php endif; ?>>
                             <a href="works.php?page=<?php echo $page; ?>&amp;show=scheduled">
                                 <?php echo $cuIcons->getIcon('svg-rmcommon-calendar'); ?>
                                 <?php _e('Scheduled', 'works'); ?>
@@ -148,7 +148,7 @@
                             <span class="cu-item-options">
             <a href="works.php?action=edit&amp;id=<?php echo $work['id']; ?>&amp;page=<?php echo $page; ?>"><?php _e('Edit', 'admin_mywords'); ?></a>
             <a href="#" onclick="select_option(<?php echo $work['id']; ?>,'delete','frm-works'); return false;"><?php echo _e('Delete', 'works'); ?></a>
-                                <?php if ('scheduled' == $work['status'] || 'draft' == $work['status']): ?>
+                                <?php if ('scheduled' === $work['status'] || 'draft' === $work['status']): ?>
                                     <a href="<?php echo $work['url']; ?>" target="_blank"><?php _e('Preview', 'works'); ?></a>
                                 <?php else: ?>
                                     <a href="<?php echo $work['url']; ?>" target="_blank"><?php _e('View', 'works'); ?></a>

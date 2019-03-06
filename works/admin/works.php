@@ -297,7 +297,7 @@ function saveWorks($edit = 0)
     $work->setVar('status', $status);
 
     // Set the groups when status is private
-    if ('private' == $status) {
+    if ('private' === $status) {
         $groups = RMHttpRequest::post('groups', 'array', []);
         if (empty($groups)) {
             works_json_reponse(1, 1, [
@@ -308,7 +308,7 @@ function saveWorks($edit = 0)
     }
 
     // Set the schedule when status is scheduled
-    if ('scheduled' == $status) {
+    if ('scheduled' === $status) {
         if ('' == $schedule) {
             works_json_reponse(1, 1, [
                 'message' => __('You must specify a scheduled date for this work!', 'works'),

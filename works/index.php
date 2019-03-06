@@ -54,7 +54,7 @@ if ($xoopsModuleConfig['permalinks'] <= 0) {
 $request = str_replace(XOOPS_URL, '', RMUris::current_url());
 $request = str_replace('/modules/works/', '', $request);
 
-if ($xoopsModuleConfig['permalinks'] > 0 && '/' != $xoopsModuleConfig['htbase'] && '' != $request) {
+if ($xoopsModuleConfig['permalinks'] > 0 && '/' !== $xoopsModuleConfig['htbase'] && '' != $request) {
     $request = str_replace(rtrim($xoopsModuleConfig['htbase'], '/') . '/', '', rtrim($request, '/') . '/');
 }
 $yesquery = false;
@@ -66,7 +66,7 @@ if (0 === mb_strpos($request, '?')) {
     $request  = mb_substr($request, 1);
     $yesquery = true;
 }
-if ('' == $request || 'index.php' == $request) {
+if ('' == $request || 'index.php' === $request) {
     require __DIR__ . '/home.php';
     die();
 }
@@ -88,7 +88,7 @@ if (isset($vars['cat'])) {
 $vars = explode('/', rtrim($request, '/'));
 
 foreach ($vars as $i => $v) {
-    if ('page' == $v) {
+    if ('page' === $v) {
         $page = $vars[$i + 1];
         unset($vars[$i], $vars[$i + 1]);
         break;
@@ -98,25 +98,25 @@ foreach ($vars as $i => $v) {
  * Si el primer valor es category entonces se realiza la búsqueda por
  * categoría
  */
-if ('category' == $vars[0]) {
+if ('category' === $vars[0]) {
     array_shift($vars);
     $id = implode('/', $vars);
     require __DIR__ . '/category.php';
     die();
 }
 
-if ('recent' == $vars[0]) {
+if ('recent' === $vars[0]) {
     $categotype = 1;
     require __DIR__ . '/recent.php';
     die();
 }
 
-if ('featured' == $vars[0]) {
+if ('featured' === $vars[0]) {
     require __DIR__ . '/featured.php';
     die();
 }
 
-if ('page' == $vars[0]) {
+if ('page' === $vars[0]) {
     $page = $vars[1];
     require __DIR__ . '/home.php';
     exit();

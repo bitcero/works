@@ -44,7 +44,7 @@ function showCategories()
             'id'          => $cat->id(),
             'link'        => $cat->permalink(),
             'name'        => $cat->name,
-            'active'      => 'active' == $cat->status ? 1 : 0,
+            'active'      => 'active' === $cat->status ? 1 : 0,
             'position'    => $cat->position,
             'nameid'      => $cat->nameid,
             'description' => $cat->description,
@@ -124,7 +124,7 @@ function formCategory($edit = 0)
     unset($parents, $category, $categories);
 
     $form->addElement(new RMFormEditor(__('Description', 'works'), 'description', '100%', '250px', $edit ? $cat->getVar('description', 'e') : ''));
-    $form->addElement(new RMFormYesNo(__('Enable category', 'works'), 'status', $edit ? ('active' == $cat->status ? 1 : 0) : 1));
+    $form->addElement(new RMFormYesNo(__('Enable category', 'works'), 'status', $edit ? ('active' === $cat->status ? 1 : 0) : 1));
     $form->addElement(new RMFormText(__('Display order', 'works'), 'position', 8, 3, $edit ? $cat->position : 0), true, 'num');
 
     $form->addElement(new RMFormHidden('action', $edit ? 'saveedit' : 'save'));

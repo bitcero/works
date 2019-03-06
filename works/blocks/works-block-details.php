@@ -15,11 +15,11 @@ function works_block_details_show($options)
     global $id, $xoopsModule, $xoopsOption;
 
     /* This block only works in "works" module and in "details" page */
-    if (!$xoopsModule || 'works' != $xoopsModule->getVar('dirname')) {
+    if (!$xoopsModule || 'works' !== $xoopsModule->getVar('dirname')) {
         return;
     }
 
-    if ('work' != $xoopsOption['module_subpage']) {
+    if ('work' !== $xoopsOption['module_subpage']) {
         return;
     }
 

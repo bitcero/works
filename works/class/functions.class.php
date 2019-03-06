@@ -229,7 +229,7 @@ class Works_Functions
             $user = $xoopsUser;
         }
 
-        if ('public' == $work->status) {
+        if ('public' === $work->status) {
             return true;
         }
 
@@ -240,18 +240,18 @@ class Works_Functions
         /**
          * @TODO: provide the module ID
          */
-        if ('draft' == $work->status && (!$user || !$user->isAdmin())) {
+        if ('draft' === $work->status && (!$user || !$user->isAdmin())) {
             return false;
         }
 
         $groups    = $user->getGroups();
         $intersect = array_intersect($groups, $work->groups);
 
-        if ('private' == $work->status && empty($intersect)) {
+        if ('private' === $work->status && empty($intersect)) {
             return false;
         }
 
-        if ('scheduled' == $work->status && strtotime($work->schedule) > time()) {
+        if ('scheduled' === $work->status && strtotime($work->schedule) > time()) {
             return false;
         }
 
@@ -331,7 +331,7 @@ class Works_Functions
         $links    = isset($links) ? $links : true;
 
         $db = XoopsDatabaseFactory::getDatabaseConnection();
-        if ('active' != $status && 'inactive' != $status) {
+        if ('active' !== $status && 'inactive' !== $status) {
             $status = '';
         }
 
@@ -342,7 +342,7 @@ class Works_Functions
         $result = $db->query($sql);
 
         while (false !== ($row = $db->fetchArray($result))) {
-            if ('raw' == $expected) {
+            if ('raw' === $expected) {
                 $row['level']         = $level;
                 $tree[$row['id_cat']] = $row;
             } else {
