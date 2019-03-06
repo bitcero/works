@@ -18,9 +18,9 @@ class WorksRmcommonPreload
         }
 
         if (defined('RMCSUBLOCATION') && RMCSUBLOCATION == 'new-work') {
-            $widgets[] = include_once(PW_PATH . '/widgets/visibility.php');
-            $widgets[] = include_once(PW_PATH . '/widgets/categories.php');
-            $widgets[] = include_once(PW_PATH . '/widgets/image.php');
+            $widgets[] = include PW_PATH . '/widgets/visibility.php';
+            $widgets[] = include PW_PATH . '/widgets/categories.php';
+            $widgets[] = include PW_PATH . '/widgets/image.php';
         }
 
         return $widgets;

@@ -21,7 +21,7 @@ function pwSearch($queryarray, $andor, $limit, $offset, $userid)
 {
     global $myts;
 
-    include_once(XOOPS_ROOT_PATH . '/modules/works/class/pwwork.class.php');
+    include_once XOOPS_ROOT_PATH . '/modules/works/class/pwwork.class.php';
 
     $mc = RMSettings::module_settings('works');
     $db = XoopsDatabaseFactory::getDatabaseConnection();
