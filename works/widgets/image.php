@@ -13,7 +13,7 @@ $work = new Works_Work($id);
 
 $util = new RMUtilities();
 
-if (isset($work) && is_a($work, 'Works_Work')) {
+if (isset($work) && $work instanceof \Works_Work) {
     if ($work->isNew()) {
         $params = '';
     } else {
