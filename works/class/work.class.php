@@ -74,7 +74,7 @@ class Works_Work extends RMObject
         }
 
         if (is_numeric($id)) {
-            if (!$this->loadValues(intval($id))) {
+            if (!$this->loadValues((int)$id)) {
                 return;
             }
         } else {

@@ -99,9 +99,9 @@ function formClients($edit = 0)
 
     define('RMCSUBLOCATION', 'newcustomer');
 
-    $id    = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+    $id    = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
     $page  = isset($_REQUEST['pag']) ? $_REQUEST['pag'] : '';
-    $limit = isset($_REQUEST['limit']) ? intval($_REQUEST['limit']) : 15;
+    $limit = isset($_REQUEST['limit']) ? (int)$_REQUEST['limit'] : 15;
 
     $ruta = "pag=$page&limit=$limit";
 

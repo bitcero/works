@@ -31,7 +31,7 @@ function pwSearch($queryarray, $andor, $limit, $offset, $userid)
 
     if (is_array($queryarray)) {
         foreach ($queryarray as $k) {
-            $sql1 .= ('' == $sql1 ? '' : "$andor") . " (a.title LIKE '%$k%' OR a.short LIKE '%$k%' OR b.name LIKE '%$k%' OR b.business_name LIKE '%$k%') ";
+            $sql1 .= ('' == $sql1 ? '' : (string)$andor) . " (a.title LIKE '%$k%' OR a.short LIKE '%$k%' OR b.name LIKE '%$k%' OR b.business_name LIKE '%$k%') ";
         }
     }
 
