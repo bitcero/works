@@ -26,7 +26,7 @@
  * @url          http://www.redmexico.com.mx
  * @url          http://www.eduardocortes.mx
  */
-require dirname(__DIR__) . '/../../include/cp_header.php';
+require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 define('PW_PATH', XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname());
 define('PW_URL', XOOPS_URL . '/modules/works');

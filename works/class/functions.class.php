@@ -208,7 +208,7 @@ class Works_Functions
 
     /**
      * SENDs an HTTP status code to browser
-     * @return bool
+     * @return void
      */
     public static function send_404_status()
     {
