@@ -34,7 +34,7 @@ class Works_Category extends RMObject
 
         if (count($parts) > 1) {
             $sql = 'SELECT C' . (count($parts)) . ".* FROM $this->_dbtable as C1\n";
-            for ($i = 2; $i <= count($parts); $i++) {
+            for ($i = 2, $iMax = count($parts); $i <= $iMax; $i++) {
                 $sql .= " INNER JOIN $this->_dbtable AS C" . ($i) . ' ON C' . ($i) . '.parent=C' . ($i - 1) . ".id_cat\n";
             }
             $sql .= " WHERE C1.nameid = '$parts[0]' AND C1.parent = 0\n";
