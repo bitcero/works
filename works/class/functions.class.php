@@ -43,7 +43,7 @@ class Works_Functions
 
         $docroot = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
         $path    = str_replace($docroot, '', XOOPS_ROOT_PATH . '/modules/works/');
-        if ('/' != mb_substr($path, 0, 1)) {
+        if (0 !== mb_strpos($path, '/')) {
             $path = '/' . $path;
         }
         $file = XOOPS_ROOT_PATH . '/modules/works/.htaccess';

@@ -62,7 +62,7 @@ $yesquery = false;
 // Allow to plugins to manage requests to module
 $request = RMEvents::get()->run_event('works.parse.request', $request);
 
-if ('?' == mb_substr($request, 0, 1)) {
+if (0 === mb_strpos($request, '?')) {
     $request  = mb_substr($request, 1);
     $yesquery = true;
 }
