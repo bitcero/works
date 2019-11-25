@@ -88,14 +88,14 @@ function showImages()
 
     Works_Functions::toolbar();
     xoops_cp_location('<a href="./">' . $xoopsModule->name() . '</a> &raquo; ' . __('Work Images', 'works'));
-    RMTemplate::get()->assign('xoops_pagetitle', $work->title() . ' &raquo; Work Images', 'admin_mywords');
-    RMTemplate::get()->add_style('admin.css', 'works');
-    RMTemplate::get()->add_script(RMCURL . '/include/js/jquery.checkboxes.js');
-    RMTemplate::get()->add_head("<script type='text/javascript'>\nvar pw_message='" . __('Do you really want to delete selected images?', 'works') . "';\n
+    RMTemplate::getInstance()->assign('xoops_pagetitle', $work->title() . ' &raquo; Work Images', 'admin_mywords');
+    RMTemplate::getInstance()->add_style('admin.css', 'works');
+    RMTemplate::getInstance()->add_script(RMCURL . '/include/js/jquery.checkboxes.js');
+    RMTemplate::getInstance()->add_head("<script type='text/javascript'>\nvar pw_message='" . __('Do you really want to delete selected images?', 'works') . "';\n
         var pw_select_message = '" . __('You must select an image before to execute this action!', 'works') . "';</script>");
     xoops_cp_header();
 
-    include RMTemplate::get()->get_template('admin/pw_images.php', 'module', 'works');
+    include RMTemplate::getInstance()->get_template('admin/pw_images.php', 'module', 'works');
 
     xoops_cp_footer();
 }
@@ -143,7 +143,7 @@ function formImages($edit = 0)
     }
 
     Works_Functions::toolbar();
-    RMTemplate::get()->assign('xoops_pagetitle', $work->title() . ' &raquo; ' . __('Work Images', 'works'));
+    RMTemplate::getInstance()->assign('xoops_pagetitle', $work->title() . ' &raquo; ' . __('Work Images', 'works'));
     xoops_cp_location('<a href="./">' . $xoopsModule->name() . "</a> &raquo; <a href='./images.php?work=" . $work->id() . "'>" . __('Work Images', 'works') . '</a> &raquo;' . ($edit ? __('Edit Image', 'works') : __('Add Image', 'works')));
     xoops_cp_header();
 

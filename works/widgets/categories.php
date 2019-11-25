@@ -19,7 +19,7 @@ $categories = [];
 Works_Functions::categories_tree($categories);
 
 ob_start();
-include RMTemplate::get()->get_template('widgets/works-widget-categories.php', 'module', 'works');
+include RMTemplate::getInstance()->get_template('widgets/works-widget-categories.php', 'module', 'works');
 $content = ob_get_clean();
 
 $widget = [

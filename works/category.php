@@ -14,7 +14,7 @@ require __DIR__ . '/header.php';
 
 Works_Functions::makeHeader();
 
-$mc = &$xoopsModuleConfig;
+$mc =& $xoopsModuleConfig;
 if ('' == $id) {
     header('location: ' . PW_URL);
     die();
@@ -80,6 +80,6 @@ RMBreadCrumb::get()->add_crumb(__('Portfolio', 'works'), PW_URL);
 RMBreadCrumb::get()->add_crumb($cat->getVar('name'), PW_URL);
 
 // Body class
-RMTemplate::get()->add_body_class('works-list categories-list');
+RMTemplate::getInstance()->add_body_class('works-list categories-list');
 
 require __DIR__ . '/footer.php';

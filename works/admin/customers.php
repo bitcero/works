@@ -76,15 +76,15 @@ function showClients()
     // Event
     $customers = RMEvents::get()->run_event('works.list.customers', $customers);
 
-    RMTemplate::get()->add_style('admin.css', 'works');
+    RMTemplate::getInstance()->add_style('admin.css', 'works');
     xoops_cp_location('<a href="./">' . $xoopsModule->name() . '</a> &raquo; ' . __('Customers', 'works'));
-    RMTemplate::get()->assign('xoops_pagetitle', __('Customers', 'works'));
+    RMTemplate::getInstance()->assign('xoops_pagetitle', __('Customers', 'works'));
     RMTemplate::getInstance()->add_script('admin-works.min.js', 'works', ['id' => 'works-js', 'footer' => 1]);
-    RMTemplate::get()->add_head("<script type='text/javascript'>\nvar pw_message='" . __('Do you really want to delete selected customers?', 'works') . "';\n
+    RMTemplate::getInstance()->add_head("<script type='text/javascript'>\nvar pw_message='" . __('Do you really want to delete selected customers?', 'works') . "';\n
         var pw_select_message = '" . __('You must select some customer before to execute this action!', 'works') . "';</script>");
     xoops_cp_header();
 
-    include RMTemplate::get()->get_template('admin/works-customers.php', 'module', 'works');
+    include RMTemplate::getInstance()->get_template('admin/works-customers.php', 'module', 'works');
 
     xoops_cp_footer();
 }
@@ -121,7 +121,7 @@ function formClients($edit = 0)
     }
 
     xoops_cp_location('<a href="./">' . $xoopsModule->name() . "</a> &raquo; <a href='./clients.php'>" . __('Customers', 'works') . '</a> &raquo;' . ($edit ? __('Edit Customer', 'works') : __('New Customer', 'works')));
-    RMTemplate::get()->assign('xoops_pagetitle', __('Customers', 'works'));
+    RMTemplate::getInstance()->assign('xoops_pagetitle', __('Customers', 'works'));
     Works_Functions::toolbar();
     xoops_cp_header();
 

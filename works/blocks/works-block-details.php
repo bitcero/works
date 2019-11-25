@@ -73,7 +73,7 @@ function works_block_details_show($options)
     }
 
     // Add styles
-    RMTemplate::get()->add_style('blocks.css', 'works');
+    RMTemplate::getInstance()->add_style('blocks.css', 'works');
 
     return $block;
 }

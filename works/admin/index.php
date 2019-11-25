@@ -90,8 +90,8 @@ Works_Functions::go_scheduled();
 $bc = RMBreadCrumb::get();
 $bc->add_crumb(__('Dashboard', 'works'));
 
-RMTemplate::get()->add_style('admin.css', 'works');
-RMTemplate::get()->add_style('dashboard.css', 'works');
+RMTemplate::getInstance()->add_style('admin.css', 'works');
+RMTemplate::getInstance()->add_style('dashboard.css', 'works');
 RMTemplate::getInstance()->add_body_class('dashboard');
 
 $dashboardPanels = [];
@@ -99,5 +99,5 @@ $dashboardPanels = RMEvents::get()->trigger('works.dashboard.panels', $dashboard
 
 xoops_cp_header();
 
-include RMTemplate::get()->get_template('admin/works-dashboard.php', 'module', 'works');
+include RMTemplate::getInstance()->get_template('admin/works-dashboard.php', 'module', 'works');
 xoops_cp_footer();

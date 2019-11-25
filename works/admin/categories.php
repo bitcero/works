@@ -59,18 +59,18 @@ function showCategories()
     $bc = RMBreadCrumb::get();
     $bc->add_crumb(__('Categories management', 'works'));
 
-    RMTemplate::get()->assign('xoops_pagetitle', __('Works Categories', 'works'));
-    RMTemplate::get()->add_style('admin.css', 'works');
-    RMTemplate::get()->add_script('jquery.checkboxes.js', 'rmcommon');
-    RMTemplate::get()->add_script('admin-works.min.js', 'works', ['id' => 'works-js', 'footer' => 1]);
-    RMTemplate::get()->add_head("<script type='text/javascript'>\nvar pw_message='" . __('Do you really want to delete selected categories?', 'works') . "';\n
+    RMTemplate::getInstance()->assign('xoops_pagetitle', __('Works Categories', 'works'));
+    RMTemplate::getInstance()->add_style('admin.css', 'works');
+    RMTemplate::getInstance()->add_script('jquery.checkboxes.js', 'rmcommon');
+    RMTemplate::getInstance()->add_script('admin-works.min.js', 'works', ['id' => 'works-js', 'footer' => 1]);
+    RMTemplate::getInstance()->add_head("<script type='text/javascript'>\nvar pw_message='" . __('Do you really want to delete selected categories?', 'works') . "';\n
         var pw_select_message = '" . __('You must select some category before to execute this action!', 'works') . "';</script>");
     xoops_cp_header();
 
     $works_extra_options = '';
     $works_extra_options = RMEvents::get()->run_event('works.more.options', $works_extra_options);
 
-    include RMTemplate::get()->get_template('admin/works-categories.php', 'module', 'works');
+    include RMTemplate::getInstance()->get_template('admin/works-categories.php', 'module', 'works');
     xoops_cp_footer();
 }
 
@@ -80,13 +80,13 @@ function formCategory($edit = 0)
 
     define('RMCSUBLOCATION', 'addcat');
 
-    RMTemplate::get()->assign('xoops_pagetitle', $edit ? __('Edit Category', 'works') : __('Add Category', 'works'));
+    RMTemplate::getInstance()->assign('xoops_pagetitle', $edit ? __('Edit Category', 'works') : __('Add Category', 'works'));
 
     $bc = RMBreadCrumb::get();
     $bc->add_crumb(__('Categories management', 'works'), 'categories.php');
     $bc->add_crumb(__('Add category', 'works'));
 
-    RMTemplate::get()->header();
+    RMTemplate::getInstance()->header();
 
     $id = RMHttpRequest::get('id', 'integer', 0);
 
