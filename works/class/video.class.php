@@ -29,29 +29,28 @@
  */
 class Works_Video extends RMObject
 {
-
     public function __construct($id = null)
     {
-
         // Prevent to be translated
         $this->noTranslate = [
-            'url', 'image'
+            'url',
+            'image',
         ];
 
-        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
-        $this->_dbtable = $this->db->prefix("mod_works_videos");
+        $this->db       = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->_dbtable = $this->db->prefix('mod_works_videos');
         $this->setNew();
         $this->initVarsFromTable();
 
         $this->ownerName = 'works';
         $this->ownerType = 'module';
 
-        if ($id == null) return;
-
-        if($this->loadValues($id)){
-            $this->unsetNew();
+        if (null === $id) {
+            return;
         }
 
+        if ($this->loadValues($id)) {
+            $this->unsetNew();
+        }
     }
-
 }

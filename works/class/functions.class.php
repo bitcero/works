@@ -10,11 +10,10 @@
 
 class Works_Functions
 {
-
     /**
      * @desc Crea el encabezado de la sección frontal
      */
-    static function makeHeader()
+    public static function makeHeader()
     {
         global $xoopsModuleConfig, $xoopsTpl, $xoopsUser, $db;
 
@@ -22,13 +21,12 @@ class Works_Functions
         $xoopsTpl->assign('lang_recentsall', __('Recent works', 'works'));
         $xoopsTpl->assign('lang_featuredall', __('Featured works', 'works'));
 
-        $recent = $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . trim($xoopsModuleConfig['htbase'], '/') . '/recent/' : XOOPS_URL . '/modules/works/index.php?page=recent';
+        $recent   = $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . trim($xoopsModuleConfig['htbase'], '/') . '/recent/' : XOOPS_URL . '/modules/works/index.php?page=recent';
         $featured = $xoopsModuleConfig['permalinks'] ? XOOPS_URL . '/' . trim($xoopsModuleConfig['htbase'], '/') . '/featured/' : XOOPS_URL . '/modules/works/index.php?page=featured';
 
         $xoopsTpl->assign('url_recent', $recent);
         $xoopsTpl->assign('url_featured', $featured);
         $xoopsTpl->assign('url_home', PW_URL);
-
     }
 
     /**
@@ -39,11 +37,13 @@ class Works_Functions
     {
         global $xoopsModuleConfig;
 
-        if ($xoopsModuleConfig['urlmode'] == 0) return true;
+        if (0 == $xoopsModuleConfig['urlmode']) {
+            return true;
+        }
 
-        $docroot = str_replace("\\", "/", $_SERVER['DOCUMENT_ROOT']);
-        $path = str_replace($docroot, '', XOOPS_ROOT_PATH . '/modules/works/');
-        if (substr($path, 0, 1) != '/') {
+        $docroot = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
+        $path    = str_replace($docroot, '', XOOPS_ROOT_PATH . '/modules/works/');
+        if (0 !== mb_strpos($path, '/')) {
             $path = '/' . $path;
         }
         $file = XOOPS_ROOT_PATH . '/modules/works/.htaccess';
@@ -62,11 +62,15 @@ class Works_Functions
 
         //Si acceso es por id numérico
         if ($xoopsModuleConfig['urlmode']) {
-            $contenido = "RewriteEngine On\nRewriteBase " . str_replace($docroot, '', PW_PATH . '/') . "\nRewriteCond %{REQUEST_URI} !/[A-Z]+-\nRewriteRule ^pag/(.*)/?$ index.php?pag=$1 [L]\nRewriteRule ^recent/(.*)/?$ recent.php$1 [L]\nRewriteRule ^featured/(.*)/?$ featured.php$1 [L]\nRewriteRule ^work/(.*)/?$ work.php?id=$1 [L]\nRewriteRule ^cat/(.*)/?$ catego.php?id=$1 [L]";
+            $contenido = "RewriteEngine On\nRewriteBase "
+                         . str_replace($docroot, '', PW_PATH . '/')
+                         . "\nRewriteCond %{REQUEST_URI} !/[A-Z]+-\nRewriteRule ^pag/(.*)/?$ index.php?pag=$1 [L]\nRewriteRule ^recent/(.*)/?$ recent.php$1 [L]\nRewriteRule ^featured/(.*)/?$ featured.php$1 [L]\nRewriteRule ^work/(.*)/?$ work.php?id=$1 [L]\nRewriteRule ^cat/(.*)/?$ catego.php?id=$1 [L]";
             //Compara contenido de htaccess
-            $pos = stripos(file_get_contents($file), $contenido);
+            $pos = mb_stripos(file_get_contents($file), $contenido);
 
-            if ($pos !== false) return true;
+            if (false !== $pos) {
+                return true;
+            }
 
             if ((!is_writable($file))) {
                 return false;
@@ -74,61 +78,55 @@ class Works_Functions
 
             //Copia información a archivo
             return file_put_contents($file, $contenido);
-
         }
-
     }
 
     /**
      * Get works based on given parameters
-     * @param int $limit Limit of results to get
-     * @param int $category Id of category of works
-     * @param string $status Status of works. Can be <em>public</em>, <em>scheduled</em> or <em>draft</em>
-     * @param bool $object Return or not objects
-     * @param string $order Sort order
+     * @param int    $limit    Limit of results to get
+     * @param int    $category Id of category of works
+     * @param string $status   Status of works. Can be <em>public</em>, <em>scheduled</em> or <em>draft</em>
+     * @param bool   $object   Return or not objects
+     * @param string $order    Sort order
+     * @param mixed  $len
      * @return array
      */
-    static public function get_works($limit, $category = null, $status = 'public', $object = true, $order = "created DESC", $len = 100)
+    public static function get_works($limit, $category = null, $status = 'public', $object = true, $order = 'created DESC', $len = 100)
     {
         global $xoopsModule, $xoopsModuleConfig;
 
         $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-        $order = $order == '' ? "created DESC" : $order;
-        $status = $status == '' ? "public" : $status;
+        $order  = '' == $order ? 'created DESC' : $order;
+        $status = '' == $status ? 'public' : $status;
 
-        if ($category == null || $category <= 0) {
-
-            $sql = "SELECT * FROM " . $db->prefix("mod_works_works") . " WHERE status = '$status' ORDER BY $order LIMIT 0, $limit";
-
+        if (null === $category || $category <= 0) {
+            $sql = 'SELECT * FROM ' . $db->prefix('mod_works_works') . " WHERE status = '$status' ORDER BY $order LIMIT 0, $limit";
         } else {
-
-            $tbw = $db->prefix("mod_works_works");
-            $tbc = $db->prefix("mod_works_categories_rel");
+            $tbw = $db->prefix('mod_works_works');
+            $tbc = $db->prefix('mod_works_categories_rel');
 
             $sql = "SELECT w.* FROM $tbw as w, $tbc as c WHERE c.category = $category AND w.id_work = c.work AND w.status = '$status' ORDER BY $order LIMIT 0, $limit";
-
         }
 
         $result = $db->query($sql);
-        $works = array();
+        $works  = [];
 
-        while ($row = $db->fetchArray($result)) {
+        while (false !== ($row = $db->fetchArray($result))) {
             $work = new Works_Work();
             $work->assignVars($row);
-            $ret = array();
+            $ret = [];
 
             $ret = self::render_data($work, $len);
 
-            if ($object)
+            if ($object) {
                 $works[] = (object)$ret;
-            else
+            } else {
                 $works[] = $ret;
-
+            }
         }
 
         return $works;
-
     }
 
     /**
@@ -136,21 +134,21 @@ class Works_Functions
      * @param int $work
      * @return array
      */
-    static public function metas($work)
+    public static function metas($work)
     {
+        if ($work <= 0) {
+            return;
+        }
 
-        if ($work <= 0) return;
-
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
-        $sql = "SELECT * FROM " . $db->prefix("mod_works_meta") . " WHERE work='$work'";
+        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $sql    = 'SELECT * FROM ' . $db->prefix('mod_works_meta') . " WHERE work='$work'";
         $result = $db->query($sql);
-        $metas = array();
-        while ($row = $db->fetchArray($result)) {
+        $metas  = [];
+        while (false !== ($row = $db->fetchArray($result))) {
             $metas[$row['name']] = $row['value'];
         }
 
         return $metas;
-
     }
 
     /**
@@ -158,27 +156,24 @@ class Works_Functions
      * @param int $id Work ID
      * @return array of images
      */
-    static public function images($id)
+    public static function images($id)
     {
-
-        if ($id <= 0)
+        if ($id <= 0) {
             return false;
+        }
 
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
-        $sql = "SELECT * FROM " . $db->prefix("mod_works_images") . " WHERE work = $id";
+        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $sql    = 'SELECT * FROM ' . $db->prefix('mod_works_images') . " WHERE work = $id";
         $result = $db->query($sql);
-        $images = array();
-        while ($row = $db->fetchArray($result)) {
-
-            $images[] = array(
+        $images = [];
+        while (false !== ($row = $db->fetchArray($result))) {
+            $images[] = [
                 'title' => $row['title'],
-                'url' => $row['image']
-            );
-
+                'url'   => $row['image'],
+            ];
         }
 
         return $images;
-
     }
 
     /**
@@ -186,111 +181,106 @@ class Works_Functions
      * @param int $id Work ID
      * @return array of videos
      */
-    static public function videos($id)
+    public static function videos($id)
     {
-
-        if ($id <= 0)
+        if ($id <= 0) {
             return false;
+        }
 
-        $db = XoopsDatabaseFactory::getDatabaseConnection();
-        $sql = "SELECT * FROM " . $db->prefix("mod_works_videos") . " WHERE work = $id";
+        $db     = XoopsDatabaseFactory::getDatabaseConnection();
+        $sql    = 'SELECT * FROM ' . $db->prefix('mod_works_videos') . " WHERE work = $id";
         $result = $db->query($sql);
         $videos = [];
 
-        while ($row = $db->fetchArray($result)) {
-
-            $videos[] = array(
-                'id' => $row['video_id'],
-                'title' => $row['title'],
-                'url' => $row['url'],
-                'image' => $row['image'],
+        while (false !== ($row = $db->fetchArray($result))) {
+            $videos[] = [
+                'id'          => $row['video_id'],
+                'title'       => $row['title'],
+                'url'         => $row['url'],
+                'image'       => $row['image'],
                 'description' => $row['description'],
-                'type' => $row['type']
-            );
-
+                'type'        => $row['type'],
+            ];
         }
 
         return $videos;
-
     }
 
     /**
      * SENDs an HTTP status code to browser
-     * @return bool
+     * @return void
      */
-    static function send_404_status()
+    public static function send_404_status()
     {
-
-        RMFunctions::error_404(
-            __('Document not found!', 'works'),
-            'works'
-        );
-
+        RMFunctions::error_404(__('Document not found!', 'works'), 'works');
     }
 
     /**
      * Checks if a specific user have access rights for a project
      * @param Works_Work $work
-     * @param null $user <p>Can be a XoopsUser object or null</p>
+     * @param null       $user <p>Can be a XoopsUser object or null</p>
      * @return bool
      */
-    static public function is_allowed(Works_Work $work, $user = null)
+    public static function is_allowed(Works_Work $work, $user = null)
     {
-
         global $xoopsUser;
 
-        if (!$user)
+        if (!$user) {
             $user = $xoopsUser;
+        }
 
-        if ($work->status == 'public')
+        if ('public' === $work->status) {
             return true;
+        }
 
-        if ($user->isAdmin())
+        if ($user->isAdmin()) {
             return true;
+        }
 
         /**
          * @TODO: provide the module ID
          */
-        if ($work->status == 'draft' && (!$user || !$user->isAdmin()))
+        if ('draft' === $work->status && (!$user || !$user->isAdmin())) {
             return false;
+        }
 
-        $groups = $user->getGroups();
+        $groups    = $user->getGroups();
         $intersect = array_intersect($groups, $work->groups);
 
-        if ($work->status == 'private' && empty($intersect))
+        if ('private' === $work->status && empty($intersect)) {
             return false;
+        }
 
-        if ($work->status == 'scheduled' && strtotime($work->schedule) > time())
+        if ('scheduled' === $work->status && strtotime($work->schedule) > time()) {
             return false;
+        }
 
         return true;
-
     }
 
-    static function render_data(&$work, $desclen)
+    public static function render_data(&$work, $desclen)
     {
-
         $tf = new RMTimeFormatter(0, '%d%/%T%/%Y%');
 
-        $ret = array(
-            'id' => $work->id(),
-            'title' => $work->title,
+        $ret = [
+            'id'          => $work->id(),
+            'title'       => $work->title,
             'description' => $desclen > 0 ? TextCleaner::getInstance()->truncate($work->description, $desclen) : '',
-            'customer' => $work->customer,
-            'web' => $work->web,
-            'url' => $work->url,
-            'created' => $tf->format($work->created),
-            'featured' => $work->featured,
-            'image' => RMImage::get()->load_from_params($work->image),
-            'comment' => $work->comment,
-            'rating' => $work->rating,
-            'views' => $work->views,
-            'metas' => $work->get_meta(),
-            'link' => $work->permalink(),
-            'images' => $work->images(),
-            'categories' => $work->categories('objects'),
-            'status' => $work->status
-        );
+            'customer'    => $work->customer,
+            'web'         => $work->web,
+            'url'         => $work->url,
+            'created'     => $tf->format($work->created),
+            'featured'    => $work->featured,
+            'image'       => RMImage::get()->load_from_params($work->image),
+            'comment'     => $work->comment,
+            'rating'      => $work->rating,
+            'views'       => $work->views,
+            'metas'       => $work->get_meta(),
+            'link'        => $work->permalink(),
+            'images'      => $work->images(),
+            'categories'  => $work->categories('objects'),
+            'status'      => $work->status,
+        ];
 
         /**
          * Notify to other components
@@ -298,17 +288,14 @@ class Works_Functions
         $ret = RMEvents::get()->trigger('works.render.data', $ret, $work);
 
         return $ret;
-
     }
 
-    static function go_scheduled()
+    public static function go_scheduled()
     {
-
         $db = XoopsDatabaseFactory::getDatabaseConnection();
 
-        $sql = "UPDATE " . $db->prefix("mod_works_works") . " SET status='public' WHERE schedule <= '" . date('Y-m-d H:i:s', time()) . "' AND status = 'scheduled'";
+        $sql = 'UPDATE ' . $db->prefix('mod_works_works') . " SET status='public' WHERE schedule <= '" . date('Y-m-d H:i:s', time()) . "' AND status = 'scheduled'";
         $db->queryF($sql);
-
     }
 
     /**
@@ -330,141 +317,125 @@ class Works_Functions
      *     'exclude' => 3,
      *     'expected' => 'raw'
      * ));</pre>
-     * @param array $tree Referenced array to fill with data
+     * @param array $tree       Referenced array to fill with data
      * @param array $parameters Parameters to perform search
      */
-    static function categories_tree(&$tree, $parameters = array())
+    public static function categories_tree(&$tree, $parameters = [])
     {
-
         extract($parameters);
-        $parent = isset($parent) ? $parent : 0;
-        $level = isset($level) ? $level : 0;
-        $status = isset($status) ? $status : '';
-        $exclude = isset($exclude) ? $exclude : 0;
+        $parent   = isset($parent) ? $parent : 0;
+        $level    = isset($level) ? $level : 0;
+        $status   = isset($status) ? $status : '';
+        $exclude  = isset($exclude) ? $exclude : 0;
         $expected = isset($expected) ? $expected : 'format';
-        $links = isset($links) ? $links : true;
+        $links    = isset($links) ? $links : true;
 
         $db = XoopsDatabaseFactory::getDatabaseConnection();
-        if ('active' != $status && 'inactive' != $status)
+        if ('active' !== $status && 'inactive' !== $status) {
             $status = '';
+        }
 
-        $sql = "SELECT * FROM " . $db->prefix("mod_works_categories") . " WHERE parent=$parent";
-        $sql .= trim($status == '') ? '' : " AND status = '" . $status . "'";
-        $sql .= 0 < $exclude ? " AND id_cat != $exclude" : '';
-        $sql .= " ORDER BY `position`,status";
+        $sql    = 'SELECT * FROM ' . $db->prefix('mod_works_categories') . " WHERE parent=$parent";
+        $sql    .= trim('' == $status) ? '' : " AND status = '" . $status . "'";
+        $sql    .= $exclude > 0 ? " AND id_cat != $exclude" : '';
+        $sql    .= ' ORDER BY `position`,status';
         $result = $db->query($sql);
 
-        while ($row = $db->fetchArray($result)) {
-
-            if ('raw' == $expected) {
-
-                $row['level'] = $level;
+        while (false !== ($row = $db->fetchArray($result))) {
+            if ('raw' === $expected) {
+                $row['level']         = $level;
                 $tree[$row['id_cat']] = $row;
-
             } else {
-
                 $category = new Works_Category();
                 $category->assignVars($row);
 
-                $tree[$category->id()] = array(
-                    'id' => $category->id(),
-                    'name' => $category->name,
+                $tree[$category->id()] = [
+                    'id'          => $category->id(),
+                    'name'        => $category->name,
                     'description' => $category->description,
-                    'status' => $category->status,
-                    'parent' => $category->parent,
-                    'level' => $level,
-                    'link' => $links ? $category->permalink() : ''
-                );
-
+                    'status'      => $category->status,
+                    'parent'      => $category->parent,
+                    'level'       => $level,
+                    'link'        => $links ? $category->permalink() : '',
+                ];
             }
 
-            self::categories_tree($tree, array(
-                'parent' => $row['id_cat'],
-                'level' => $level + 1,
-                'status' => $status,
-                'exclude' => $exclude,
-                'expected' => $expected
-            ));
-
+            self::categories_tree($tree, [
+                'parent'   => $row['id_cat'],
+                'level'    => $level + 1,
+                'status'   => $status,
+                'exclude'  => $exclude,
+                'expected' => $expected,
+            ]);
         }
-
     }
 
-    static function videoThumbnail($source)
+    public static function videoThumbnail($source)
     {
-
         // Check if videos thumbnails directory exists
         $path = XOOPS_UPLOAD_PATH . '/works/videos/';
-        if(!is_dir($path)){
-            mkdir($path, 511, true);
+        if (!is_dir($path) && !mkdir($path, 511, true) && !is_dir($path)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
         }
 
-        if (strpos($source, 'vimeo.com/') !== FALSE) {
-
+        if (false !== mb_strpos($source, 'vimeo.com/')) {
             /* VIMEO */
 
-            $matches = array();
+            $matches = [];
             preg_match("/.*.\/([0-9]{3,}).*/", $source, $matches);
 
-            $data = unserialize(file_get_contents('http://vimeo.com/api/v2/video/'.$matches[1].'.php'));
+            $data = unserialize(file_get_contents('http://vimeo.com/api/v2/video/' . $matches[1] . '.php'));
 
             file_put_contents($path . 'vimeo-' . $matches[1] . '.jpg', file_get_contents($data[0]['thumbnail_large']));
 
             return XOOPS_UPLOAD_URL . '/works/videos/' . 'vimeo-' . $matches[1] . '.jpg';
-
-        } elseif (FALSE !== strpos($source, 'youtube.com')) {
-
+        } elseif (false !== mb_strpos($source, 'youtube.com')) {
             /* YOUTUBE */
 
-            $params = array();
+            $params = [];
             $params = parse_url($source);
             parse_str($params['query'], $params);
 
-            if(isset($params['v'])){
-                file_put_contents( $path . 'youtube-' . $params['v'] . '.jpg', file_get_contents('http://img.youtube.com/vi/' . $params['v'] . '/hqdefault.jpg'));
+            if (isset($params['v'])) {
+                file_put_contents($path . 'youtube-' . $params['v'] . '.jpg', file_get_contents('http://img.youtube.com/vi/' . $params['v'] . '/hqdefault.jpg'));
+
                 return XOOPS_UPLOAD_URL . '/works/videos/youtube-' . $params['v'] . '.jpg';
             }
-
-
-        } elseif (FALSE !== strpos($source, 'youtu.be')) {
-
+        } elseif (false !== mb_strpos($source, 'youtu.be')) {
             /* YOUTUBE */
 
-            $params = array();
+            $params = [];
             preg_match("/^http.*youtu\.be\/([a-zA-Z\d]+)$/", $source, $params);
 
-            if(isset($params[1])){
-                file_put_contents( $path . 'youtube-' . $params[1] . '.jpg', file_get_contents('http://img.youtube.com/vi/' . $params[1] . '/hqdefault.jpg'));
+            if (isset($params[1])) {
+                file_put_contents($path . 'youtube-' . $params[1] . '.jpg', file_get_contents('http://img.youtube.com/vi/' . $params[1] . '/hqdefault.jpg'));
+
                 return XOOPS_UPLOAD_URL . '/works/videos/youtube-' . $params[1] . '.jpg';
             }
-
-        } elseif (FALSE !== strpos($source, '//www.dailymotion.com/video')) {
+        } elseif (false !== mb_strpos($source, '//www.dailymotion.com/video')) {
             /* DAILY MOTION */
-            $params = array();
+            $params = [];
             preg_match("/^http.*dailymotion\.com\/video\/([a-zA-Z0-9]+)._*/", $source, $params);
 
             if (isset($params[1]) && '' != $params[1]) {
                 $data = json_decode(file_get_contents('https://api.dailymotion.com/video/' . $params[1] . '?fields=thumbnail_large_url'), true);
-                if($data){
-                    file_put_contents( $path . 'daily-' . $params[1] . '.jpg', file_get_contents($data['thumbnail_large_url']));
+                if ($data) {
+                    file_put_contents($path . 'daily-' . $params[1] . '.jpg', file_get_contents($data['thumbnail_large_url']));
+
                     return XOOPS_UPLOAD_URL . '/works/videos/daily-' . $params[1] . '.jpg';
                 }
             }
-
-        } elseif (FALSE !== strpos($source, '//www.dailymotion.com/embed/video/')) {
-
+        } elseif (false !== mb_strpos($source, '//www.dailymotion.com/embed/video/')) {
             $id = str_replace('//www.dailymotion.com/embed/video/', '', $source);
             /* DAILY MOTION */
             $data = json_decode(file_get_contents('https://api.dailymotion.com/video/' . $id . '?fields=thumbnail_large_url'), true);
-            if($data){;
-                file_put_contents( $path . 'daily-' . $id . '.jpg', file_get_contents($data['thumbnail_large_url']));
+            if ($data) {
+                file_put_contents($path . 'daily-' . $id . '.jpg', file_get_contents($data['thumbnail_large_url']));
+
                 return XOOPS_UPLOAD_URL . '/works/videos/daily-' . $id . '.jpg';
             }
-
         }
 
         return '';
-
     }
-
 }

@@ -10,80 +10,77 @@ License:    GPL 2.0
 PLEASE: DO NOT MODIFY ABOVE LINES
 */
 
-function works_block_details_show( $options ){
+function works_block_details_show($options)
+{
     global $id, $xoopsModule, $xoopsOption;
 
     /* This block only works in "works" module and in "details" page */
-    if ( !$xoopsModule || $xoopsModule->getVar('dirname') != 'works' )
+    if (!$xoopsModule || 'works' !== $xoopsModule->getVar('dirname')) {
         return;
+    }
 
-    if ( $xoopsOption['module_subpage'] != 'work' )
+    if ('work' !== $xoopsOption['module_subpage']) {
         return;
+    }
 
-    $work = new Works_Work( $id );
-    if ( $work->isNew() )
+    $work = new Works_Work($id);
+    if ($work->isNew()) {
         return;
+    }
 
-    $tf = new RMTimeFormatter( 0, __('%d% %M% %Y%', 'works') );
+    $tf = new RMTimeFormatter(0, __('%d% %M% %Y%', 'works'));
 
-    $block = array(
-        'title'         => $work->title,
-        'description'   => $options['description'] ? TextCleaner::getInstance()->truncate( $work->description, $options['len'] ) : '',
-        'image'         => RMImage::get()->load_from_params( $work->image ),
-        'customer'      => isset( $options['details']['customer'] ) ? $work->customer : '',
-        'web'           => isset( $options['details']['web'] ) ? $work->web : '',
-        'url'           => isset( $options['details']['web'] ) ? $work->url : '',
-        'views'         => isset( $options['details']['hits'] ) ? sprintf( __('%u times', 'works'), $work->views ) : '',
-        'comments'      => $work->comments,
-        'categories'    => isset( $options['details']['cats'] ) ? $work->categories( 'objects' ) : array(),
-        'created'       => isset( $options['details']['created'] ) ? $tf->format( $work->created ) : '',
-        'modified'      => isset( $options['details']['updated'] ) ? $tf->format( $work->modified ) : '',
-        'lang'          => array(
+    $block = [
+        'title'       => $work->title,
+        'description' => $options['description'] ? TextCleaner::getInstance()->truncate($work->description, $options['len']) : '',
+        'image'       => RMImage::get()->load_from_params($work->image),
+        'customer'    => isset($options['details']['customer']) ? $work->customer : '',
+        'web'         => isset($options['details']['web']) ? $work->web : '',
+        'url'         => isset($options['details']['web']) ? $work->url : '',
+        'views'       => isset($options['details']['hits']) ? sprintf(__('%u times', 'works'), $work->views) : '',
+        'comments'    => $work->comments,
+        'categories'  => isset($options['details']['cats']) ? $work->categories('objects') : [],
+        'created'     => isset($options['details']['created']) ? $tf->format($work->created) : '',
+        'modified'    => isset($options['details']['updated']) ? $tf->format($work->modified) : '',
+        'lang'        => [
+            'categories' => __('Categories', 'works'),
+            'customer'   => __('Customer', 'works'),
+            'website'    => __('Website', 'works'),
+            'hits'       => __('Hits', 'works'),
+            'created'    => __('Created', 'works'),
+            'updated'    => __('Last update', 'works'),
+        ],
+    ];
 
-            'categories'    => __('Categories', 'works'),
-            'customer'      => __('Customer', 'works'),
-            'website'       => __('Website', 'works'),
-            'hits'          => __('Hits', 'works'),
-            'created'       => __('Created', 'works'),
-            'updated'       => __('Last update', 'works')
+    if ($options['custom']) {
+        $meta = [];
 
-        )
-    );
-
-    if ( $options['custom'] ){
-
-        $meta = array();
-
-        foreach( $options['fields']['names'] as $key => $name ){
-
-            $value = $work->get_meta( $name );
-            if ( $value === false )
+        foreach ($options['fields']['names'] as $key => $name) {
+            $value = $work->get_meta($name);
+            if (false === $value) {
                 continue;
+            }
 
-            $meta[] = array(
-                'caption'   => $options['fields']['titles'][$key],
-                'value'     => $work->get_meta( $name )
-            );
-
+            $meta[] = [
+                'caption' => $options['fields']['titles'][$key],
+                'value'   => $work->get_meta($name),
+            ];
         }
 
-        if ( !empty( $meta ) )
-            $block = array_merge( $block, array('meta' => $meta) );
-
+        if (!empty($meta)) {
+            $block = array_merge($block, ['meta' => $meta]);
+        }
     }
 
     // Add styles
-    RMTemplate::get()->add_style( 'blocks.css', 'works' );
+    RMTemplate::getInstance()->add_style('blocks.css', 'works');
 
     return $block;
-
 }
 
-function works_block_details_edit( $options ){
-
-    ob_start();
-
-    ?>
+function works_block_details_edit($options)
+{
+    ob_start(); ?>
 
     <div class="row">
 
@@ -172,18 +169,18 @@ function works_block_details_edit( $options ){
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach( $options['fields']['names'] as $id => $name ): ?>
-                    <tr>
-                        <td>
-                            <input type="text" class="form-control" name="options[fields][names][]" value="<?php echo $name; ?>">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="options[fields][titles][]" value="<?php echo $options['fields']['titles'][$id]; ?>">
-                        </td>
-                        <td>
-                            <span class="btn btn-danger custom-delete"><span class="fa fa-times"></span></span>
-                        </td>
-                    </tr>
+                    <?php foreach ($options['fields']['names'] as $id => $name): ?>
+                        <tr>
+                            <td>
+                                <input type="text" class="form-control" name="options[fields][names][]" value="<?php echo $name; ?>">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" name="options[fields][titles][]" value="<?php echo $options['fields']['titles'][$id]; ?>">
+                            </td>
+                            <td>
+                                <span class="btn btn-danger custom-delete"><span class="fa fa-times"></span></span>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                     </tbody>
                     <tfoot>
@@ -201,7 +198,7 @@ function works_block_details_edit( $options ){
     </div>
 
     <script type="text/javascript">
-        $(document).ready( function() {
+        $(document).ready(function () {
 
             var html = '<tr><td>' +
                 '<input type="text" class="form-control" name="options[fields][names][]" value="">' +
@@ -210,19 +207,19 @@ function works_block_details_edit( $options ){
                 '</td><td>' +
                 '<span class="btn btn-danger custom-delete"><span class="fa fa-times"></span></span></td></tr>';
 
-            $("#block-add-field").click( function(){
+            $("#block-add-field").click(function () {
 
                 $("#block-fields > tbody").append(html);
 
             });
 
-            $("body").on('click', '.custom-delete', function(){
+            $("body").on('click', '.custom-delete', function () {
 
                 $(this).parent().parent().remove();
 
             });
 
-        } );
+        });
     </script>
 
 
@@ -231,5 +228,4 @@ function works_block_details_edit( $options ){
     $form = ob_get_clean();
 
     return $form;
-
 }

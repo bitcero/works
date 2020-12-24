@@ -1,41 +1,44 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# Windows image file caches	# no backup files, editor temp
+Thumbs.db	*~
+ehthumbs.db	\#*
 
-# Folder config file
-Desktop.ini
+ *.bak
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# Folder config file	
+.idea/
+Desktop.ini	
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
+ # Recycle Bin used on file shares	
+$RECYCLE.BIN/	
 
-# =========================
-# Operating System Files
-# =========================
+ # Windows Installer files	
+*.cab	
+*.msi	
+*.msm	
+*.msp	
 
-# OSX
-# =========================
+ # =========================	
+# Operating System Files	
+# =========================	
 
-.DS_Store
-.AppleDouble
-.LSOverride
+ # OSX	
+# =========================	
 
-# Icon must ends with two \r.
-Icon
+ .DS_Store	
+.AppleDouble	
+.LSOverride	
+
+ # Icon must ends with two \r.	
+Icon	
 
 
-# Thumbnails
-._*
+ # Thumbnails	
+._*	
 
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+ # Files that might appear on external disk	
+.Spotlight-V100	
+.Trashes	
 
-less/
-*.less
+ less/	
+*.less	
 prepros.cfg

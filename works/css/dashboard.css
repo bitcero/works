@@ -1,25 +1,25 @@
 
 .qoverview{
-	font-size: 1.1em;
+    font-size: 1.1em;
 }
 .qoverview span{
-	font-size: 1.5em;
-	font-family: georgia, times, serif;
-	display: block;
-	float: left;
-	margin: -6px 5px 0 0;
+    font-size: 1.5em;
+    font-family: georgia, times, serif;
+    display: block;
+    float: left;
+    margin: -6px 5px 0 0;
 }
 div.even{
-	line-height: 130%;
+    line-height: 130%;
 }
 .pw_descriptions{
-	color: #666;
-	font-size: 0.9em;
-	display: block;
+    color: #666;
+    font-size: 0.9em;
+    display: block;
 }
 .pw_dates{
-	font-size: 0.9em;
-	font-style: italic;
+    font-size: 0.9em;
+    font-style: italic;
 }
 
 #pw-recent-news{

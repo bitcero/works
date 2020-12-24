@@ -9,25 +9,23 @@
 
 global $xoopsDB;
 
-$id = RMHttpRequest::request( 'id', 'integer', 0 );
+$id = RMHttpRequest::request('id', 'integer', 0);
 global $xoopsModuleConfig;
 $mc = $xoopsModuleConfig;
 
-$work = new Works_Work( $id );
+$work = new Works_Work($id);
 
-$categories = array();
-Works_Functions::categories_tree( $categories );
+$categories = [];
+Works_Functions::categories_tree($categories);
 
 ob_start();
-include RMTemplate::get()->get_template( 'widgets/works-widget-categories.php', 'module', 'works' );
+include RMTemplate::getInstance()->get_template('widgets/works-widget-categories.php', 'module', 'works');
 $content = ob_get_clean();
 
-$widget = array(
-
-    'title'     => __('Categories', 'works'),
-    'content'   => $content,
-    'icon'      => 'fa fa-folder'
-
-);
+$widget = [
+    'title'   => __('Categories', 'works'),
+    'content' => $content,
+    'icon'    => 'fa fa-folder',
+];
 
 return $widget;

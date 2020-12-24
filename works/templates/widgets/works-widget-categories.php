@@ -1,14 +1,14 @@
 <form name="frmWorkCategories" id="work-categories" method="post" action="works.php">
-    <?php $existing = $work->categories( 'id' ); ?>
+    <?php $existing = $work->categories('id'); ?>
     <div class="works-w-categories-container">
-        <?php foreach( $categories as $category ): ?>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" name="cats[]" value="<?php echo $category['id']; ?>"<?php echo in_array( $category['id'], $existing ) ? ' checked' : ''; ?>>
-                <?php echo str_repeat('&#151;', $category['level']); ?>
-                <?php echo $category['name']; ?>
-            </label>
-        </div>
+        <?php foreach ($categories as $category): ?>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="cats[]" value="<?php echo $category['id']; ?>"<?php echo in_array($category['id'], $existing, true) ? ' checked' : ''; ?>>
+                    <?php echo str_repeat('&#151;', $category['level']); ?>
+                    <?php echo $category['name']; ?>
+                </label>
+            </div>
         <?php endforeach; ?>
     </div>
 

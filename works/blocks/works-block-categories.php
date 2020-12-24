@@ -10,13 +10,14 @@
 
 load_mod_locale('works');
 
-function works_block_categories_show($options){
-	global $xoopsModule, $xoopsModuleConfig;
+function works_block_categories_show($options)
+{
+    global $xoopsModule, $xoopsModuleConfig;
 
-	$categories = array();
-    Works_Functions::categories_tree( $categories );
-	
-	$block['categories'] = $categories;
-	
-	return $block;
+    $categories = [];
+    Works_Functions::categories_tree($categories);
+
+    $block['categories'] = $categories;
+
+    return $block;
 }
